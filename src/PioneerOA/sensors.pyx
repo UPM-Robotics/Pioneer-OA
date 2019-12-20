@@ -13,12 +13,15 @@
 #
 #     You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
+import cython
+
 import numpy as np
 
 from typing import List
 from typing import Tuple
 
 
+@cython.cclass
 class Sensors:
     """
     Wrapper for managing the data input received by the robot sensors.
@@ -34,7 +37,10 @@ class Sensors:
      - parallel_right: the sensors 8 and 9 for controlling the distance to the wall.
     """
 
-    def __init__(self, sonar: List[float] = None):
+    @cython.locals(parallel_left=cython.list, parallel_right=cython.list)
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
+    def __init__(self, sonar: list = None):
         self.sonar = np.ones(8) * 100 if sonar is None else np.asarray(
             sonar[:8]) * 100
         """
@@ -51,7 +57,9 @@ class Sensors:
         Tuple[int, int] containing the distance to the wall on the right, in centimeters.
         """
 
-    def set_sonar(self, sonar: List[float]):
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
+    def set_sonar(self, sonar: list):
         """
         Updates the sonar data. Input list contains the read data from sonar in meters.
 

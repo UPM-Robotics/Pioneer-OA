@@ -10,7 +10,13 @@ import time
 import numpy as np
 import vrep
 
-from robot_control import PioneerMap
+# from robot_control import PioneerMap
+# from mapping import PioneerMap
+# from robot_control.sensor import Sensors
+# from robot_control.pioneer import Pioneer
+from sensors import Sensors
+from pioneer import Pioneer
+from mapping import PioneerMap
 import matplotlib.pyplot as plt
 
 

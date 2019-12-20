@@ -13,21 +13,31 @@
 #
 #     You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
+import cython
+
 import numpy as np
 
-from math import sin
-from math import cos
-from math import radians
+from libc.math cimport sin
+from libc.math cimport cos
+from libc.math cimport M_PI
+
+# from math import sin
+# from math import cos
+# from math import radians
 
 from typing import Dict
 from typing import List
 from typing import Tuple
 
-from .sensors import Sensors
-from .sensor import Sensor
+# from cython.parallel import prange
 
+from sensors import Sensors
 
-class Pioneer:
+cpdef float radians(float degrees):
+    return (degrees * M_PI) / 180.0
+
+# @cython.cclass
+cdef class Pioneer:
     """
     Direct access the robot information wrapping the different values
     contained in sensors.
@@ -42,7 +52,7 @@ class Pioneer:
     def __init__(self, sensors: Sensors):
         self.sensors = sensors
 
-    def nearest_obstacle_at(self, orientation: str) -> np.float32:
+    cpdef cython.float nearest_obstacle_at(self, str orientation):
         """
         With the given orientation, finds the nearest obstacle to it.
 
@@ -66,7 +76,8 @@ class Pioneer:
         else:
             return -1
 
-    def is_any_obstacle_front(self) -> bool:
+    # @cython.cfunc
+    cpdef cython.int is_any_obstacle_front(self):
         """
         Checks if there is any obstacle in front of the robot (sensors 3 to 5).
 
@@ -79,10 +90,11 @@ class Pioneer:
         for i in range(2, 6):
             min_dist, dist = self.distance_in_xaxis(i)
             if dist <= min_dist:
-                return True
-        return False
+                return 1
+        return 0
 
-    def is_any_obstacle_left(self) -> bool:
+    # @cython.cfunc
+    cpdef cython.int is_any_obstacle_left(self):
         """
         Checks if there is any obstacle next to the robot on the left (sensors 2 to 4).
 
@@ -95,10 +107,11 @@ class Pioneer:
         for i in range(1, 5):
             min_dist, dist = self.distance_in_xaxis(i)
             if dist <= min_dist:
-                return True
-        return False
+                return 1
+        return 0
 
-    def is_any_obstacle_right(self) -> bool:
+    # @cython.cfunc
+    cpdef cython.int is_any_obstacle_right(self):
         """
         Checks if there is any obstacle next to the robot on the right (sensors 6 to 8).
 
@@ -111,10 +124,11 @@ class Pioneer:
         for i in range(5, 8):
             min_dist, dist = self.distance_in_xaxis(i)
             if dist <= min_dist:
-                return True
-        return False
+                return 1
+        return 0
 
-    def distance_in_xaxis(self, sensor: int) -> Tuple[float, float]:
+    # @cython.cfunc
+    cpdef tuple distance_in_xaxis(self, int sensor):
         """
         Calculates the distance in the x-axis by using the cosine of the angle multiplied
         by the measured distance.
@@ -134,7 +148,7 @@ class Pioneer:
         min_distance, angle, dist = self[sensor]
         return min_distance, dist * cos(angle)
 
-    def __getitem__(self, key) -> Tuple[float, float, np.float32]:
+    def __getitem__(self, key) -> tuple:
         assert isinstance(key, int)
         dist = {
             7: 0.5,
@@ -157,36 +171,3 @@ class Pioneer:
             0: radians(0)  # 90º - 90º
         }.get(key)
         return dist, angle, self.sensors[key]
-
-
-class PioneerSensor:
-    def __init__(self, sonar: List[float] = None):
-        angles = {
-            0: radians(90),
-            1: radians(50),
-            2: radians(30),
-            3: radians(10),
-            4: radians(-10),
-            5: radians(-30),
-            6: radians(-50),
-            7: radians(-90),
-            8: radians(-90),
-            9: radians(-130),
-            10: radians(-150),
-            11: radians(-170),
-            12: radians(170),
-            13: radians(150),
-            14: radians(130),
-            15: radians(90)
-        }
-        if sonar is None:
-            sonar = [1] * 16
-        assert len(sonar) == 16
-        self.sonar = [Sensor(angle, value) for angle, value in zip(
-            angles.values(), sonar)]
-        self.parallel_left = [self.sonar[15], self.sonar[0]]
-        self.parallel_right = [self.sonar[7], self.sonar[8]]
-
-    def __getitem__(self, item) -> Sensor:
-        assert isinstance(item, int)
-        return self.sonar[item]
