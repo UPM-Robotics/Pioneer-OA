@@ -126,6 +126,7 @@ class PioneerMap(Pioneer):
 
     def __del__(self):
         try:
+            self._print_task.terminate()
             self._print_task.close()
             self.sh_memory.close()
         except:
