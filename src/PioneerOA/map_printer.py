@@ -17,6 +17,9 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 
+# from scipy import misc
+from scipy import ndimage
+
 from multiprocessing import Lock
 from multiprocessing import Process
 from multiprocessing import shared_memory
@@ -24,7 +27,7 @@ from multiprocessing import shared_memory
 
 def start_printing(robot_lock: Lock) -> Process:
     def _print_map(lock: Lock):
-        nRows, nCols = 50, 50
+        nRows, nCols = 100, 100
         figure = plt.figure(figsize=(6, 6))
         axis = figure.add_subplot(111)
         image = axis.imshow(np.random.randint(0, 10, size=(nRows, nCols)),
@@ -32,25 +35,27 @@ def start_printing(robot_lock: Lock) -> Process:
         annotations_list = list()
 
         sh_memory = shared_memory.SharedMemory(name="pioneer-oa")
+        # f = misc.face(gray=True)
 
         while True:
             with lock:
-                grid = np.ndarray((50, 50),
+                grid = np.ndarray((100, 100),
                                   dtype=np.float,
                                   buffer=sh_memory.buf)
             for annotation in annotations_list:
                 annotation.remove()
             annotations_list[:] = list()
+            # image.set_data(ndimage.gaussian_filter(grid, sigma=2))
             image.set_data(grid)
             # w, h = grid.shape
-            threshold = grid.max() / 1.5
+            threshold = 5
             for x, y in np.ndindex(grid.shape):
                 value = round(grid[x, y], 2) if grid[x, y] != 0 else 0
                 annotation = axis.annotate(str(value),
                                            xy=(y, x),
                                            horizontalalignment="center",
                                            verticalalignment="center",
-                                           color="white" if grid[x, y] >
+                                           color="white" if grid[x, y] <
                                                             threshold else "black",
                                            size=4)
                 annotations_list.append(annotation)

@@ -48,7 +48,8 @@ class PioneerMap(Pioneer):
                  grid_size: tuple,
                  sonar: list = None,
                  k: float = 1,
-                 max_cv: int = 30):
+                 max_cv: int = 30,
+                 max_read_distance: float = 1.0):
         super().__init__(Sensors(sonar))
         assert grid_size[0] > 0 and grid_size[1] > 0
         self.X0 = X0
@@ -61,6 +62,8 @@ class PioneerMap(Pioneer):
         self.grid = np.zeros(shape=grid_size)
         self.k = k
         self.max = max_cv
+        self.heading = 0
+        self.max_read_distance = max_read_distance
         self.lock = Lock()
         self.sh_memory = shared_memory.SharedMemory(name="pioneer-oa",
                                                     create=True,
@@ -120,16 +123,25 @@ class PioneerMap(Pioneer):
                -int((y - self.Y0) * (self.mh / self.h))
 
     # @cython.cfunc
-    def update_robot_position(self, robotX: float, robotY: float, sonar: list):
+    def update_robot_position(self,
+                              robotX: float,
+                              robotY: float,
+                              sonar: list,
+                              heading: float):
         assert len(sonar) == 16
         for i in range(16):
             self.sensor[i].value = sonar[i]
-            x = self.sensor[i].value * cos(self.sensor[i].angle) + robotX
-            y = self.sensor[i].value * sin(self.sensor[i].angle) + robotY
+            x = self.sensor[i].value * \
+                cos(self.sensor[i].angle + heading) + robotX
+            y = self.sensor[i].value * \
+                sin(self.sensor[i].angle + heading) + robotY
             mX, mY = self._translate_to_matrix_position(x, y)
             if mX < self.grid.shape[0] and mY < self.grid.shape[1]:
-                cv = (1 - self.sensor[i].value) * self.k
-                self.grid[mX, mY] += cv
+                # cv = (1 - self.sensor[i].value) * self.k
+                cv = self.k * (self.max_read_distance - self.sensor[i].value) \
+                     / self.max_read_distance
+                if cv > 0.5:
+                    self.grid[mX, mY] += cv
         with self.lock:
             self.shared_np[:] = self.grid[:]
 

@@ -95,24 +95,30 @@ clr = "                                                                         
 def avoid(robot):
     if not robot.is_any_obstacle_front():
         print(clr, end="\r")
-        print(" >>> Going forward", end="\r")
+        print(" >>> Looking for wall", end="\r")
         if any(x < 10 for x in robot.sensors.parallel_left):
             print(clr, end="\r")
             print(" ! Obstacle parallel to the left side", end="\r")
             if robot.sensors.parallel_left[0] < robot.sensors.parallel_left[1]:
-                lspeed, rspeed = 0.5, 0
-            else:
+                lspeed, rspeed = 0.25, 0
+            elif robot.sensors.parallel_left[0] == robot.sensors.parallel_left[
+                1]:
                 lspeed, rspeed = 1, 1
+            else:
+                lspeed, rspeed = 0.25, 1
+
         elif any(x < 10 for x in robot.sensors.parallel_right):
             print(clr, end="\r")
             print(" ! Obstacle parallel to the right side", end="\r")
             if robot.sensors.parallel_right[0] < robot.sensors.parallel_right[
                 1]:
                 lspeed, rspeed = 0, 0.5
+
             else:
                 lspeed, rspeed = 1, 1
         else:
-            lspeed, rspeed = 1, 1
+            lspeed, rspeed = 0.25, 1
+
     else:
         if robot.is_any_obstacle_right():
             print(clr, end="\r")
@@ -132,7 +138,7 @@ def avoid(robot):
                 lspeed, rspeed = 1, 0.1
         else:
             print(clr, end="\r")
-            print(" >>> Going forward", end="\r")
+            print(" >>> Looking for wall", end="\r")
             lspeed, rspeed = 2, 2
 
     return lspeed, rspeed
@@ -159,8 +165,13 @@ def main():
         hRobot = getRobotHandles(clientID)
         # sensors = Sensors()
         # robot = Pioneer(sensors)
-        robot = PioneerMap(X0=-2, Y0=2, map_width=4, map_height=4,
-                           grid_size=(50, 50), sonar=None)
+        robot = PioneerMap(X0=-2,
+                           Y0=2,
+                           map_width=4,
+                           map_height=4,
+                           grid_size=(100, 100),
+                           sonar=None,
+                           max_read_distance=0.5)
         sensors = robot.sensors
         printer = start_printing(robot.lock)
 
@@ -173,6 +184,7 @@ def main():
             # print('P: ', getRobotPosition(clientID, hRobot))
             # print('Th:', math.degrees(getRobotHeading(clientID, hRobot)))
             # print
+            heading = getRobotHeading(clientID, hRobot)
             sensors.set_sonar(sonar)
 
             # Planning
@@ -180,7 +192,7 @@ def main():
 
             # Action
             setSpeed(clientID, hRobot, lspeed, rspeed)
-            robot.update_robot_position(x, y, sonar)
+            robot.update_robot_position(x, y, sonar, heading)
             # time.sleep(0.1)
 
         print('### Finishing...')
@@ -199,31 +211,34 @@ def main():
         # for annotation in annotations_list:
         #     annotation.remove()
         # annotations_list[:] = list()
-        nRows, nCols = 50, 50
-        figure = plt.figure(figsize=(40, 40))
-        axis = figure.add_subplot(111)
-        image = axis.imshow(np.random.randint(0, 10, size=(nRows, nCols)),
-                            cmap="gray_r")
-        image.set_data(robot.grid)
-        w, h = robot.grid.shape
-        threshold = robot.grid.max() / 2.5
-        for x, y in np.ndindex(robot.grid.shape):
-            value = round(robot.grid[x, y], 2) if robot.grid[x, y] != 0 else 0
-            annotation = axis.annotate(str(value),
-                                       xy=(y, x),
-                                       horizontalalignment="center",
-                                       verticalalignment="center",
-                                       color="white" if robot.grid[x, y] >
-                                                        threshold else "black",
-                                       size=4)
-            # annotations_list.append(annotation)
-        figure.canvas.draw_idle()
+        # nRows, nCols = 50, 50
+        # figure = plt.figure(figsize=(40, 40))
+        # axis = figure.add_subplot(111)
+        # image = axis.imshow(np.random.randint(0, 10, size=(nRows, nCols)),
+        #                     cmap="gray_r")
+        # image.set_data(robot.grid)
+        # w, h = robot.grid.shape
+        # threshold = robot.grid.max() / 2.5
+        # for x, y in np.ndindex(robot.grid.shape):
+        #     value = round(robot.grid[x, y], 2) if robot.grid[x, y] != 0 else 0
+        #     annotation = axis.annotate(str(value),
+        #                                xy=(y, x),
+        #                                horizontalalignment="center",
+        #                                verticalalignment="center",
+        #                                color="white" if robot.grid[x, y] >
+        #                                                 threshold else "black",
+        #                                size=4)
+        #     # annotations_list.append(annotation)
+        # figure.canvas.draw_idle()
         # # plt.show()
         # plt.waitforbuttonpress()
         # plt.pause(.1)
-        # fig, ax = plt.subplots()
-        # ax.imshow(robot.grid, cmap=plt.cm.Greys, interpolation=None)
-        # plt.show()
+
+        robot.grid[robot.grid < 800] = 0
+
+        fig, ax = plt.subplots()
+        ax.imshow(robot.grid, cmap=plt.cm.Greys, interpolation=None)
+        plt.show()
         del robot
 
     print('### Program ended')
