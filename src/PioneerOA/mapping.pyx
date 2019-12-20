@@ -29,14 +29,17 @@ from multiprocessing import Lock
 from multiprocessing import Process
 from multiprocessing import shared_memory
 
-from sensors import Sensors
 
+from sensors cimport Sensors
 from pioneer cimport Pioneer
 from PioneerSensor cimport PioneerSensor
 
 
-@cython.cclass
+# @cython.cclass
 class PioneerMap(Pioneer):
+    # cdef public int X0, Y0, w, h, mw, mh, max
+    # cdef public np.ndarray grid
+    # cdef public float k
     def __init__(self,
                  X0: int,
                  Y0: int,
@@ -58,7 +61,6 @@ class PioneerMap(Pioneer):
         self.grid = np.zeros(shape=grid_size)
         self.k = k
         self.max = max_cv
-        self.finished = False
         self.lock = Lock()
         self.sh_memory = shared_memory.SharedMemory(name="pioneer-oa",
                                                     create=True,
@@ -68,49 +70,73 @@ class PioneerMap(Pioneer):
                                     buffer=self.sh_memory.buf)
         self.shared_np[:] = self.grid[:]
         # self.window = plt.figure(figsize=(40, 40))
-        self._print_task = Process(target=self._print_map, args=(self.lock,))
-        self._print_task.start()
+        # self._print_task = Process(target=self._print_map, args=(self.lock,))
+        # self._print_task.start()
 
-    @cython.locals(nRows=cython.int, nCols=cython.int,
-                   annotations_list=cython.list, grid=cython.list,
-                   threshold=cython.double)
-    @cython.boundscheck(False)  # turn off bounds-checking for entire function
-    @cython.wraparound(
-        False)  # turn off negative index wrapping for entire function
-    def _print_map(self, lock: Lock):
-        nRows, nCols = 50, 50
-        figure = plt.figure(figsize=(6, 6))
-        axis = figure.add_subplot(111)
-        image = axis.imshow(np.random.randint(0, 10, size=(nRows, nCols)),
-                            cmap="gray_r")
-        annotations_list = list()
-
-        sh_memory = shared_memory.SharedMemory(name="pioneer-oa")
-
-        while True:
-            with lock:
-                grid = np.ndarray((50, 50),
-                                  dtype=np.float,
-                                  buffer=sh_memory.buf)
-            for annotation in annotations_list:
-                annotation.remove()
-            annotations_list[:] = list()
-            image.set_data(grid)
-            # w, h = grid.shape
-            threshold = grid.max() / 1.5
-            for x, y in np.ndindex(grid.shape):
-                value = round(grid[x, y], 2) if grid[x, y] != 0 else 0
-                annotation = axis.annotate(str(value),
-                                           xy=(y, x),
-                                           horizontalalignment="center",
-                                           verticalalignment="center",
-                                           color="white" if grid[x, y] >
-                                                            threshold else "black",
-                                           size=4)
-                annotations_list.append(annotation)
-            figure.canvas.draw_idle()
-            plt.pause(.01)
+    # @cython.locals(nRows=cython.int, nCols=cython.int,
+    #                annotations_list=cython.list, grid=cython.list,
+    #                threshold=cython.double)
+    # @cython.boundscheck(False)  # turn off bounds-checking for entire function
+    # @cython.wraparound(
+    #     False)  # turn off negative index wrapping for entire function
+    # @cython.boundscheck(False)
+    # @cython.wraparound(False)
+    # def _print_map(self, lock: Lock):
+    #     nRows, nCols = 50, 50
+    #     figure = plt.figure(figsize=(6, 6))
+    #     axis = figure.add_subplot(111)
+    #     image = axis.imshow(np.random.randint(0, 10, size=(nRows, nCols)),
+    #                         cmap="gray_r")
+    #     annotations_list = list()
+    #
+    #     sh_memory = shared_memory.SharedMemory(name="pioneer-oa")
+    #
+    #     while True:
+    #         with lock:
+    #             grid = np.ndarray((50, 50),
+    #                               dtype=np.float,
+    #                               buffer=sh_memory.buf)
+    #         for annotation in annotations_list:
+    #             annotation.remove()
+    #         annotations_list[:] = list()
+    #         image.set_data(grid)
+    #         # w, h = grid.shape
+    #         threshold = grid.max() / 1.5
+    #         for x, y in np.ndindex(grid.shape):
+    #             value = round(grid[x, y], 2) if grid[x, y] != 0 else 0
+    #             annotation = axis.annotate(str(value),
+    #                                        xy=(y, x),
+    #                                        horizontalalignment="center",
+    #                                        verticalalignment="center",
+    #                                        color="white" if grid[x, y] >
+    #                                                         threshold else "black",
+    #                                        size=4)
+    #             annotations_list.append(annotation)
+    #         figure.canvas.draw_idle()
+    #         plt.pause(.01)
 
     def _translate_to_matrix_position(self, x: float, y: float) -> tuple:
         return int((x - self.X0) * (self.mw / self.w)), \
                -int((y - self.Y0) * (self.mh / self.h))
+
+    # @cython.cfunc
+    def update_robot_position(self, robotX: float, robotY: float, sonar: list):
+        assert len(sonar) == 16
+        for i in range(16):
+            self.sensor[i].value = sonar[i]
+            x = self.sensor[i].value * cos(self.sensor[i].angle) + robotX
+            y = self.sensor[i].value * sin(self.sensor[i].angle) + robotY
+            mX, mY = self._translate_to_matrix_position(x, y)
+            if mX < self.grid.shape[0] and mY < self.grid.shape[1]:
+                cv = (1 - self.sensor[i].value) * self.k
+                self.grid[mX, mY] += cv
+        with self.lock:
+            self.shared_np[:] = self.grid[:]
+
+    def __del__(self):
+        try:
+            # self._print_task.terminate()
+            # self._print_task.close()
+            self.sh_memory.close()
+        except:
+            pass

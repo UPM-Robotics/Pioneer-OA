@@ -1,4 +1,4 @@
-#                             robot_control
+#                             src
 #                  Copyright (C) 2019 - Javinator9889
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -14,28 +14,9 @@
 #     You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 cimport cython
-
-# from libcpp cimport bool
-# from cpython cimport bool
-
 cimport numpy as np
-from sensors cimport Sensors
 
-cdef float radians(float degrees)
-
-cdef class Pioneer:
-    cdef public Sensors sensors
-
-    # def __init__(self, sensors: Sensors)
-
-    cpdef cython.float nearest_obstacle_at(self, str orientation)
-
-    cpdef cython.int is_any_obstacle_front(self)
-
-    cpdef cython.int is_any_obstacle_left(self)
-
-    cpdef cython.int is_any_obstacle_right(self)
-
-    cpdef tuple distance_in_xaxis(self, int sensor)
-
-    # def tuple __getitem__(self, int key)
+cdef class Sensors:
+    cdef public np.ndarray sonar
+    cdef public tuple parallel_left, parallel_right
+    cpdef set_sonar(self, list sonar)

@@ -15,4 +15,5 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 cimport cython
 
-cdef class Sensor
+cdef class Sensor:
+    cdef public float angle, value

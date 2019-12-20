@@ -18,4 +18,4 @@ cimport cython
 cdef float radians(float degrees)
 
 cdef class PioneerSensor:
-    pass
+    cdef public list sonar, parallel_left, parallel_right

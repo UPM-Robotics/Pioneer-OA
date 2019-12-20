@@ -1,4 +1,4 @@
-#                             robot_control
+#                             PioneerOA
 #                  Copyright (C) 2019 - Javinator9889
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -13,29 +13,21 @@
 #
 #     You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
-cimport cython
+# import cython
+#
+# cimport numpy as np
+#
+# from pioneer cimport Pioneer
+# from PioneerSensor cimport PioneerSensor
+#
+#
+# cdef class PioneerMap(Pioneer):
+#     cdef public int X0, Y0, w, h, mw, mh, max
+#     cdef public np.ndarray grid
+#     cdef public float k
+#     cdef public PioneerSensor sensor
+# cdef public bool finished
 
-# from libcpp cimport bool
-# from cpython cimport bool
+# cdef update_robot_position(self, float robotX, float robotY, list sonar)
 
-cimport numpy as np
-from sensors cimport Sensors
-
-cdef float radians(float degrees)
-
-cdef class Pioneer:
-    cdef public Sensors sensors
-
-    # def __init__(self, sensors: Sensors)
-
-    cpdef cython.float nearest_obstacle_at(self, str orientation)
-
-    cpdef cython.int is_any_obstacle_front(self)
-
-    cpdef cython.int is_any_obstacle_left(self)
-
-    cpdef cython.int is_any_obstacle_right(self)
-
-    cpdef tuple distance_in_xaxis(self, int sensor)
-
-    # def tuple __getitem__(self, int key)
+# cdef tuple translate_to_matrix_position(self, float x, float y)

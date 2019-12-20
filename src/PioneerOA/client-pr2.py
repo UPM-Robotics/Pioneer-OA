@@ -17,6 +17,7 @@ import vrep
 from sensors import Sensors
 from pioneer import Pioneer
 from mapping import PioneerMap
+from map_printer import start_printing
 import matplotlib.pyplot as plt
 
 
@@ -159,8 +160,9 @@ def main():
         # sensors = Sensors()
         # robot = Pioneer(sensors)
         robot = PioneerMap(X0=-2, Y0=2, map_width=4, map_height=4,
-                           client=clientID, grid_size=(50, 50), sonar=None)
+                           grid_size=(50, 50), sonar=None)
         sensors = robot.sensors
+        printer = start_printing(robot.lock)
 
         while vrep.simxGetConnectionId(clientID) != -1:
             # Perception
@@ -179,7 +181,7 @@ def main():
             # Action
             setSpeed(clientID, hRobot, lspeed, rspeed)
             robot.update_robot_position(x, y, sonar)
-            time.sleep(0.1)
+            # time.sleep(0.1)
 
         print('### Finishing...')
         vrep.simxFinish(clientID)
@@ -188,7 +190,11 @@ def main():
                 file.write(f" {robot.grid[x, y]} ")
                 if (y + 1) == robot.grid.shape[1]:
                     file.write("\n")
-        robot._print_task.close()
+        printer.terminate()
+        printer.join()
+        printer.close()
+        robot.sh_memory.close()
+        # robot._print_task.close()
         # grid = np.ndarray((50, 50), dtype=np.float, buffer=sh_memory.buf)
         # for annotation in annotations_list:
         #     annotation.remove()

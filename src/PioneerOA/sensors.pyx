@@ -17,12 +17,8 @@ import cython
 
 import numpy as np
 
-from typing import List
-from typing import Tuple
 
-
-@cython.cclass
-class Sensors:
+cdef class Sensors:
     """
     Wrapper for managing the data input received by the robot sensors.
     As the range of each sonar is, at most, one meter, this wrapper converts each
@@ -36,13 +32,9 @@ class Sensors:
      - parallel_left: the sensors 1 and 16 for controlling the distance to the wall.
      - parallel_right: the sensors 8 and 9 for controlling the distance to the wall.
     """
-
-    @cython.locals(parallel_left=cython.list, parallel_right=cython.list)
-    @cython.boundscheck(False)
-    @cython.wraparound(False)
     def __init__(self, sonar: list = None):
-        self.sonar = np.ones(8) * 100 if sonar is None else np.asarray(
-            sonar[:8]) * 100
+        self.sonar = np.ones(8) * 100 if sonar is None else \
+            np.asarray(sonar[:8]) * 100
         """
         numpy array containing the values for each sensor, in centimeters, starting from zero.
         """
@@ -57,9 +49,10 @@ class Sensors:
         Tuple[int, int] containing the distance to the wall on the right, in centimeters.
         """
 
-    @cython.boundscheck(False)
-    @cython.wraparound(False)
-    def set_sonar(self, sonar: list):
+    # @cython.boundscheck(False)
+    # @cython.wraparound(False)
+    # @cython.cfunc
+    cpdef set_sonar(self, list sonar):
         """
         Updates the sonar data. Input list contains the read data from sonar in meters.
 
@@ -78,6 +71,7 @@ class Sensors:
         self.parallel_left = int(sonar[0] * 100), int(sonar[15] * 100)
         self.parallel_right = int(sonar[7] * 100), int(sonar[8] * 100)
 
+    # @cython.cfunc
     @property
     def front_sensors(self) -> np.ndarray:
         """
@@ -87,6 +81,7 @@ class Sensors:
         """
         return self.sonar[2:6]
 
+    # @cython.cfunc
     @property
     def left_sensors(self) -> np.ndarray:
         """
@@ -96,6 +91,7 @@ class Sensors:
         """
         return self.sonar[0:4]
 
+    # @cython.cfunc
     @property
     def right_sensors(self) -> np.ndarray:
         """

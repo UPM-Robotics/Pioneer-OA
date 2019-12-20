@@ -25,8 +25,8 @@ cpdef float radians(float degrees):
 
 @cython.cclass
 class PioneerSensor:
-    @cython.locals(sonar=cython.list, parallel_left=cython.list,
-                   parallel_right=cython.list)
+    # @cython.locals(sonar=cython.list, parallel_left=cython.list,
+    #                parallel_right=cython.list)
     def __init__(self, sonar: list = None):
         angles = {
             0: radians(90),
