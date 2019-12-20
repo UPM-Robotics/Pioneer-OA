@@ -169,7 +169,7 @@ def main():
                            Y0=2,
                            map_width=4,
                            map_height=4,
-                           grid_size=(1000, 1000),
+                           grid_size=(500, 500),
                            sonar=None,
                            max_read_distance=0.5)
         sensors = robot.sensors
