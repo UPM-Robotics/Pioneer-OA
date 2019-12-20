@@ -1,0 +1,107 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,margin=1in,marginparwidth=1in]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{breqn}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{sectsty}
+\usepackage{float}
+\usepackage{titling} 
+\usepackage{blindtext}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{xcolor}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage[style=ieee]{biblatex}
+\usepackage{csquotes}
+\usepackage{siunitx}
+\usepackage{wrapfig}
+\usepackage{amssymb}
+\usepackage{listings}
+
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    numberstyle=\footnotesize,
+    numbers=left,
+    backgroundcolor=\color{gray!10},
+    frame=single,
+    tabsize=2,
+    rulecolor=\color{black!30},
+    title=\lstname,
+    escapeinside={\%*}{*)},
+    breaklines=true,
+    breakatwhitespace=true,
+    framextopmargin=2pt,
+    framexbottommargin=2pt,
+    inputencoding=latin1,
+    extendedchars=true,
+    texcl=true,
+    literate={á}{{\'a}}1 {ã}{{\~a}}1 {é}{{\'e}}1,
+}
+
+
+\newcommand*{\field}[1]{\mathbb{#1}}%
+
+\addbibresource{references.bib}
+\definecolor{darkgreen}{rgb}{0.0, 0.4, 0.0}
+\setlength{\headheight}{16pt}
+
+\allowdisplaybreaks
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Robótica}
+\lhead{VFH y \textit{C--Space}}
+\cfoot{\thepage}
+
+\begin{document}
+
+%%%% Title Page
+\begin{titlepage}
+
+    \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+    \center
+
+    % University
+    \textsc{\LARGE Universidad Politécnica de Madrid}\\[1cm]
+
+    % Document info
+    \textsc{\Large Robótica}\\[0.2cm]
+    \textsc{\large \textit{MODELADO Y LOCALIZACIÓN}}\\[1cm]
+    \HRule \\[0.8cm]
+    { \huge \bfseries \textit{Vector Field Histogram} y \textit{C--Space}}\\[0.7cm]
+    \HRule \\[2cm]
+    \large
+    \emph{Autores:}\\
+    Javier Alonso Silva - \href{mailto:javier.asilva@alumnos.upm.es}{javier.asilva@alumnos.upm.es}
+
+    Roberto Álvarez Garrido - \href{mailto:roberto.alvarezg@alumnos.upm.es}{roberto.alvarezg@alumnos.upm.es}
+
+    José Alejandro Moya Blanco - \href{mailto:alejandro.moya.blanco@alumnos.upm.es}{alejandro.moya.blanco@alumnos.upm.es}\\[1.5cm]
+    {\large Última modificación: \today}\\[2cm]
+    \includegraphics[width=0.5\textwidth]{images/pioneer-3-dx.jpg}\\[1cm]
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\listoffigures
+\listoftables
+\newpage
+
+\section{Introducción}
+\input{sections/introduction.tex}
+
+\end{document}
