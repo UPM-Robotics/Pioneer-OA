@@ -169,7 +169,7 @@ def main():
                            Y0=2,
                            map_width=4,
                            map_height=4,
-                           grid_size=(100, 100),
+                           grid_size=(1000, 1000),
                            sonar=None,
                            max_read_distance=0.5)
         sensors = robot.sensors
@@ -211,28 +211,28 @@ def main():
         # for annotation in annotations_list:
         #     annotation.remove()
         # annotations_list[:] = list()
-        # nRows, nCols = 50, 50
-        # figure = plt.figure(figsize=(40, 40))
+        # nRows, nCols = 100, 100  # robot.grid.shape
+        # figure = plt.figure(figsize=(6, 6))
         # axis = figure.add_subplot(111)
         # image = axis.imshow(np.random.randint(0, 10, size=(nRows, nCols)),
         #                     cmap="gray_r")
         # image.set_data(robot.grid)
-        # w, h = robot.grid.shape
-        # threshold = robot.grid.max() / 2.5
+        # # w, h = robot.grid.shape
+        # threshold = 5
         # for x, y in np.ndindex(robot.grid.shape):
         #     value = round(robot.grid[x, y], 2) if robot.grid[x, y] != 0 else 0
-        #     annotation = axis.annotate(str(value),
-        #                                xy=(y, x),
-        #                                horizontalalignment="center",
-        #                                verticalalignment="center",
-        #                                color="white" if robot.grid[x, y] >
-        #                                                 threshold else "black",
-        #                                size=4)
+        #     if value > threshold:
+        #         axis.annotate(str(value),
+        #                       xy=(y, x),
+        #                       horizontalalignment="center",
+        #                       verticalalignment="center",
+        #                       color="black",
+        #                       size=4)
         #     # annotations_list.append(annotation)
         # figure.canvas.draw_idle()
         # # plt.show()
-        # plt.waitforbuttonpress()
-        # plt.pause(.1)
+        # # plt.waitforbuttonpress()
+        # plt.pause(0.01)
 
         robot.grid[robot.grid < 800] = 0
 
