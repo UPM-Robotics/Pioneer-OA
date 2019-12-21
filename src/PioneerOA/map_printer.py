@@ -53,7 +53,7 @@ def start_printing(robot_lock: Lock) -> Process:
 
         nCores = os.cpu_count()
         if nCores is None:
-            nCores = 4
+            nCores = 1
         grid_pool = mp.Pool(nCores)
 
         plt.show(block=False)
@@ -61,7 +61,7 @@ def start_printing(robot_lock: Lock) -> Process:
         while True:
             with lock:
                 grid = np.ndarray(shape,
-                                  dtype=np.float,
+                                  dtype=np.float_,
                                   buffer=sh_memory.buf)
             image.set_data(grid)
             grid_pool.map(annotate, np.ndindex(grid.shape))

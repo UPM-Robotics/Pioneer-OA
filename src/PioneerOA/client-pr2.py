@@ -5,18 +5,10 @@ print('### Script:', __file__)
 
 import math
 import sys
-import time
 
 import numpy as np
 import vrep
 
-# from robot_control import PioneerMap
-# from mapping import PioneerMap
-# from robot_control.sensor import Sensors
-# from robot_control.pioneer import Pioneer
-# from sensors import Sensors
-# from pioneer import Pioneer
-# from mapping import PioneerMap
 from mapper import Mapper
 from map_printer import start_printing
 import matplotlib.pyplot as plt
