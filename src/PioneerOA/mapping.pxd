@@ -13,21 +13,23 @@
 #
 #     You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
-# import cython
-#
-# cimport numpy as np
-#
-# from pioneer cimport Pioneer
-# from PioneerSensor cimport PioneerSensor
-#
-#
-# cdef class PioneerMap(Pioneer):
-#     cdef public int X0, Y0, w, h, mw, mh, max
-#     cdef public np.ndarray grid
-#     cdef public float k
-#     cdef public PioneerSensor sensor
-# cdef public bool finished
+# distutils: language=c++
+import cython
 
-# cdef update_robot_position(self, float robotX, float robotY, list sonar)
+from pioneer cimport Pioneer
+from PioneerSensor cimport PioneerSensor
 
-# cdef tuple translate_to_matrix_position(self, float x, float y)
+
+cdef class PioneerMap(Pioneer):
+    cdef public int X0, Y0, w, h, mw, mh
+    cdef public double[:, :] grid
+    cdef public double k, heading, max_read_distance, min, max
+    cdef public PioneerSensor sensor
+
+    cpdef tuple translate_to_matrix_position(self, double x, double y)
+
+    @cython.locals(x=cython.double, y=cython.double, mX=cython.int,
+                   mY=cython.int,
+                   cv=cython.double)
+    cpdef update_robot_position(self, double robotX, double robotY,
+                                double[:] sonar, double heading)

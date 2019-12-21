@@ -13,29 +13,23 @@
 #
 #     You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+# distutils: language=c++
 cimport cython
 
-# from libcpp cimport bool
-# from cpython cimport bool
-
-cimport numpy as np
 from sensors cimport Sensors
 
-cdef float radians(float degrees)
+cpdef inline float radians(float degrees)
 
 cdef class Pioneer:
     cdef public Sensors sensors
 
-    # def __init__(self, sensors: Sensors)
+    cpdef double nearest_obstacle_at(self, str orientation)
 
-    cpdef cython.float nearest_obstacle_at(self, str orientation)
+    cpdef int is_any_obstacle_front(self)
 
-    cpdef cython.int is_any_obstacle_front(self)
+    cpdef int is_any_obstacle_left(self)
 
-    cpdef cython.int is_any_obstacle_left(self)
-
-    cpdef cython.int is_any_obstacle_right(self)
+    cpdef int is_any_obstacle_right(self)
 
     cpdef tuple distance_in_xaxis(self, int sensor)
-
-    # def tuple __getitem__(self, int key)

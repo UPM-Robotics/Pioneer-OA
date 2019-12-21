@@ -13,10 +13,13 @@
 #
 #     You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+# distutils: language=c++
+
 import cython
 
 import numpy as np
-
+cimport numpy as np
 
 cdef class Sensors:
     """
@@ -32,7 +35,7 @@ cdef class Sensors:
      - parallel_left: the sensors 1 and 16 for controlling the distance to the wall.
      - parallel_right: the sensors 8 and 9 for controlling the distance to the wall.
     """
-    def __init__(self, sonar: list = None):
+    def __init__(self, list sonar = None):
         self.sonar = np.ones(8) * 100 if sonar is None else \
             np.asarray(sonar[:8]) * 100
         """
@@ -49,9 +52,8 @@ cdef class Sensors:
         Tuple[int, int] containing the distance to the wall on the right, in centimeters.
         """
 
-    # @cython.boundscheck(False)
-    # @cython.wraparound(False)
-    # @cython.cfunc
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
     cpdef set_sonar(self, list sonar):
         """
         Updates the sonar data. Input list contains the read data from sonar in meters.
@@ -71,7 +73,6 @@ cdef class Sensors:
         self.parallel_left = int(sonar[0] * 100), int(sonar[15] * 100)
         self.parallel_right = int(sonar[7] * 100), int(sonar[8] * 100)
 
-    # @cython.cfunc
     @property
     def front_sensors(self) -> np.ndarray:
         """
@@ -81,7 +82,6 @@ cdef class Sensors:
         """
         return self.sonar[2:6]
 
-    # @cython.cfunc
     @property
     def left_sensors(self) -> np.ndarray:
         """
@@ -91,7 +91,6 @@ cdef class Sensors:
         """
         return self.sonar[0:4]
 
-    # @cython.cfunc
     @property
     def right_sensors(self) -> np.ndarray:
         """

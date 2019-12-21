@@ -13,20 +13,28 @@
 #
 #     You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
+import os
 import numpy as np
 
 from distutils.core import setup
-from distutils.extension import Extension
 from Cython.Build import cythonize
 
 sourcefiles = ["mapping.pyx", "sensors.pyx", "pioneer.pyx", "sensor.pyx",
                "PioneerSensor.pyx"]
-# extensions = [Extension("*", "mapping.pyx"), Extension('*', "sensors.pyx"),
-#               Extension('*', "")]
+threads = os.cpu_count()
+if threads is None:
+    threads = 1
+
+print("---------------------------------")
+print(f"Compiling with {threads} threads")
+print("---------------------------------")
 
 setup(
     ext_modules=cythonize(sourcefiles,
-                          nthreads=12,
-                          compiler_directives={'language_level': "3"},
-                          include_path=['.', np.get_include()])
+                          nthreads=threads,
+                          compiler_directives={"language_level": "3",
+                                               "infer_types": True,
+                                               "optimize.use_switch": True},
+                          include_path=[np.get_include()],
+                          annotate=True)
 )

@@ -13,7 +13,6 @@
 #
 #     You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
-cimport cython
-
+# distutils: language=c++
 cdef class Sensor:
-    cdef public float angle, value
+    cdef public double angle, value

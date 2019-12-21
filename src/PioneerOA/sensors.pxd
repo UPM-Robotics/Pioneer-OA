@@ -13,10 +13,8 @@
 #
 #     You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
-cimport cython
-cimport numpy as np
-
+# distutils: language=c++
 cdef class Sensors:
-    cdef public np.ndarray sonar
+    cdef public double[:] sonar
     cdef public tuple parallel_left, parallel_right
     cpdef set_sonar(self, list sonar)

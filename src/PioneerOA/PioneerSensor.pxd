@@ -13,9 +13,8 @@
 #
 #     You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
-cimport cython
 
-cdef float radians(float degrees)
+# distutils: language=c++
 
 cdef class PioneerSensor:
     cdef public list sonar, parallel_left, parallel_right

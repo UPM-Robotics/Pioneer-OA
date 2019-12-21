@@ -13,21 +13,13 @@
 #
 #     You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
-import cython
 
-from libc.math cimport M_PI
+# distutils: language=c++
+from sensor cimport Sensor
+from pioneer cimport radians
 
-from sensor import Sensor
-
-cpdef float radians(float degrees):
-    return (degrees * M_PI) / 180.0
-
-
-@cython.cclass
-class PioneerSensor:
-    # @cython.locals(sonar=cython.list, parallel_left=cython.list,
-    #                parallel_right=cython.list)
-    def __init__(self, sonar: list = None):
+cdef class PioneerSensor:
+    def __init__(self, list sonar = None):
         angles = {
             0: radians(90),
             1: radians(50),

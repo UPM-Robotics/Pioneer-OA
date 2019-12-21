@@ -14,9 +14,10 @@ import vrep
 # from mapping import PioneerMap
 # from robot_control.sensor import Sensors
 # from robot_control.pioneer import Pioneer
-from sensors import Sensors
-from pioneer import Pioneer
-from mapping import PioneerMap
+# from sensors import Sensors
+# from pioneer import Pioneer
+# from mapping import PioneerMap
+from mapper import Mapper
 from map_printer import start_printing
 import matplotlib.pyplot as plt
 
@@ -165,13 +166,13 @@ def main():
         hRobot = getRobotHandles(clientID)
         # sensors = Sensors()
         # robot = Pioneer(sensors)
-        robot = PioneerMap(X0=-2,
-                           Y0=2,
-                           map_width=4,
-                           map_height=4,
-                           grid_size=(500, 500),
-                           sonar=None,
-                           max_read_distance=0.5)
+        robot = Mapper(X0=-2,
+                       Y0=2,
+                       map_width=4,
+                       map_height=4,
+                       grid_size=(500, 500),
+                       sonar=None,
+                       max_read_distance=0.5)
         sensors = robot.sensors
         printer = start_printing(robot.lock)
 
@@ -192,7 +193,9 @@ def main():
 
             # Action
             setSpeed(clientID, hRobot, lspeed, rspeed)
-            robot.update_robot_position(x, y, sonar, heading)
+            robot.update_robot_position(x, y,
+                                        np.asarray(sonar, dtype=np.float_),
+                                        heading)
             # time.sleep(0.1)
 
         print('### Finishing...')
@@ -205,36 +208,6 @@ def main():
         printer.terminate()
         printer.join()
         printer.close()
-        robot.sh_memory.close()
-        # robot._print_task.close()
-        # grid = np.ndarray((50, 50), dtype=np.float, buffer=sh_memory.buf)
-        # for annotation in annotations_list:
-        #     annotation.remove()
-        # annotations_list[:] = list()
-        # nRows, nCols = 100, 100  # robot.grid.shape
-        # figure = plt.figure(figsize=(6, 6))
-        # axis = figure.add_subplot(111)
-        # image = axis.imshow(np.random.randint(0, 10, size=(nRows, nCols)),
-        #                     cmap="gray_r")
-        # image.set_data(robot.grid)
-        # # w, h = robot.grid.shape
-        # threshold = 5
-        # for x, y in np.ndindex(robot.grid.shape):
-        #     value = round(robot.grid[x, y], 2) if robot.grid[x, y] != 0 else 0
-        #     if value > threshold:
-        #         axis.annotate(str(value),
-        #                       xy=(y, x),
-        #                       horizontalalignment="center",
-        #                       verticalalignment="center",
-        #                       color="black",
-        #                       size=4)
-        #     # annotations_list.append(annotation)
-        # figure.canvas.draw_idle()
-        # # plt.show()
-        # # plt.waitforbuttonpress()
-        # plt.pause(0.01)
-
-        robot.grid[robot.grid < 800] = 0
 
         fig, ax = plt.subplots()
         ax.imshow(robot.grid, cmap=plt.cm.Greys, interpolation=None)

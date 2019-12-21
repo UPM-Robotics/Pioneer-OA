@@ -13,11 +13,13 @@
 #
 #     You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+# distutils: language=c++
 import cython
 
 
 @cython.cclass
 class Sensor:
-    def __init__(self, angle: float, value: float = 0.):
+    def __init__(self, double angle, double value = 0.0):
         self.angle = angle
         self.value = value

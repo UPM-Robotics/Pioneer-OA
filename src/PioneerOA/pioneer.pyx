@@ -13,30 +13,21 @@
 #
 #     You should have received a copy of the GNU General Public License
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+# cython: infer_types=True
+# distutils: language=c++
 import cython
 
-import numpy as np
-
-from libc.math cimport sin
 from libc.math cimport cos
 from libc.math cimport M_PI
 
-# from math import sin
-# from math import cos
-# from math import radians
-
-from typing import Dict
-from typing import List
 from typing import Tuple
 
-# from cython.parallel import prange
+from sensors cimport Sensors
 
-from sensors import Sensors
-
-cpdef float radians(float degrees):
+cpdef inline float radians(float degrees):
     return (degrees * M_PI) / 180.0
 
-# @cython.cclass
 cdef class Pioneer:
     """
     Direct access the robot information wrapping the different values
@@ -49,10 +40,10 @@ cdef class Pioneer:
      - sensors: an instance of Sensors class wrapping the different sonar values.
     """
 
-    def __init__(self, sensors: Sensors):
+    def __init__(self, Sensors sensors):
         self.sensors = sensors
 
-    cpdef cython.float nearest_obstacle_at(self, str orientation):
+    cpdef double nearest_obstacle_at(self, str orientation):
         """
         With the given orientation, finds the nearest obstacle to it.
 
@@ -76,8 +67,8 @@ cdef class Pioneer:
         else:
             return -1
 
-    # @cython.cfunc
-    cpdef cython.int is_any_obstacle_front(self):
+    @cython.locals(i=cython.int, min_dist=cython.float, dist=cython.float)
+    cpdef int is_any_obstacle_front(self):
         """
         Checks if there is any obstacle in front of the robot (sensors 3 to 5).
 
@@ -93,8 +84,8 @@ cdef class Pioneer:
                 return 1
         return 0
 
-    # @cython.cfunc
-    cpdef cython.int is_any_obstacle_left(self):
+    @cython.locals(i=cython.int, min_dist=cython.float, dist=cython.float)
+    cpdef int is_any_obstacle_left(self):
         """
         Checks if there is any obstacle next to the robot on the left (sensors 2 to 4).
 
@@ -110,8 +101,8 @@ cdef class Pioneer:
                 return 1
         return 0
 
-    # @cython.cfunc
-    cpdef cython.int is_any_obstacle_right(self):
+    @cython.locals(i=cython.int, min_dist=cython.float, dist=cython.float)
+    cpdef int is_any_obstacle_right(self):
         """
         Checks if there is any obstacle next to the robot on the right (sensors 6 to 8).
 
@@ -127,7 +118,9 @@ cdef class Pioneer:
                 return 1
         return 0
 
-    # @cython.cfunc
+    @cython.locals(min_distance=cython.float,
+                   angle=cython.float,
+                   dist=cython.float)
     cpdef tuple distance_in_xaxis(self, int sensor):
         """
         Calculates the distance in the x-axis by using the cosine of the angle multiplied
