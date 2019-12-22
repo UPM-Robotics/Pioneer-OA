@@ -39,7 +39,8 @@ cdef class PioneerMap(Pioneer):
                  double k=1,
                  double min_cv=0.5,
                  double max_cv=30,
-                 double max_read_distance=1.0):
+                 double max_read_distance=1.0,
+                 double threshold_divider=1.5):
         super().__init__(Sensors(sonar))
         assert grid_size[0] > 0 and grid_size[1] > 0
         self.X0 = X0
@@ -55,6 +56,7 @@ cdef class PioneerMap(Pioneer):
         self.max = max_cv
         self.heading = 0
         self.max_read_distance = max_read_distance
+        self.threshold_divider = threshold_divider
 
     cpdef tuple translate_to_matrix_position(self, double x, double y):
         return int((x - self.X0) * (self.mw / self.w)), \
@@ -63,8 +65,7 @@ cdef class PioneerMap(Pioneer):
     @cython.boundscheck(False)
     @cython.wraparound(False)
     @cython.locals(x=cython.double, y=cython.double, mX=cython.int,
-                   mY=cython.int,
-                   cv=cython.double)
+                   mY=cython.int, cv=cython.double, threshold=cython.double)
     cpdef update_robot_position(self,
                                 double robotX,
                                 double robotY,
@@ -82,5 +83,6 @@ cdef class PioneerMap(Pioneer):
                 cv = self.k * (self.max_read_distance -
                                self.sensor[i].value) / \
                      self.max_read_distance
-                if cv > self.min:
+                threshold = self.grid.max() / self.threshold_divider
+                if cv > threshold:
                     self.grid[mX, mY] += cv

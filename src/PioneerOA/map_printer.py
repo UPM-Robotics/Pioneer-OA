@@ -39,8 +39,9 @@ def start_printing(robot_lock: Lock) -> Process:
         annotations_grid = np.zeros(shape)
 
         # threshold = 25000 / max(shape)
-        threshold = 200
-        print(f"Using threshold: {threshold}")
+        # threshold = 200
+        # threshold =
+        # print(f"Using threshold: {threshold}")
 
         def annotate(index):
             if threshold < grid[index] != annotations_grid[index]:
@@ -65,6 +66,7 @@ def start_printing(robot_lock: Lock) -> Process:
                                   dtype=np.float_,
                                   buffer=sh_memory.buf)
             image.set_data(grid)
+            threshold = grid.max() / 1.5
             grid_pool.map(annotate, np.ndindex(grid.shape))
             figure.canvas.draw_idle()
             plt.pause(0.01)
