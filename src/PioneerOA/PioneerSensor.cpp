@@ -972,8 +972,8 @@ struct __pyx_obj_6sensor_Sensor {
 };
 
 
-/* "sensors.pxd":17
- * #    along with this program. If not, see <http://www.gnu.org/licenses/>.
+/* "sensors.pxd":18
+ * 
  * # distutils: language=c++
  * cdef class Sensors:             # <<<<<<<<<<<<<<
  *     cdef public double[:] sonar
@@ -1094,8 +1094,8 @@ struct __pyx_memoryviewslice_obj {
 
 
 
-/* "sensors.pxd":17
- * #    along with this program. If not, see <http://www.gnu.org/licenses/>.
+/* "sensors.pxd":18
+ * 
  * # distutils: language=c++
  * cdef class Sensors:             # <<<<<<<<<<<<<<
  *     cdef public double[:] sonar
@@ -2184,7 +2184,7 @@ static PyObject *__pyx_codeobj__20;
 static PyObject *__pyx_codeobj__27;
 /* Late includes */
 
-/* "PioneerOA/PioneerSensor.pyx":23
+/* "PioneerOA/PioneerSensor.pyx":22
  * 
  * cdef class PioneerSensor:
  *     def __init__(self, list sonar = None):             # <<<<<<<<<<<<<<
@@ -2221,7 +2221,7 @@ static int __pyx_pw_9PioneerOA_13PioneerSensor_13PioneerSensor_1__init__(PyObjec
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 23, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 22, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -2235,13 +2235,13 @@ static int __pyx_pw_9PioneerOA_13PioneerSensor_13PioneerSensor_1__init__(PyObjec
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 23, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 22, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("PioneerOA.PioneerSensor.PioneerSensor.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_sonar), (&PyList_Type), 1, "sonar", 1))) __PYX_ERR(0, 23, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_sonar), (&PyList_Type), 1, "sonar", 1))) __PYX_ERR(0, 22, __pyx_L1_error)
   __pyx_r = __pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor___init__(((struct __pyx_obj_9PioneerOA_13PioneerSensor_PioneerSensor *)__pyx_v_self), __pyx_v_sonar);
 
   /* function exit code */
@@ -2273,203 +2273,203 @@ static int __pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor___init__(struct _
   __Pyx_RefNannySetupContext("__init__", 0);
   __Pyx_INCREF(__pyx_v_sonar);
 
-  /* "PioneerOA/PioneerSensor.pyx":25
+  /* "PioneerOA/PioneerSensor.pyx":24
  *     def __init__(self, list sonar = None):
  *         angles = {
  *             0: radians(90),             # <<<<<<<<<<<<<<
  *             1: radians(50),
  *             2: radians(30),
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(16); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(16); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(90.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(90.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_int_0, __pyx_t_2) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_int_0, __pyx_t_2) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "PioneerOA/PioneerSensor.pyx":26
+  /* "PioneerOA/PioneerSensor.pyx":25
  *         angles = {
  *             0: radians(90),
  *             1: radians(50),             # <<<<<<<<<<<<<<
  *             2: radians(30),
  *             3: radians(10),
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(50.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 26, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(50.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_int_1, __pyx_t_2) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_int_1, __pyx_t_2) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "PioneerOA/PioneerSensor.pyx":27
+  /* "PioneerOA/PioneerSensor.pyx":26
  *             0: radians(90),
  *             1: radians(50),
  *             2: radians(30),             # <<<<<<<<<<<<<<
  *             3: radians(10),
  *             4: radians(-10),
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(30.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(30.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_int_2, __pyx_t_2) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_int_2, __pyx_t_2) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "PioneerOA/PioneerSensor.pyx":28
+  /* "PioneerOA/PioneerSensor.pyx":27
  *             1: radians(50),
  *             2: radians(30),
  *             3: radians(10),             # <<<<<<<<<<<<<<
  *             4: radians(-10),
  *             5: radians(-30),
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(10.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(10.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_int_3, __pyx_t_2) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_int_3, __pyx_t_2) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "PioneerOA/PioneerSensor.pyx":29
+  /* "PioneerOA/PioneerSensor.pyx":28
  *             2: radians(30),
  *             3: radians(10),
  *             4: radians(-10),             # <<<<<<<<<<<<<<
  *             5: radians(-30),
  *             6: radians(-50),
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(-10.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(-10.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_int_4, __pyx_t_2) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_int_4, __pyx_t_2) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "PioneerOA/PioneerSensor.pyx":30
+  /* "PioneerOA/PioneerSensor.pyx":29
  *             3: radians(10),
  *             4: radians(-10),
  *             5: radians(-30),             # <<<<<<<<<<<<<<
  *             6: radians(-50),
  *             7: radians(-90),
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(-30.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(-30.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_int_5, __pyx_t_2) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_int_5, __pyx_t_2) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "PioneerOA/PioneerSensor.pyx":31
+  /* "PioneerOA/PioneerSensor.pyx":30
  *             4: radians(-10),
  *             5: radians(-30),
  *             6: radians(-50),             # <<<<<<<<<<<<<<
  *             7: radians(-90),
  *             8: radians(-90),
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(-50.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(-50.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_int_6, __pyx_t_2) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_int_6, __pyx_t_2) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "PioneerOA/PioneerSensor.pyx":32
+  /* "PioneerOA/PioneerSensor.pyx":31
  *             5: radians(-30),
  *             6: radians(-50),
  *             7: radians(-90),             # <<<<<<<<<<<<<<
  *             8: radians(-90),
  *             9: radians(-130),
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(-90.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(-90.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_int_7, __pyx_t_2) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_int_7, __pyx_t_2) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "PioneerOA/PioneerSensor.pyx":33
+  /* "PioneerOA/PioneerSensor.pyx":32
  *             6: radians(-50),
  *             7: radians(-90),
  *             8: radians(-90),             # <<<<<<<<<<<<<<
  *             9: radians(-130),
  *             10: radians(-150),
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(-90.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(-90.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_int_8, __pyx_t_2) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_int_8, __pyx_t_2) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "PioneerOA/PioneerSensor.pyx":34
+  /* "PioneerOA/PioneerSensor.pyx":33
  *             7: radians(-90),
  *             8: radians(-90),
  *             9: radians(-130),             # <<<<<<<<<<<<<<
  *             10: radians(-150),
  *             11: radians(-170),
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(-130.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(-130.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_int_9, __pyx_t_2) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_int_9, __pyx_t_2) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "PioneerOA/PioneerSensor.pyx":35
+  /* "PioneerOA/PioneerSensor.pyx":34
  *             8: radians(-90),
  *             9: radians(-130),
  *             10: radians(-150),             # <<<<<<<<<<<<<<
  *             11: radians(-170),
  *             12: radians(170),
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(-150.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(-150.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_int_10, __pyx_t_2) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_int_10, __pyx_t_2) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "PioneerOA/PioneerSensor.pyx":36
+  /* "PioneerOA/PioneerSensor.pyx":35
  *             9: radians(-130),
  *             10: radians(-150),
  *             11: radians(-170),             # <<<<<<<<<<<<<<
  *             12: radians(170),
  *             13: radians(150),
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(-170.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(-170.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_int_11, __pyx_t_2) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_int_11, __pyx_t_2) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "PioneerOA/PioneerSensor.pyx":37
+  /* "PioneerOA/PioneerSensor.pyx":36
  *             10: radians(-150),
  *             11: radians(-170),
  *             12: radians(170),             # <<<<<<<<<<<<<<
  *             13: radians(150),
  *             14: radians(130),
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(170.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(170.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_int_12, __pyx_t_2) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_int_12, __pyx_t_2) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "PioneerOA/PioneerSensor.pyx":38
+  /* "PioneerOA/PioneerSensor.pyx":37
  *             11: radians(-170),
  *             12: radians(170),
  *             13: radians(150),             # <<<<<<<<<<<<<<
  *             14: radians(130),
  *             15: radians(90)
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(150.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(150.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_int_13, __pyx_t_2) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_int_13, __pyx_t_2) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "PioneerOA/PioneerSensor.pyx":39
+  /* "PioneerOA/PioneerSensor.pyx":38
  *             12: radians(170),
  *             13: radians(150),
  *             14: radians(130),             # <<<<<<<<<<<<<<
  *             15: radians(90)
  *         }
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(130.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(130.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_int_14, __pyx_t_2) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_int_14, __pyx_t_2) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "PioneerOA/PioneerSensor.pyx":40
+  /* "PioneerOA/PioneerSensor.pyx":39
  *             13: radians(150),
  *             14: radians(130),
  *             15: radians(90)             # <<<<<<<<<<<<<<
  *         }
  *         if sonar is None:
  */
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(90.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_f_7pioneer_radians(90.0, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_int_15, __pyx_t_2) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_int_15, __pyx_t_2) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_angles = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "PioneerOA/PioneerSensor.pyx":42
+  /* "PioneerOA/PioneerSensor.pyx":41
  *             15: radians(90)
  *         }
  *         if sonar is None:             # <<<<<<<<<<<<<<
@@ -2480,14 +2480,14 @@ static int __pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor___init__(struct _
   __pyx_t_4 = (__pyx_t_3 != 0);
   if (__pyx_t_4) {
 
-    /* "PioneerOA/PioneerSensor.pyx":43
+    /* "PioneerOA/PioneerSensor.pyx":42
  *         }
  *         if sonar is None:
  *             sonar = [1] * 16             # <<<<<<<<<<<<<<
  *         assert len(sonar) == 16
  *         self.sonar = [Sensor(angle, value) for angle, value in zip(
  */
-    __pyx_t_1 = PyList_New(1 * 16); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
+    __pyx_t_1 = PyList_New(1 * 16); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     { Py_ssize_t __pyx_temp;
       for (__pyx_temp=0; __pyx_temp < 16; __pyx_temp++) {
@@ -2499,7 +2499,7 @@ static int __pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor___init__(struct _
     __Pyx_DECREF_SET(__pyx_v_sonar, ((PyObject*)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "PioneerOA/PioneerSensor.pyx":42
+    /* "PioneerOA/PioneerSensor.pyx":41
  *             15: radians(90)
  *         }
  *         if sonar is None:             # <<<<<<<<<<<<<<
@@ -2508,7 +2508,7 @@ static int __pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor___init__(struct _
  */
   }
 
-  /* "PioneerOA/PioneerSensor.pyx":44
+  /* "PioneerOA/PioneerSensor.pyx":43
  *         if sonar is None:
  *             sonar = [1] * 16
  *         assert len(sonar) == 16             # <<<<<<<<<<<<<<
@@ -2519,17 +2519,17 @@ static int __pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor___init__(struct _
   if (unlikely(!Py_OptimizeFlag)) {
     if (unlikely(__pyx_v_sonar == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-      __PYX_ERR(0, 44, __pyx_L1_error)
+      __PYX_ERR(0, 43, __pyx_L1_error)
     }
-    __pyx_t_5 = PyList_GET_SIZE(__pyx_v_sonar); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 44, __pyx_L1_error)
+    __pyx_t_5 = PyList_GET_SIZE(__pyx_v_sonar); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 43, __pyx_L1_error)
     if (unlikely(!((__pyx_t_5 == 16) != 0))) {
       PyErr_SetNone(PyExc_AssertionError);
-      __PYX_ERR(0, 44, __pyx_L1_error)
+      __PYX_ERR(0, 43, __pyx_L1_error)
     }
   }
   #endif
 
-  /* "PioneerOA/PioneerSensor.pyx":45
+  /* "PioneerOA/PioneerSensor.pyx":44
  *             sonar = [1] * 16
  *         assert len(sonar) == 16
  *         self.sonar = [Sensor(angle, value) for angle, value in zip(             # <<<<<<<<<<<<<<
@@ -2537,27 +2537,27 @@ static int __pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor___init__(struct _
  *         self.parallel_left = [self.sonar[15], self.sonar[0]]
  */
   { /* enter inner scope */
-    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L6_error)
+    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L6_error)
     __Pyx_GOTREF(__pyx_t_1);
 
-    /* "PioneerOA/PioneerSensor.pyx":46
+    /* "PioneerOA/PioneerSensor.pyx":45
  *         assert len(sonar) == 16
  *         self.sonar = [Sensor(angle, value) for angle, value in zip(
  *             angles.values(), sonar)]             # <<<<<<<<<<<<<<
  *         self.parallel_left = [self.sonar[15], self.sonar[0]]
  *         self.parallel_right = [self.sonar[7], self.sonar[8]]
  */
-    __pyx_t_2 = __Pyx_PyDict_Values(__pyx_v_angles); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L6_error)
+    __pyx_t_2 = __Pyx_PyDict_Values(__pyx_v_angles); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L6_error)
     __Pyx_GOTREF(__pyx_t_2);
 
-    /* "PioneerOA/PioneerSensor.pyx":45
+    /* "PioneerOA/PioneerSensor.pyx":44
  *             sonar = [1] * 16
  *         assert len(sonar) == 16
  *         self.sonar = [Sensor(angle, value) for angle, value in zip(             # <<<<<<<<<<<<<<
  *             angles.values(), sonar)]
  *         self.parallel_left = [self.sonar[15], self.sonar[0]]
  */
-    __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 45, __pyx_L6_error)
+    __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 44, __pyx_L6_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_2);
@@ -2565,16 +2565,16 @@ static int __pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor___init__(struct _
     __Pyx_GIVEREF(__pyx_v_sonar);
     PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_v_sonar);
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_zip, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L6_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_zip, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L6_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
       __pyx_t_6 = __pyx_t_2; __Pyx_INCREF(__pyx_t_6); __pyx_t_5 = 0;
       __pyx_t_7 = NULL;
     } else {
-      __pyx_t_5 = -1; __pyx_t_6 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 45, __pyx_L6_error)
+      __pyx_t_5 = -1; __pyx_t_6 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 44, __pyx_L6_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_7 = Py_TYPE(__pyx_t_6)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 45, __pyx_L6_error)
+      __pyx_t_7 = Py_TYPE(__pyx_t_6)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 44, __pyx_L6_error)
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     for (;;) {
@@ -2582,17 +2582,17 @@ static int __pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor___init__(struct _
         if (likely(PyList_CheckExact(__pyx_t_6))) {
           if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_6)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_6, __pyx_t_5); __Pyx_INCREF(__pyx_t_2); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 45, __pyx_L6_error)
+          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_6, __pyx_t_5); __Pyx_INCREF(__pyx_t_2); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 44, __pyx_L6_error)
           #else
-          __pyx_t_2 = PySequence_ITEM(__pyx_t_6, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L6_error)
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_6, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L6_error)
           __Pyx_GOTREF(__pyx_t_2);
           #endif
         } else {
           if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_6)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_5); __Pyx_INCREF(__pyx_t_2); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 45, __pyx_L6_error)
+          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_5); __Pyx_INCREF(__pyx_t_2); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 44, __pyx_L6_error)
           #else
-          __pyx_t_2 = PySequence_ITEM(__pyx_t_6, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L6_error)
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_6, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L6_error)
           __Pyx_GOTREF(__pyx_t_2);
           #endif
         }
@@ -2602,7 +2602,7 @@ static int __pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor___init__(struct _
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 45, __pyx_L6_error)
+            else __PYX_ERR(0, 44, __pyx_L6_error)
           }
           break;
         }
@@ -2614,7 +2614,7 @@ static int __pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor___init__(struct _
         if (unlikely(size != 2)) {
           if (size > 2) __Pyx_RaiseTooManyValuesError(2);
           else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-          __PYX_ERR(0, 45, __pyx_L6_error)
+          __PYX_ERR(0, 44, __pyx_L6_error)
         }
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
         if (likely(PyTuple_CheckExact(sequence))) {
@@ -2627,15 +2627,15 @@ static int __pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor___init__(struct _
         __Pyx_INCREF(__pyx_t_8);
         __Pyx_INCREF(__pyx_t_9);
         #else
-        __pyx_t_8 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 45, __pyx_L6_error)
+        __pyx_t_8 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 44, __pyx_L6_error)
         __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_9 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 45, __pyx_L6_error)
+        __pyx_t_9 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 44, __pyx_L6_error)
         __Pyx_GOTREF(__pyx_t_9);
         #endif
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       } else {
         Py_ssize_t index = -1;
-        __pyx_t_10 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 45, __pyx_L6_error)
+        __pyx_t_10 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 44, __pyx_L6_error)
         __Pyx_GOTREF(__pyx_t_10);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __pyx_t_11 = Py_TYPE(__pyx_t_10)->tp_iternext;
@@ -2643,7 +2643,7 @@ static int __pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor___init__(struct _
         __Pyx_GOTREF(__pyx_t_8);
         index = 1; __pyx_t_9 = __pyx_t_11(__pyx_t_10); if (unlikely(!__pyx_t_9)) goto __pyx_L9_unpacking_failed;
         __Pyx_GOTREF(__pyx_t_9);
-        if (__Pyx_IternextUnpackEndCheck(__pyx_t_11(__pyx_t_10), 2) < 0) __PYX_ERR(0, 45, __pyx_L6_error)
+        if (__Pyx_IternextUnpackEndCheck(__pyx_t_11(__pyx_t_10), 2) < 0) __PYX_ERR(0, 44, __pyx_L6_error)
         __pyx_t_11 = NULL;
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         goto __pyx_L10_unpacking_done;
@@ -2651,14 +2651,14 @@ static int __pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor___init__(struct _
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         __pyx_t_11 = NULL;
         if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-        __PYX_ERR(0, 45, __pyx_L6_error)
+        __PYX_ERR(0, 44, __pyx_L6_error)
         __pyx_L10_unpacking_done:;
       }
       __Pyx_XDECREF_SET(__pyx_7genexpr__pyx_v_angle, __pyx_t_8);
       __pyx_t_8 = 0;
       __Pyx_XDECREF_SET(__pyx_7genexpr__pyx_v_value, __pyx_t_9);
       __pyx_t_9 = 0;
-      __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L6_error)
+      __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L6_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_INCREF(__pyx_7genexpr__pyx_v_angle);
       __Pyx_GIVEREF(__pyx_7genexpr__pyx_v_angle);
@@ -2666,10 +2666,10 @@ static int __pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor___init__(struct _
       __Pyx_INCREF(__pyx_7genexpr__pyx_v_value);
       __Pyx_GIVEREF(__pyx_7genexpr__pyx_v_value);
       PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_7genexpr__pyx_v_value);
-      __pyx_t_9 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_6sensor_Sensor), __pyx_t_2, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 45, __pyx_L6_error)
+      __pyx_t_9 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_6sensor_Sensor), __pyx_t_2, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 44, __pyx_L6_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_9))) __PYX_ERR(0, 45, __pyx_L6_error)
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_9))) __PYX_ERR(0, 44, __pyx_L6_error)
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     }
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -2688,7 +2688,7 @@ static int __pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor___init__(struct _
   __pyx_v_self->sonar = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "PioneerOA/PioneerSensor.pyx":47
+  /* "PioneerOA/PioneerSensor.pyx":46
  *         self.sonar = [Sensor(angle, value) for angle, value in zip(
  *             angles.values(), sonar)]
  *         self.parallel_left = [self.sonar[15], self.sonar[0]]             # <<<<<<<<<<<<<<
@@ -2697,17 +2697,17 @@ static int __pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor___init__(struct _
  */
   if (unlikely(__pyx_v_self->sonar == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 47, __pyx_L1_error)
+    __PYX_ERR(0, 46, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_self->sonar, 15, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_self->sonar, 15, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (unlikely(__pyx_v_self->sonar == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 47, __pyx_L1_error)
+    __PYX_ERR(0, 46, __pyx_L1_error)
   }
-  __pyx_t_6 = __Pyx_GetItemInt_List(__pyx_v_self->sonar, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_GetItemInt_List(__pyx_v_self->sonar, 0, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_9 = PyList_New(2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_9 = PyList_New(2); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_GIVEREF(__pyx_t_1);
   PyList_SET_ITEM(__pyx_t_9, 0, __pyx_t_1);
@@ -2721,7 +2721,7 @@ static int __pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor___init__(struct _
   __pyx_v_self->parallel_left = ((PyObject*)__pyx_t_9);
   __pyx_t_9 = 0;
 
-  /* "PioneerOA/PioneerSensor.pyx":48
+  /* "PioneerOA/PioneerSensor.pyx":47
  *             angles.values(), sonar)]
  *         self.parallel_left = [self.sonar[15], self.sonar[0]]
  *         self.parallel_right = [self.sonar[7], self.sonar[8]]             # <<<<<<<<<<<<<<
@@ -2730,17 +2730,17 @@ static int __pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor___init__(struct _
  */
   if (unlikely(__pyx_v_self->sonar == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 48, __pyx_L1_error)
+    __PYX_ERR(0, 47, __pyx_L1_error)
   }
-  __pyx_t_9 = __Pyx_GetItemInt_List(__pyx_v_self->sonar, 7, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_GetItemInt_List(__pyx_v_self->sonar, 7, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   if (unlikely(__pyx_v_self->sonar == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 48, __pyx_L1_error)
+    __PYX_ERR(0, 47, __pyx_L1_error)
   }
-  __pyx_t_6 = __Pyx_GetItemInt_List(__pyx_v_self->sonar, 8, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_GetItemInt_List(__pyx_v_self->sonar, 8, long, 1, __Pyx_PyInt_From_long, 1, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_1 = PyList_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_9);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_t_9);
@@ -2754,7 +2754,7 @@ static int __pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor___init__(struct _
   __pyx_v_self->parallel_right = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "PioneerOA/PioneerSensor.pyx":23
+  /* "PioneerOA/PioneerSensor.pyx":22
  * 
  * cdef class PioneerSensor:
  *     def __init__(self, list sonar = None):             # <<<<<<<<<<<<<<
@@ -2783,7 +2783,7 @@ static int __pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor___init__(struct _
   return __pyx_r;
 }
 
-/* "PioneerOA/PioneerSensor.pyx":50
+/* "PioneerOA/PioneerSensor.pyx":49
  *         self.parallel_right = [self.sonar[7], self.sonar[8]]
  * 
  *     def __getitem__(self, item) -> Sensor:             # <<<<<<<<<<<<<<
@@ -2811,7 +2811,7 @@ static PyObject *__pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor_2__getitem_
   PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannySetupContext("__getitem__", 0);
 
-  /* "PioneerOA/PioneerSensor.pyx":51
+  /* "PioneerOA/PioneerSensor.pyx":50
  * 
  *     def __getitem__(self, item) -> Sensor:
  *         assert isinstance(item, int)             # <<<<<<<<<<<<<<
@@ -2822,12 +2822,12 @@ static PyObject *__pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor_2__getitem_
     __pyx_t_1 = PyInt_Check(__pyx_v_item); 
     if (unlikely(!(__pyx_t_1 != 0))) {
       PyErr_SetNone(PyExc_AssertionError);
-      __PYX_ERR(0, 51, __pyx_L1_error)
+      __PYX_ERR(0, 50, __pyx_L1_error)
     }
   }
   #endif
 
-  /* "PioneerOA/PioneerSensor.pyx":52
+  /* "PioneerOA/PioneerSensor.pyx":51
  *     def __getitem__(self, item) -> Sensor:
  *         assert isinstance(item, int)
  *         return self.sonar[item]             # <<<<<<<<<<<<<<
@@ -2835,15 +2835,15 @@ static PyObject *__pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor_2__getitem_
   __Pyx_XDECREF(__pyx_r);
   if (unlikely(__pyx_v_self->sonar == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 52, __pyx_L1_error)
+    __PYX_ERR(0, 51, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_v_self->sonar, __pyx_v_item); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_v_self->sonar, __pyx_v_item); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "PioneerOA/PioneerSensor.pyx":50
+  /* "PioneerOA/PioneerSensor.pyx":49
  *         self.parallel_right = [self.sonar[7], self.sonar[8]]
  * 
  *     def __getitem__(self, item) -> Sensor:             # <<<<<<<<<<<<<<
@@ -17770,7 +17770,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_zip = __Pyx_GetBuiltinName(__pyx_n_s_zip); if (!__pyx_builtin_zip) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_builtin_zip = __Pyx_GetBuiltinName(__pyx_n_s_zip); if (!__pyx_builtin_zip) __PYX_ERR(0, 44, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(2, 133, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(2, 148, __pyx_L1_error)
   __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(2, 151, __pyx_L1_error)
@@ -18129,15 +18129,15 @@ static int __Pyx_modinit_type_init_code(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
-  if (PyType_Ready(&__pyx_type_9PioneerOA_13PioneerSensor_PioneerSensor) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_9PioneerOA_13PioneerSensor_PioneerSensor) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_9PioneerOA_13PioneerSensor_PioneerSensor.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_9PioneerOA_13PioneerSensor_PioneerSensor.tp_dictoffset && __pyx_type_9PioneerOA_13PioneerSensor_PioneerSensor.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_9PioneerOA_13PioneerSensor_PioneerSensor.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_PioneerSensor, (PyObject *)&__pyx_type_9PioneerOA_13PioneerSensor_PioneerSensor) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_9PioneerOA_13PioneerSensor_PioneerSensor) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_PioneerSensor, (PyObject *)&__pyx_type_9PioneerOA_13PioneerSensor_PioneerSensor) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_9PioneerOA_13PioneerSensor_PioneerSensor) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
   __pyx_ptype_9PioneerOA_13PioneerSensor_PioneerSensor = &__pyx_type_9PioneerOA_13PioneerSensor_PioneerSensor;
   __pyx_vtabptr_array = &__pyx_vtable_array;
   __pyx_vtable_array.get_memview = (PyObject *(*)(struct __pyx_array_obj *))__pyx_array_get_memview;
@@ -18207,11 +18207,11 @@ static int __Pyx_modinit_type_import_code(void) {
   __pyx_ptype_6sensor_Sensor = __Pyx_ImportType(__pyx_t_1, "sensor", "Sensor", sizeof(struct __pyx_obj_6sensor_Sensor), __Pyx_ImportType_CheckSize_Warn);
    if (!__pyx_ptype_6sensor_Sensor) __PYX_ERR(3, 17, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyImport_ImportModule("sensors"); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 17, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("sensors"); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_7sensors_Sensors = __Pyx_ImportType(__pyx_t_1, "sensors", "Sensors", sizeof(struct __pyx_obj_7sensors_Sensors), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_7sensors_Sensors) __PYX_ERR(4, 17, __pyx_L1_error)
-  __pyx_vtabptr_7sensors_Sensors = (struct __pyx_vtabstruct_7sensors_Sensors*)__Pyx_GetVtable(__pyx_ptype_7sensors_Sensors->tp_dict); if (unlikely(!__pyx_vtabptr_7sensors_Sensors)) __PYX_ERR(4, 17, __pyx_L1_error)
+   if (!__pyx_ptype_7sensors_Sensors) __PYX_ERR(4, 18, __pyx_L1_error)
+  __pyx_vtabptr_7sensors_Sensors = (struct __pyx_vtabstruct_7sensors_Sensors*)__Pyx_GetVtable(__pyx_ptype_7sensors_Sensors->tp_dict); if (unlikely(!__pyx_vtabptr_7sensors_Sensors)) __PYX_ERR(4, 18, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = PyImport_ImportModule("pioneer"); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);

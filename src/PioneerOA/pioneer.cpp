@@ -957,8 +957,8 @@ struct __pyx_MemviewEnum_obj;
 struct __pyx_memoryview_obj;
 struct __pyx_memoryviewslice_obj;
 
-/* "sensors.pxd":17
- * #    along with this program. If not, see <http://www.gnu.org/licenses/>.
+/* "sensors.pxd":18
+ * 
  * # distutils: language=c++
  * cdef class Sensors:             # <<<<<<<<<<<<<<
  *     cdef public double[:] sonar
@@ -1065,8 +1065,8 @@ struct __pyx_memoryviewslice_obj {
 
 
 
-/* "sensors.pxd":17
- * #    along with this program. If not, see <http://www.gnu.org/licenses/>.
+/* "sensors.pxd":18
+ * 
  * # distutils: language=c++
  * cdef class Sensors:             # <<<<<<<<<<<<<<
  *     cdef public double[:] sonar
@@ -18871,11 +18871,11 @@ static int __Pyx_modinit_type_import_code(void) {
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_import_code", 0);
   /*--- Type import code ---*/
-  __pyx_t_1 = PyImport_ImportModule("sensors"); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 17, __pyx_L1_error)
+  __pyx_t_1 = PyImport_ImportModule("sensors"); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_7sensors_Sensors = __Pyx_ImportType(__pyx_t_1, "sensors", "Sensors", sizeof(struct __pyx_obj_7sensors_Sensors), __Pyx_ImportType_CheckSize_Warn);
-   if (!__pyx_ptype_7sensors_Sensors) __PYX_ERR(3, 17, __pyx_L1_error)
-  __pyx_vtabptr_7sensors_Sensors = (struct __pyx_vtabstruct_7sensors_Sensors*)__Pyx_GetVtable(__pyx_ptype_7sensors_Sensors->tp_dict); if (unlikely(!__pyx_vtabptr_7sensors_Sensors)) __PYX_ERR(3, 17, __pyx_L1_error)
+   if (!__pyx_ptype_7sensors_Sensors) __PYX_ERR(3, 18, __pyx_L1_error)
+  __pyx_vtabptr_7sensors_Sensors = (struct __pyx_vtabstruct_7sensors_Sensors*)__Pyx_GetVtable(__pyx_ptype_7sensors_Sensors->tp_dict); if (unlikely(!__pyx_vtabptr_7sensors_Sensors)) __PYX_ERR(3, 18, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;

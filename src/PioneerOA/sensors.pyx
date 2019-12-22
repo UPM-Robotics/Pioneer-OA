@@ -74,7 +74,7 @@ cdef class Sensors:
         self.parallel_right = int(sonar[7] * 100), int(sonar[8] * 100)
 
     @property
-    def front_sensors(self) -> np.ndarray:
+    def front_sensors(self) -> np.float_:
         """
         Fast access for the front sensors of the robot.
 
@@ -83,7 +83,7 @@ cdef class Sensors:
         return self.sonar[2:6]
 
     @property
-    def left_sensors(self) -> np.ndarray:
+    def left_sensors(self) -> np.float_:
         """
         Fast access for the left sensors of the robot.
 
@@ -92,7 +92,7 @@ cdef class Sensors:
         return self.sonar[0:4]
 
     @property
-    def right_sensors(self) -> np.ndarray:
+    def right_sensors(self) -> np.float_:
         """
         Fast access for the front sensors of the robot.
 
@@ -100,6 +100,6 @@ cdef class Sensors:
         """
         return self.sonar[5:8]
 
-    def __getitem__(self, key) -> np.float32:
+    def __getitem__(self, int key):
         assert isinstance(key, int)
         return self.sonar[key]

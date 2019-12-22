@@ -18,7 +18,7 @@ import os
 import numpy as np
 
 import matplotlib
-matplotlib.use('TkAgg')  # MUST BE CALLED BEFORE IMPORTING plt
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
 from multiprocessing import Lock
@@ -38,7 +38,8 @@ def start_printing(robot_lock: Lock) -> Process:
         sh_memory = shared_memory.SharedMemory(name="pioneer-oa")
         annotations_grid = np.zeros(shape)
 
-        threshold = 25000 / max(shape)
+        # threshold = 25000 / max(shape)
+        threshold = 200
         print(f"Using threshold: {threshold}")
 
         def annotate(index):
