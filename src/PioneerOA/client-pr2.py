@@ -201,6 +201,7 @@ def main():
                 file.write(f" {robot.grid[x, y]} ")
                 if (y + 1) == robot.grid.shape[1]:
                     file.write("\n")
+
         printer.terminate()
         printer.join()
         printer.close()

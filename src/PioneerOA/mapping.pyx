@@ -85,13 +85,6 @@ cdef class PioneerMap(Pioneer):
                 cv = self.k * (self.max_read_distance -
                                self.sensor[i].value) / \
                      self.max_read_distance
-                # threshold = self.grid_max / self.threshold_divider
-                # threshold = self.grid.shape[0] * self.grid.shape[1]
-                # threshold = threshold * (1 + )
                 if cv >= self.threshold:
                     self.grid[mX, mY] += cv
                     self.threshold *= (1 + 0.1 * self.ratio)
-                # else:
-                #     self.threshold *= (1 - 0.1 * self.ratio)
-                # if self.grid[mX, mY] > self.grid_max:
-                #     self.grid_max = self.grid[mX, mY]
