@@ -15,4 +15,8 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 # distutils: language=c++
 cdef class Sensor:
-    cdef public double angle, value
+    cdef public double value
+    cdef readonly double angle
+
+    cpdef double x(self, double robotX, double heading)
+    cpdef double y(self, double robotY, double heading)

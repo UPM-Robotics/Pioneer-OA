@@ -15,11 +15,18 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 # distutils: language=c++
-import cython
+from libc.math cimport sin
+from libc.math cimport cos
 
 
-@cython.cclass
-class Sensor:
+cdef class Sensor:
     def __init__(self, double angle, double value = 0.0):
         self.angle = angle
         self.value = value
+
+    cpdef double x(self, double robotX, double heading):
+        return robotX + 0.2275 * cos(self.angle + heading)
+
+    cpdef double y(self, double robotY, double heading):
+        return robotY + 0.2275 * sin(self.angle + heading)
+

@@ -30,17 +30,18 @@ from PioneerSensor cimport PioneerSensor
 
 cdef class PioneerMap(Pioneer):
     def __init__(self,
-                 int X0,
-                 int Y0,
-                 int map_width,
-                 int map_height,
+                 double X0,
+                 double Y0,
+                 double map_width,
+                 double map_height,
                  tuple grid_size,
-                 list sonar=None,
-                 double k=1,
-                 double min_cv=0.5,
-                 double max_cv=30,
-                 double max_read_distance=1.0,
-                 double threshold_divider=1.5):
+                 list sonar = None,
+                 double initial_threshold = 1.0,
+                 double k = 1,
+                 double min_cv = 0.5,
+                 double max_cv = 30.0,
+                 double max_read_distance = 1.0,
+                 double ratio = 1.5):
         super().__init__(Sensors(sonar))
         assert grid_size[0] > 0 and grid_size[1] > 0
         self.X0 = X0
@@ -56,7 +57,8 @@ cdef class PioneerMap(Pioneer):
         self.max = max_cv
         self.heading = 0
         self.max_read_distance = max_read_distance
-        self.threshold_divider = threshold_divider
+        self.ratio = ratio
+        self.threshold = initial_threshold
 
     cpdef tuple translate_to_matrix_position(self, double x, double y):
         return int((x - self.X0) * (self.mw / self.w)), \
@@ -65,7 +67,7 @@ cdef class PioneerMap(Pioneer):
     @cython.boundscheck(False)
     @cython.wraparound(False)
     @cython.locals(x=cython.double, y=cython.double, mX=cython.int,
-                   mY=cython.int, cv=cython.double, threshold=cython.double)
+                   mY=cython.int, cv=cython.double)
     cpdef update_robot_position(self,
                                 double robotX,
                                 double robotY,
@@ -83,6 +85,13 @@ cdef class PioneerMap(Pioneer):
                 cv = self.k * (self.max_read_distance -
                                self.sensor[i].value) / \
                      self.max_read_distance
-                threshold = self.grid.max() / self.threshold_divider
-                if cv > threshold:
+                # threshold = self.grid_max / self.threshold_divider
+                # threshold = self.grid.shape[0] * self.grid.shape[1]
+                # threshold = threshold * (1 + )
+                if cv >= self.threshold:
                     self.grid[mX, mY] += cv
+                    self.threshold *= (1 + 0.1 * self.ratio)
+                # else:
+                #     self.threshold *= (1 - 0.1 * self.ratio)
+                # if self.grid[mX, mY] > self.grid_max:
+                #     self.grid_max = self.grid[mX, mY]

@@ -1283,15 +1283,11 @@ struct __pyx_obj_13PioneerSensor_PioneerSensor {
  * 
  * 
  * cdef class PioneerMap(Pioneer):             # <<<<<<<<<<<<<<
- *     cdef public int X0, Y0, w, h, mw, mh
+ *     cdef public int mw, mh
  *     cdef public double[:, :] grid
  */
 struct __pyx_obj_9PioneerOA_7mapping_PioneerMap {
   struct __pyx_obj_7pioneer_Pioneer __pyx_base;
-  int X0;
-  int Y0;
-  int w;
-  int h;
   int mw;
   int mh;
   __Pyx_memviewslice grid;
@@ -1300,7 +1296,13 @@ struct __pyx_obj_9PioneerOA_7mapping_PioneerMap {
   double max_read_distance;
   double min;
   double max;
-  double threshold_divider;
+  double ratio;
+  double grid_max;
+  double threshold;
+  double X0;
+  double Y0;
+  double w;
+  double h;
   struct __pyx_obj_13PioneerSensor_PioneerSensor *sensor;
 };
 
@@ -1420,7 +1422,7 @@ static struct __pyx_vtabstruct_7pioneer_Pioneer *__pyx_vtabptr_7pioneer_Pioneer;
  * 
  * cdef class PioneerMap(Pioneer):             # <<<<<<<<<<<<<<
  *     def __init__(self,
- *                  int X0,
+ *                  double X0,
  */
 
 struct __pyx_vtabstruct_9PioneerOA_7mapping_PioneerMap {
@@ -1740,13 +1742,6 @@ static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index);
 
 /* RaiseNoneIterError.proto */
 static CYTHON_INLINE void __Pyx_RaiseNoneNotIterableError(void);
-
-/* PyObjectCallNoArg.proto */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
-#else
-#define __Pyx_PyObject_CallNoArg(func) __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL)
-#endif
 
 /* ExtTypeTest.proto */
 static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type);
@@ -2083,9 +2078,6 @@ static int __pyx_slices_overlap(__Pyx_memviewslice *slice1,
 /* Capsule.proto */
 static CYTHON_INLINE PyObject *__pyx_capsule_create(void *p, const char *sig);
 
-/* CIntToPy.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
-
 /* MemviewDtypeToObject.proto */
 static CYTHON_INLINE PyObject *__pyx_memview_get_double(const char *itemp);
 static CYTHON_INLINE int __pyx_memview_set_double(const char *itemp, PyObject *obj);
@@ -2115,6 +2107,9 @@ static int __Pyx_ValidateAndInit_memviewslice(
 
 /* ObjectToMemviewSlice.proto */
 static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dsds_double(PyObject *, int writable_flag);
+
+/* CIntToPy.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
 
 /* ObjectToMemviewSlice.proto */
 static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_double(PyObject *, int writable_flag);
@@ -2372,7 +2367,6 @@ static const char __pyx_k_X0[] = "X0";
 static const char __pyx_k_Y0[] = "Y0";
 static const char __pyx_k_id[] = "id";
 static const char __pyx_k_np[] = "np";
-static const char __pyx_k_max[] = "max";
 static const char __pyx_k_new[] = "__new__";
 static const char __pyx_k_obj[] = "obj";
 static const char __pyx_k_base[] = "base";
@@ -2396,6 +2390,7 @@ static const char __pyx_k_flags[] = "flags";
 static const char __pyx_k_float[] = "float_";
 static const char __pyx_k_numpy[] = "numpy";
 static const char __pyx_k_range[] = "range";
+static const char __pyx_k_ratio[] = "ratio";
 static const char __pyx_k_shape[] = "shape";
 static const char __pyx_k_sonar[] = "sonar";
 static const char __pyx_k_start[] = "start";
@@ -2449,9 +2444,9 @@ static const char __pyx_k_dtype_is_object[] = "dtype_is_object";
 static const char __pyx_k_pyx_PickleError[] = "__pyx_PickleError";
 static const char __pyx_k_setstate_cython[] = "__setstate_cython__";
 static const char __pyx_k_PioneerOA_mapping[] = "PioneerOA.mapping";
+static const char __pyx_k_initial_threshold[] = "initial_threshold";
 static const char __pyx_k_max_read_distance[] = "max_read_distance";
 static const char __pyx_k_pyx_unpickle_Enum[] = "__pyx_unpickle_Enum";
-static const char __pyx_k_threshold_divider[] = "threshold_divider";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_strided_and_direct[] = "<strided and direct>";
 static const char __pyx_k_strided_and_indirect[] = "<strided and indirect>";
@@ -2476,8 +2471,8 @@ static const char __pyx_k_Cannot_assign_to_read_only_memor[] = "Cannot assign to
 static const char __pyx_k_Cannot_create_writable_memory_vi[] = "Cannot create writable memory view from read-only memoryview";
 static const char __pyx_k_Empty_shape_tuple_for_cython_arr[] = "Empty shape tuple for cython.array";
 static const char __pyx_k_Format_string_allocated_too_shor[] = "Format string allocated too short, see comment in numpy.pxd";
-static const char __pyx_k_Incompatible_checksums_s_vs_0x7c[] = "Incompatible checksums (%s vs 0x7c748b8 = (X0, Y0, grid, h, heading, k, max, max_read_distance, mh, min, mw, sensor, sensors, threshold_divider, w))";
 static const char __pyx_k_Incompatible_checksums_s_vs_0xb0[] = "Incompatible checksums (%s vs 0xb068931 = (name))";
+static const char __pyx_k_Incompatible_checksums_s_vs_0xc6[] = "Incompatible checksums (%s vs 0xc670db8 = (X0, Y0, grid, grid_max, h, heading, k, max, max_read_distance, mh, min, mw, ratio, sensor, sensors, threshold, w))";
 static const char __pyx_k_Indirect_dimensions_not_supporte[] = "Indirect dimensions not supported";
 static const char __pyx_k_Invalid_mode_expected_c_or_fortr[] = "Invalid mode, expected 'c' or 'fortran', got %s";
 static const char __pyx_k_Non_native_byte_order_not_suppor[] = "Non-native byte order not supported";
@@ -2500,8 +2495,8 @@ static PyObject *__pyx_kp_s_Empty_shape_tuple_for_cython_arr;
 static PyObject *__pyx_kp_u_Format_string_allocated_too_shor;
 static PyObject *__pyx_kp_u_Format_string_allocated_too_shor_2;
 static PyObject *__pyx_n_s_ImportError;
-static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0x7c;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0xb0;
+static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0xc6;
 static PyObject *__pyx_n_s_IndexError;
 static PyObject *__pyx_kp_s_Indirect_dimensions_not_supporte;
 static PyObject *__pyx_kp_s_Invalid_mode_expected_c_or_fortr;
@@ -2549,13 +2544,13 @@ static PyObject *__pyx_n_s_heading;
 static PyObject *__pyx_n_s_id;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_init;
+static PyObject *__pyx_n_s_initial_threshold;
 static PyObject *__pyx_n_s_itemsize;
 static PyObject *__pyx_kp_s_itemsize_0_for_cython_array;
 static PyObject *__pyx_n_s_k;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_map_height;
 static PyObject *__pyx_n_s_map_width;
-static PyObject *__pyx_n_s_max;
 static PyObject *__pyx_n_s_max_cv;
 static PyObject *__pyx_n_s_max_read_distance;
 static PyObject *__pyx_n_s_memview;
@@ -2585,6 +2580,7 @@ static PyObject *__pyx_n_s_pyx_unpickle_Enum;
 static PyObject *__pyx_n_s_pyx_unpickle_PioneerMap;
 static PyObject *__pyx_n_s_pyx_vtable;
 static PyObject *__pyx_n_s_range;
+static PyObject *__pyx_n_s_ratio;
 static PyObject *__pyx_n_s_reduce;
 static PyObject *__pyx_n_s_reduce_cython;
 static PyObject *__pyx_n_s_reduce_ex;
@@ -2605,7 +2601,6 @@ static PyObject *__pyx_kp_s_stringsource;
 static PyObject *__pyx_n_s_struct;
 static PyObject *__pyx_n_s_super;
 static PyObject *__pyx_n_s_test;
-static PyObject *__pyx_n_s_threshold_divider;
 static PyObject *__pyx_n_s_translate_to_matrix_position;
 static PyObject *__pyx_kp_s_unable_to_allocate_array_data;
 static PyObject *__pyx_kp_s_unable_to_allocate_shape_and_str;
@@ -2617,17 +2612,9 @@ static PyObject *__pyx_n_s_value;
 static PyObject *__pyx_n_s_x;
 static PyObject *__pyx_n_s_y;
 static PyObject *__pyx_n_s_zeros;
-static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap___init__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, int __pyx_v_X0, int __pyx_v_Y0, int __pyx_v_map_width, int __pyx_v_map_height, PyObject *__pyx_v_grid_size, PyObject *__pyx_v_sonar, double __pyx_v_k, double __pyx_v_min_cv, double __pyx_v_max_cv, double __pyx_v_max_read_distance, double __pyx_v_threshold_divider); /* proto */
+static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap___init__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, double __pyx_v_X0, double __pyx_v_Y0, double __pyx_v_map_width, double __pyx_v_map_height, PyObject *__pyx_v_grid_size, PyObject *__pyx_v_sonar, double __pyx_v_initial_threshold, double __pyx_v_k, double __pyx_v_min_cv, double __pyx_v_max_cv, double __pyx_v_max_read_distance, double __pyx_v_ratio); /* proto */
 static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_2translate_to_matrix_position(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, double __pyx_v_x, double __pyx_v_y); /* proto */
 static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_4update_robot_position(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, double __pyx_v_robotX, double __pyx_v_robotY, __Pyx_memviewslice __pyx_v_sonar, double __pyx_v_heading); /* proto */
-static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_2X0___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self); /* proto */
-static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_2X0_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_2Y0___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self); /* proto */
-static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_2Y0_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_1w___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self); /* proto */
-static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_1w_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_1h___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self); /* proto */
-static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_1h_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_2mw___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self); /* proto */
 static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_2mw_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_2mh___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self); /* proto */
@@ -2644,8 +2631,20 @@ static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_3min___get__(struct _
 static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_3min_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_3max___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self); /* proto */
 static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_3max_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_17threshold_divider___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self); /* proto */
-static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_17threshold_divider_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_5ratio___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self); /* proto */
+static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_5ratio_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_8grid_max___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self); /* proto */
+static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_8grid_max_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_9threshold___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self); /* proto */
+static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_9threshold_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_2X0___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self); /* proto */
+static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_2X0_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_2Y0___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self); /* proto */
+static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_2Y0_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_1w___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self); /* proto */
+static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_1w_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_1h___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self); /* proto */
+static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_1h_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_6sensor___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self); /* proto */
 static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_6sensor_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_6sensor_4__del__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self); /* proto */
@@ -2703,8 +2702,8 @@ static PyObject *__pyx_tp_new_memoryview(PyTypeObject *t, PyObject *a, PyObject 
 static PyObject *__pyx_tp_new__memoryviewslice(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
-static PyObject *__pyx_int_130500792;
 static PyObject *__pyx_int_184977713;
+static PyObject *__pyx_int_208080312;
 static PyObject *__pyx_int_neg_1;
 static PyObject *__pyx_tuple_;
 static PyObject *__pyx_tuple__2;
@@ -2746,43 +2745,46 @@ static PyObject *__pyx_codeobj__34;
  * 
  * cdef class PioneerMap(Pioneer):
  *     def __init__(self,             # <<<<<<<<<<<<<<
- *                  int X0,
- *                  int Y0,
+ *                  double X0,
+ *                  double Y0,
  */
 
 /* Python wrapper */
 static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  int __pyx_v_X0;
-  int __pyx_v_Y0;
-  int __pyx_v_map_width;
-  int __pyx_v_map_height;
+  double __pyx_v_X0;
+  double __pyx_v_Y0;
+  double __pyx_v_map_width;
+  double __pyx_v_map_height;
   PyObject *__pyx_v_grid_size = 0;
   PyObject *__pyx_v_sonar = 0;
+  double __pyx_v_initial_threshold;
   double __pyx_v_k;
   double __pyx_v_min_cv;
   double __pyx_v_max_cv;
   double __pyx_v_max_read_distance;
-  double __pyx_v_threshold_divider;
+  double __pyx_v_ratio;
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_X0,&__pyx_n_s_Y0,&__pyx_n_s_map_width,&__pyx_n_s_map_height,&__pyx_n_s_grid_size,&__pyx_n_s_sonar,&__pyx_n_s_k,&__pyx_n_s_min_cv,&__pyx_n_s_max_cv,&__pyx_n_s_max_read_distance,&__pyx_n_s_threshold_divider,0};
-    PyObject* values[11] = {0,0,0,0,0,0,0,0,0,0,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_X0,&__pyx_n_s_Y0,&__pyx_n_s_map_width,&__pyx_n_s_map_height,&__pyx_n_s_grid_size,&__pyx_n_s_sonar,&__pyx_n_s_initial_threshold,&__pyx_n_s_k,&__pyx_n_s_min_cv,&__pyx_n_s_max_cv,&__pyx_n_s_max_read_distance,&__pyx_n_s_ratio,0};
+    PyObject* values[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
 
     /* "PioneerOA/mapping.pyx":38
- *                  int map_height,
+ *                  double map_height,
  *                  tuple grid_size,
- *                  list sonar=None,             # <<<<<<<<<<<<<<
- *                  double k=1,
- *                  double min_cv=0.5,
+ *                  list sonar = None,             # <<<<<<<<<<<<<<
+ *                  double initial_threshold = 1.0,
+ *                  double k = 1,
  */
     values[5] = ((PyObject*)Py_None);
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
+        case 12: values[11] = PyTuple_GET_ITEM(__pyx_args, 11);
+        CYTHON_FALLTHROUGH;
         case 11: values[10] = PyTuple_GET_ITEM(__pyx_args, 10);
         CYTHON_FALLTHROUGH;
         case 10: values[9] = PyTuple_GET_ITEM(__pyx_args, 9);
@@ -2817,25 +2819,25 @@ static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_1__init__(PyObject *__pyx_v
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_Y0)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 5, 11, 1); __PYX_ERR(0, 32, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 5, 12, 1); __PYX_ERR(0, 32, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_map_width)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 5, 11, 2); __PYX_ERR(0, 32, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 5, 12, 2); __PYX_ERR(0, 32, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_map_height)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 5, 11, 3); __PYX_ERR(0, 32, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 5, 12, 3); __PYX_ERR(0, 32, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_grid_size)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 5, 11, 4); __PYX_ERR(0, 32, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 5, 12, 4); __PYX_ERR(0, 32, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
@@ -2846,32 +2848,38 @@ static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_1__init__(PyObject *__pyx_v
         CYTHON_FALLTHROUGH;
         case  6:
         if (kw_args > 0) {
-          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_k);
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_initial_threshold);
           if (value) { values[6] = value; kw_args--; }
         }
         CYTHON_FALLTHROUGH;
         case  7:
         if (kw_args > 0) {
-          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_min_cv);
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_k);
           if (value) { values[7] = value; kw_args--; }
         }
         CYTHON_FALLTHROUGH;
         case  8:
         if (kw_args > 0) {
-          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_max_cv);
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_min_cv);
           if (value) { values[8] = value; kw_args--; }
         }
         CYTHON_FALLTHROUGH;
         case  9:
         if (kw_args > 0) {
-          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_max_read_distance);
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_max_cv);
           if (value) { values[9] = value; kw_args--; }
         }
         CYTHON_FALLTHROUGH;
         case 10:
         if (kw_args > 0) {
-          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_threshold_divider);
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_max_read_distance);
           if (value) { values[10] = value; kw_args--; }
+        }
+        CYTHON_FALLTHROUGH;
+        case 11:
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_ratio);
+          if (value) { values[11] = value; kw_args--; }
         }
       }
       if (unlikely(kw_args > 0)) {
@@ -2879,6 +2887,8 @@ static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_1__init__(PyObject *__pyx_v
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case 12: values[11] = PyTuple_GET_ITEM(__pyx_args, 11);
+        CYTHON_FALLTHROUGH;
         case 11: values[10] = PyTuple_GET_ITEM(__pyx_args, 10);
         CYTHON_FALLTHROUGH;
         case 10: values[9] = PyTuple_GET_ITEM(__pyx_args, 9);
@@ -2900,41 +2910,46 @@ static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_1__init__(PyObject *__pyx_v
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_X0 = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_X0 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 33, __pyx_L3_error)
-    __pyx_v_Y0 = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_Y0 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 34, __pyx_L3_error)
-    __pyx_v_map_width = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_map_width == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 35, __pyx_L3_error)
-    __pyx_v_map_height = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_map_height == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 36, __pyx_L3_error)
+    __pyx_v_X0 = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_X0 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 33, __pyx_L3_error)
+    __pyx_v_Y0 = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_Y0 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 34, __pyx_L3_error)
+    __pyx_v_map_width = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_map_width == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 35, __pyx_L3_error)
+    __pyx_v_map_height = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_map_height == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 36, __pyx_L3_error)
     __pyx_v_grid_size = ((PyObject*)values[4]);
     __pyx_v_sonar = ((PyObject*)values[5]);
     if (values[6]) {
-      __pyx_v_k = __pyx_PyFloat_AsDouble(values[6]); if (unlikely((__pyx_v_k == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 39, __pyx_L3_error)
+      __pyx_v_initial_threshold = __pyx_PyFloat_AsDouble(values[6]); if (unlikely((__pyx_v_initial_threshold == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 39, __pyx_L3_error)
+    } else {
+      __pyx_v_initial_threshold = ((double)1.0);
+    }
+    if (values[7]) {
+      __pyx_v_k = __pyx_PyFloat_AsDouble(values[7]); if (unlikely((__pyx_v_k == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 40, __pyx_L3_error)
     } else {
       __pyx_v_k = ((double)1.0);
     }
-    if (values[7]) {
-      __pyx_v_min_cv = __pyx_PyFloat_AsDouble(values[7]); if (unlikely((__pyx_v_min_cv == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 40, __pyx_L3_error)
+    if (values[8]) {
+      __pyx_v_min_cv = __pyx_PyFloat_AsDouble(values[8]); if (unlikely((__pyx_v_min_cv == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 41, __pyx_L3_error)
     } else {
       __pyx_v_min_cv = ((double)0.5);
     }
-    if (values[8]) {
-      __pyx_v_max_cv = __pyx_PyFloat_AsDouble(values[8]); if (unlikely((__pyx_v_max_cv == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 41, __pyx_L3_error)
+    if (values[9]) {
+      __pyx_v_max_cv = __pyx_PyFloat_AsDouble(values[9]); if (unlikely((__pyx_v_max_cv == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 42, __pyx_L3_error)
     } else {
       __pyx_v_max_cv = ((double)30.0);
     }
-    if (values[9]) {
-      __pyx_v_max_read_distance = __pyx_PyFloat_AsDouble(values[9]); if (unlikely((__pyx_v_max_read_distance == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 42, __pyx_L3_error)
+    if (values[10]) {
+      __pyx_v_max_read_distance = __pyx_PyFloat_AsDouble(values[10]); if (unlikely((__pyx_v_max_read_distance == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 43, __pyx_L3_error)
     } else {
       __pyx_v_max_read_distance = ((double)1.0);
     }
-    if (values[10]) {
-      __pyx_v_threshold_divider = __pyx_PyFloat_AsDouble(values[10]); if (unlikely((__pyx_v_threshold_divider == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 43, __pyx_L3_error)
+    if (values[11]) {
+      __pyx_v_ratio = __pyx_PyFloat_AsDouble(values[11]); if (unlikely((__pyx_v_ratio == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 44, __pyx_L3_error)
     } else {
-      __pyx_v_threshold_divider = ((double)1.5);
+      __pyx_v_ratio = ((double)1.5);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 5, 11, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 32, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 5, 12, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 32, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2942,14 +2957,14 @@ static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_1__init__(PyObject *__pyx_v
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_grid_size), (&PyTuple_Type), 1, "grid_size", 1))) __PYX_ERR(0, 37, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_sonar), (&PyList_Type), 1, "sonar", 1))) __PYX_ERR(0, 38, __pyx_L1_error)
-  __pyx_r = __pyx_pf_9PioneerOA_7mapping_10PioneerMap___init__(((struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self), __pyx_v_X0, __pyx_v_Y0, __pyx_v_map_width, __pyx_v_map_height, __pyx_v_grid_size, __pyx_v_sonar, __pyx_v_k, __pyx_v_min_cv, __pyx_v_max_cv, __pyx_v_max_read_distance, __pyx_v_threshold_divider);
+  __pyx_r = __pyx_pf_9PioneerOA_7mapping_10PioneerMap___init__(((struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self), __pyx_v_X0, __pyx_v_Y0, __pyx_v_map_width, __pyx_v_map_height, __pyx_v_grid_size, __pyx_v_sonar, __pyx_v_initial_threshold, __pyx_v_k, __pyx_v_min_cv, __pyx_v_max_cv, __pyx_v_max_read_distance, __pyx_v_ratio);
 
   /* "PioneerOA/mapping.pyx":32
  * 
  * cdef class PioneerMap(Pioneer):
  *     def __init__(self,             # <<<<<<<<<<<<<<
- *                  int X0,
- *                  int Y0,
+ *                  double X0,
+ *                  double Y0,
  */
 
   /* function exit code */
@@ -2961,7 +2976,7 @@ static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_1__init__(PyObject *__pyx_v
   return __pyx_r;
 }
 
-static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap___init__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, int __pyx_v_X0, int __pyx_v_Y0, int __pyx_v_map_width, int __pyx_v_map_height, PyObject *__pyx_v_grid_size, PyObject *__pyx_v_sonar, double __pyx_v_k, double __pyx_v_min_cv, double __pyx_v_max_cv, double __pyx_v_max_read_distance, double __pyx_v_threshold_divider) {
+static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap___init__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, double __pyx_v_X0, double __pyx_v_Y0, double __pyx_v_map_width, double __pyx_v_map_height, PyObject *__pyx_v_grid_size, PyObject *__pyx_v_sonar, double __pyx_v_initial_threshold, double __pyx_v_k, double __pyx_v_min_cv, double __pyx_v_max_cv, double __pyx_v_max_read_distance, double __pyx_v_ratio) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2974,14 +2989,14 @@ static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap___init__(struct __pyx_obj_9
   __Pyx_memviewslice __pyx_t_8 = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "PioneerOA/mapping.pyx":44
- *                  double max_read_distance=1.0,
- *                  double threshold_divider=1.5):
+  /* "PioneerOA/mapping.pyx":45
+ *                  double max_read_distance = 1.0,
+ *                  double ratio = 1.5):
  *         super().__init__(Sensors(sonar))             # <<<<<<<<<<<<<<
  *         assert grid_size[0] > 0 and grid_size[1] > 0
  *         self.X0 = X0
  */
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_9PioneerOA_7mapping_PioneerMap));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_9PioneerOA_7mapping_PioneerMap));
@@ -2989,13 +3004,13 @@ static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap___init__(struct __pyx_obj_9
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
   PyTuple_SET_ITEM(__pyx_t_2, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_init); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_init); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_7sensors_Sensors), __pyx_v_sonar); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_7sensors_Sensors), __pyx_v_sonar); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -3010,13 +3025,13 @@ static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap___init__(struct __pyx_obj_9
   __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "PioneerOA/mapping.pyx":45
- *                  double threshold_divider=1.5):
+  /* "PioneerOA/mapping.pyx":46
+ *                  double ratio = 1.5):
  *         super().__init__(Sensors(sonar))
  *         assert grid_size[0] > 0 and grid_size[1] > 0             # <<<<<<<<<<<<<<
  *         self.X0 = X0
@@ -3026,13 +3041,13 @@ static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap___init__(struct __pyx_obj_9
   if (unlikely(!Py_OptimizeFlag)) {
     if (unlikely(__pyx_v_grid_size == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 45, __pyx_L1_error)
+      __PYX_ERR(0, 46, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_grid_size, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_grid_size, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = PyObject_RichCompare(__pyx_t_1, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
+    __pyx_t_2 = PyObject_RichCompare(__pyx_t_1, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 45, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 46, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     if (__pyx_t_6) {
     } else {
@@ -3041,24 +3056,24 @@ static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap___init__(struct __pyx_obj_9
     }
     if (unlikely(__pyx_v_grid_size == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 45, __pyx_L1_error)
+      __PYX_ERR(0, 46, __pyx_L1_error)
     }
-    __pyx_t_2 = __Pyx_GetItemInt_Tuple(__pyx_v_grid_size, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetItemInt_Tuple(__pyx_v_grid_size, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = PyObject_RichCompare(__pyx_t_2, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
+    __pyx_t_1 = PyObject_RichCompare(__pyx_t_2, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 45, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 46, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_5 = __pyx_t_6;
     __pyx_L3_bool_binop_done:;
     if (unlikely(!__pyx_t_5)) {
       PyErr_SetNone(PyExc_AssertionError);
-      __PYX_ERR(0, 45, __pyx_L1_error)
+      __PYX_ERR(0, 46, __pyx_L1_error)
     }
   }
   #endif
 
-  /* "PioneerOA/mapping.pyx":46
+  /* "PioneerOA/mapping.pyx":47
  *         super().__init__(Sensors(sonar))
  *         assert grid_size[0] > 0 and grid_size[1] > 0
  *         self.X0 = X0             # <<<<<<<<<<<<<<
@@ -3067,7 +3082,7 @@ static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap___init__(struct __pyx_obj_9
  */
   __pyx_v_self->X0 = __pyx_v_X0;
 
-  /* "PioneerOA/mapping.pyx":47
+  /* "PioneerOA/mapping.pyx":48
  *         assert grid_size[0] > 0 and grid_size[1] > 0
  *         self.X0 = X0
  *         self.Y0 = Y0             # <<<<<<<<<<<<<<
@@ -3076,7 +3091,7 @@ static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap___init__(struct __pyx_obj_9
  */
   __pyx_v_self->Y0 = __pyx_v_Y0;
 
-  /* "PioneerOA/mapping.pyx":48
+  /* "PioneerOA/mapping.pyx":49
  *         self.X0 = X0
  *         self.Y0 = Y0
  *         self.w = map_width             # <<<<<<<<<<<<<<
@@ -3085,7 +3100,7 @@ static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap___init__(struct __pyx_obj_9
  */
   __pyx_v_self->w = __pyx_v_map_width;
 
-  /* "PioneerOA/mapping.pyx":49
+  /* "PioneerOA/mapping.pyx":50
  *         self.Y0 = Y0
  *         self.w = map_width
  *         self.h = map_height             # <<<<<<<<<<<<<<
@@ -3094,7 +3109,7 @@ static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap___init__(struct __pyx_obj_9
  */
   __pyx_v_self->h = __pyx_v_map_height;
 
-  /* "PioneerOA/mapping.pyx":50
+  /* "PioneerOA/mapping.pyx":51
  *         self.w = map_width
  *         self.h = map_height
  *         self.mw = grid_size[0]             # <<<<<<<<<<<<<<
@@ -3103,15 +3118,15 @@ static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap___init__(struct __pyx_obj_9
  */
   if (unlikely(__pyx_v_grid_size == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 50, __pyx_L1_error)
+    __PYX_ERR(0, 51, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_grid_size, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_grid_size, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 51, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->mw = __pyx_t_7;
 
-  /* "PioneerOA/mapping.pyx":51
+  /* "PioneerOA/mapping.pyx":52
  *         self.h = map_height
  *         self.mw = grid_size[0]
  *         self.mh = grid_size[1]             # <<<<<<<<<<<<<<
@@ -3120,22 +3135,22 @@ static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap___init__(struct __pyx_obj_9
  */
   if (unlikely(__pyx_v_grid_size == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 51, __pyx_L1_error)
+    __PYX_ERR(0, 52, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_grid_size, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_grid_size, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->mh = __pyx_t_7;
 
-  /* "PioneerOA/mapping.pyx":52
+  /* "PioneerOA/mapping.pyx":53
  *         self.mw = grid_size[0]
  *         self.mh = grid_size[1]
  *         self.sensor = PioneerSensor(sonar)             # <<<<<<<<<<<<<<
  *         self.grid = np.zeros(shape=grid_size, dtype=np.float_)
  *         self.k = k
  */
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_13PioneerSensor_PioneerSensor), __pyx_v_sonar); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_13PioneerSensor_PioneerSensor), __pyx_v_sonar); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->sensor);
@@ -3143,40 +3158,40 @@ static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap___init__(struct __pyx_obj_9
   __pyx_v_self->sensor = ((struct __pyx_obj_13PioneerSensor_PioneerSensor *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "PioneerOA/mapping.pyx":53
+  /* "PioneerOA/mapping.pyx":54
  *         self.mh = grid_size[1]
  *         self.sensor = PioneerSensor(sonar)
  *         self.grid = np.zeros(shape=grid_size, dtype=np.float_)             # <<<<<<<<<<<<<<
  *         self.k = k
  *         self.min = min_cv
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_shape, __pyx_v_grid_size) < 0) __PYX_ERR(0, 53, __pyx_L1_error)
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 53, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_shape, __pyx_v_grid_size) < 0) __PYX_ERR(0, 54, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_float); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_float); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 53, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_t_4, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_t_4, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __PYX_XDEC_MEMVIEW(&__pyx_v_self->grid, 0);
   __pyx_v_self->grid = __pyx_t_8;
   __pyx_t_8.memview = NULL;
   __pyx_t_8.data = NULL;
 
-  /* "PioneerOA/mapping.pyx":54
+  /* "PioneerOA/mapping.pyx":55
  *         self.sensor = PioneerSensor(sonar)
  *         self.grid = np.zeros(shape=grid_size, dtype=np.float_)
  *         self.k = k             # <<<<<<<<<<<<<<
@@ -3185,7 +3200,7 @@ static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap___init__(struct __pyx_obj_9
  */
   __pyx_v_self->k = __pyx_v_k;
 
-  /* "PioneerOA/mapping.pyx":55
+  /* "PioneerOA/mapping.pyx":56
  *         self.grid = np.zeros(shape=grid_size, dtype=np.float_)
  *         self.k = k
  *         self.min = min_cv             # <<<<<<<<<<<<<<
@@ -3194,7 +3209,7 @@ static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap___init__(struct __pyx_obj_9
  */
   __pyx_v_self->min = __pyx_v_min_cv;
 
-  /* "PioneerOA/mapping.pyx":56
+  /* "PioneerOA/mapping.pyx":57
  *         self.k = k
  *         self.min = min_cv
  *         self.max = max_cv             # <<<<<<<<<<<<<<
@@ -3203,39 +3218,48 @@ static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap___init__(struct __pyx_obj_9
  */
   __pyx_v_self->max = __pyx_v_max_cv;
 
-  /* "PioneerOA/mapping.pyx":57
+  /* "PioneerOA/mapping.pyx":58
  *         self.min = min_cv
  *         self.max = max_cv
  *         self.heading = 0             # <<<<<<<<<<<<<<
  *         self.max_read_distance = max_read_distance
- *         self.threshold_divider = threshold_divider
+ *         self.ratio = ratio
  */
   __pyx_v_self->heading = 0.0;
 
-  /* "PioneerOA/mapping.pyx":58
+  /* "PioneerOA/mapping.pyx":59
  *         self.max = max_cv
  *         self.heading = 0
  *         self.max_read_distance = max_read_distance             # <<<<<<<<<<<<<<
- *         self.threshold_divider = threshold_divider
- * 
+ *         self.ratio = ratio
+ *         self.threshold = initial_threshold
  */
   __pyx_v_self->max_read_distance = __pyx_v_max_read_distance;
 
-  /* "PioneerOA/mapping.pyx":59
+  /* "PioneerOA/mapping.pyx":60
  *         self.heading = 0
  *         self.max_read_distance = max_read_distance
- *         self.threshold_divider = threshold_divider             # <<<<<<<<<<<<<<
+ *         self.ratio = ratio             # <<<<<<<<<<<<<<
+ *         self.threshold = initial_threshold
+ * 
+ */
+  __pyx_v_self->ratio = __pyx_v_ratio;
+
+  /* "PioneerOA/mapping.pyx":61
+ *         self.max_read_distance = max_read_distance
+ *         self.ratio = ratio
+ *         self.threshold = initial_threshold             # <<<<<<<<<<<<<<
  * 
  *     cpdef tuple translate_to_matrix_position(self, double x, double y):
  */
-  __pyx_v_self->threshold_divider = __pyx_v_threshold_divider;
+  __pyx_v_self->threshold = __pyx_v_initial_threshold;
 
   /* "PioneerOA/mapping.pyx":32
  * 
  * cdef class PioneerMap(Pioneer):
  *     def __init__(self,             # <<<<<<<<<<<<<<
- *                  int X0,
- *                  int Y0,
+ *                  double X0,
+ *                  double Y0,
  */
 
   /* function exit code */
@@ -3254,8 +3278,8 @@ static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap___init__(struct __pyx_obj_9
   return __pyx_r;
 }
 
-/* "PioneerOA/mapping.pyx":61
- *         self.threshold_divider = threshold_divider
+/* "PioneerOA/mapping.pyx":63
+ *         self.threshold = initial_threshold
  * 
  *     cpdef tuple translate_to_matrix_position(self, double x, double y):             # <<<<<<<<<<<<<<
  *         return int((x - self.X0) * (self.mw / self.w)), \
@@ -3284,13 +3308,13 @@ static PyObject *__pyx_f_9PioneerOA_7mapping_10PioneerMap_translate_to_matrix_po
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_translate_to_matrix_position); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_translate_to_matrix_position); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 63, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_9PioneerOA_7mapping_10PioneerMap_3translate_to_matrix_position)) {
         __Pyx_XDECREF(__pyx_r);
-        __pyx_t_3 = PyFloat_FromDouble(__pyx_v_x); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 61, __pyx_L1_error)
+        __pyx_t_3 = PyFloat_FromDouble(__pyx_v_x); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 63, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_4 = PyFloat_FromDouble(__pyx_v_y); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 61, __pyx_L1_error)
+        __pyx_t_4 = PyFloat_FromDouble(__pyx_v_y); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 63, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_5 = __pyx_t_1; __pyx_t_6 = NULL;
@@ -3308,7 +3332,7 @@ static PyObject *__pyx_f_9PioneerOA_7mapping_10PioneerMap_translate_to_matrix_po
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_5)) {
           PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_3, __pyx_t_4};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 63, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3318,7 +3342,7 @@ static PyObject *__pyx_f_9PioneerOA_7mapping_10PioneerMap_translate_to_matrix_po
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
           PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_t_3, __pyx_t_4};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 63, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3326,7 +3350,7 @@ static PyObject *__pyx_f_9PioneerOA_7mapping_10PioneerMap_translate_to_matrix_po
         } else
         #endif
         {
-          __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 61, __pyx_L1_error)
+          __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 63, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           if (__pyx_t_6) {
             __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -3337,12 +3361,12 @@ static PyObject *__pyx_f_9PioneerOA_7mapping_10PioneerMap_translate_to_matrix_po
           PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_t_4);
           __pyx_t_3 = 0;
           __pyx_t_4 = 0;
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 63, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         }
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        if (!(likely(PyTuple_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 61, __pyx_L1_error)
+        if (!(likely(PyTuple_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 63, __pyx_L1_error)
         __pyx_r = ((PyObject*)__pyx_t_2);
         __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -3361,7 +3385,7 @@ static PyObject *__pyx_f_9PioneerOA_7mapping_10PioneerMap_translate_to_matrix_po
     #endif
   }
 
-  /* "PioneerOA/mapping.pyx":62
+  /* "PioneerOA/mapping.pyx":64
  * 
  *     cpdef tuple translate_to_matrix_position(self, double x, double y):
  *         return int((x - self.X0) * (self.mw / self.w)), \             # <<<<<<<<<<<<<<
@@ -3371,12 +3395,12 @@ static PyObject *__pyx_f_9PioneerOA_7mapping_10PioneerMap_translate_to_matrix_po
   __Pyx_XDECREF(__pyx_r);
   if (unlikely(__pyx_v_self->w == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 62, __pyx_L1_error)
+    __PYX_ERR(0, 64, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyInt_FromDouble(((__pyx_v_x - __pyx_v_self->X0) * (((double)__pyx_v_self->mw) / ((double)__pyx_v_self->w)))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_FromDouble(((__pyx_v_x - __pyx_v_self->X0) * (((double)__pyx_v_self->mw) / __pyx_v_self->w))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "PioneerOA/mapping.pyx":63
+  /* "PioneerOA/mapping.pyx":65
  *     cpdef tuple translate_to_matrix_position(self, double x, double y):
  *         return int((x - self.X0) * (self.mw / self.w)), \
  *                -int((y - self.Y0) * (self.mh / self.h))             # <<<<<<<<<<<<<<
@@ -3385,22 +3409,22 @@ static PyObject *__pyx_f_9PioneerOA_7mapping_10PioneerMap_translate_to_matrix_po
  */
   if (unlikely(__pyx_v_self->h == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 63, __pyx_L1_error)
+    __PYX_ERR(0, 65, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_PyInt_FromDouble(((__pyx_v_y - __pyx_v_self->Y0) * (((double)__pyx_v_self->mh) / ((double)__pyx_v_self->h)))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_FromDouble(((__pyx_v_y - __pyx_v_self->Y0) * (((double)__pyx_v_self->mh) / __pyx_v_self->h))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_5 = PyNumber_Negative(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_t_5 = PyNumber_Negative(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "PioneerOA/mapping.pyx":62
+  /* "PioneerOA/mapping.pyx":64
  * 
  *     cpdef tuple translate_to_matrix_position(self, double x, double y):
  *         return int((x - self.X0) * (self.mw / self.w)), \             # <<<<<<<<<<<<<<
  *                -int((y - self.Y0) * (self.mh / self.h))
  * 
  */
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
@@ -3412,8 +3436,8 @@ static PyObject *__pyx_f_9PioneerOA_7mapping_10PioneerMap_translate_to_matrix_po
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "PioneerOA/mapping.pyx":61
- *         self.threshold_divider = threshold_divider
+  /* "PioneerOA/mapping.pyx":63
+ *         self.threshold = initial_threshold
  * 
  *     cpdef tuple translate_to_matrix_position(self, double x, double y):             # <<<<<<<<<<<<<<
  *         return int((x - self.X0) * (self.mw / self.w)), \
@@ -3468,11 +3492,11 @@ static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_3translate_to_matrix_
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_y)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("translate_to_matrix_position", 1, 2, 2, 1); __PYX_ERR(0, 61, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("translate_to_matrix_position", 1, 2, 2, 1); __PYX_ERR(0, 63, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "translate_to_matrix_position") < 0)) __PYX_ERR(0, 61, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "translate_to_matrix_position") < 0)) __PYX_ERR(0, 63, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -3480,12 +3504,12 @@ static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_3translate_to_matrix_
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_x = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_x == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 61, __pyx_L3_error)
-    __pyx_v_y = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_y == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 61, __pyx_L3_error)
+    __pyx_v_x = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_x == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 63, __pyx_L3_error)
+    __pyx_v_y = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_y == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 63, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("translate_to_matrix_position", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 61, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("translate_to_matrix_position", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 63, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.translate_to_matrix_position", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3504,7 +3528,7 @@ static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_2translate_to_matrix_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("translate_to_matrix_position", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_9PioneerOA_7mapping_10PioneerMap_translate_to_matrix_position(__pyx_v_self, __pyx_v_x, __pyx_v_y, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_9PioneerOA_7mapping_10PioneerMap_translate_to_matrix_position(__pyx_v_self, __pyx_v_x, __pyx_v_y, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3521,9 +3545,9 @@ static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_2translate_to_matrix_
   return __pyx_r;
 }
 
-/* "PioneerOA/mapping.pyx":69
+/* "PioneerOA/mapping.pyx":71
  *     @cython.locals(x=cython.double, y=cython.double, mX=cython.int,
- *                    mY=cython.int, cv=cython.double, threshold=cython.double)
+ *                    mY=cython.int, cv=cython.double)
  *     cpdef update_robot_position(self,             # <<<<<<<<<<<<<<
  *                                 double robotX,
  *                                 double robotY,
@@ -3536,7 +3560,6 @@ static PyObject *__pyx_f_9PioneerOA_7mapping_10PioneerMap_update_robot_position(
   int __pyx_v_mX;
   int __pyx_v_mY;
   double __pyx_v_cv;
-  double __pyx_v_threshold;
   long __pyx_v_i;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -3569,18 +3592,18 @@ static PyObject *__pyx_f_9PioneerOA_7mapping_10PioneerMap_update_robot_position(
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_update_robot_position); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 69, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_update_robot_position); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 71, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_9PioneerOA_7mapping_10PioneerMap_5update_robot_position)) {
         __Pyx_XDECREF(__pyx_r);
-        __pyx_t_3 = PyFloat_FromDouble(__pyx_v_robotX); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 69, __pyx_L1_error)
+        __pyx_t_3 = PyFloat_FromDouble(__pyx_v_robotX); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 71, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_4 = PyFloat_FromDouble(__pyx_v_robotY); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 69, __pyx_L1_error)
+        __pyx_t_4 = PyFloat_FromDouble(__pyx_v_robotY); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 71, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        if (unlikely(!__pyx_v_sonar.memview)) { __Pyx_RaiseUnboundLocalError("sonar"); __PYX_ERR(0, 69, __pyx_L1_error) }
-        __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_sonar, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 69, __pyx_L1_error)
+        if (unlikely(!__pyx_v_sonar.memview)) { __Pyx_RaiseUnboundLocalError("sonar"); __PYX_ERR(0, 71, __pyx_L1_error) }
+        __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_sonar, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 71, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_6 = PyFloat_FromDouble(__pyx_v_heading); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 69, __pyx_L1_error)
+        __pyx_t_6 = PyFloat_FromDouble(__pyx_v_heading); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 71, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_7 = __pyx_t_1; __pyx_t_8 = NULL;
@@ -3598,7 +3621,7 @@ static PyObject *__pyx_f_9PioneerOA_7mapping_10PioneerMap_update_robot_position(
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_7)) {
           PyObject *__pyx_temp[5] = {__pyx_t_8, __pyx_t_3, __pyx_t_4, __pyx_t_5, __pyx_t_6};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_9, 4+__pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 69, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_9, 4+__pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3610,7 +3633,7 @@ static PyObject *__pyx_f_9PioneerOA_7mapping_10PioneerMap_update_robot_position(
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
           PyObject *__pyx_temp[5] = {__pyx_t_8, __pyx_t_3, __pyx_t_4, __pyx_t_5, __pyx_t_6};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_9, 4+__pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 69, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_9, 4+__pyx_t_9); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3620,7 +3643,7 @@ static PyObject *__pyx_f_9PioneerOA_7mapping_10PioneerMap_update_robot_position(
         } else
         #endif
         {
-          __pyx_t_10 = PyTuple_New(4+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 69, __pyx_L1_error)
+          __pyx_t_10 = PyTuple_New(4+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 71, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
           if (__pyx_t_8) {
             __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_8); __pyx_t_8 = NULL;
@@ -3637,7 +3660,7 @@ static PyObject *__pyx_f_9PioneerOA_7mapping_10PioneerMap_update_robot_position(
           __pyx_t_4 = 0;
           __pyx_t_5 = 0;
           __pyx_t_6 = 0;
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_10, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 69, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_10, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         }
@@ -3660,7 +3683,7 @@ static PyObject *__pyx_f_9PioneerOA_7mapping_10PioneerMap_update_robot_position(
     #endif
   }
 
-  /* "PioneerOA/mapping.pyx":74
+  /* "PioneerOA/mapping.pyx":76
  *                                 double[:] sonar,
  *                                 double heading):
  *         assert len(sonar) == 16             # <<<<<<<<<<<<<<
@@ -3672,12 +3695,12 @@ static PyObject *__pyx_f_9PioneerOA_7mapping_10PioneerMap_update_robot_position(
     __pyx_t_11 = __Pyx_MemoryView_Len(__pyx_v_sonar); 
     if (unlikely(!((__pyx_t_11 == 16) != 0))) {
       PyErr_SetNone(PyExc_AssertionError);
-      __PYX_ERR(0, 74, __pyx_L1_error)
+      __PYX_ERR(0, 76, __pyx_L1_error)
     }
   }
   #endif
 
-  /* "PioneerOA/mapping.pyx":75
+  /* "PioneerOA/mapping.pyx":77
  *                                 double heading):
  *         assert len(sonar) == 16
  *         for i in range(16):             # <<<<<<<<<<<<<<
@@ -3687,7 +3710,7 @@ static PyObject *__pyx_f_9PioneerOA_7mapping_10PioneerMap_update_robot_position(
   for (__pyx_t_12 = 0; __pyx_t_12 < 16; __pyx_t_12+=1) {
     __pyx_v_i = __pyx_t_12;
 
-    /* "PioneerOA/mapping.pyx":76
+    /* "PioneerOA/mapping.pyx":78
  *         assert len(sonar) == 16
  *         for i in range(16):
  *             self.sensor[i].value = sonar[i]             # <<<<<<<<<<<<<<
@@ -3695,152 +3718,152 @@ static PyObject *__pyx_f_9PioneerOA_7mapping_10PioneerMap_update_robot_position(
  *                 cos(self.sensor[i].angle + heading) + robotX
  */
     __pyx_t_13 = __pyx_v_i;
-    __pyx_t_1 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ (__pyx_v_sonar.data + __pyx_t_13 * __pyx_v_sonar.strides[0]) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 76, __pyx_L1_error)
+    __pyx_t_1 = PyFloat_FromDouble((*((double *) ( /* dim=0 */ (__pyx_v_sonar.data + __pyx_t_13 * __pyx_v_sonar.strides[0]) )))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 78, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->sensor), __pyx_v_i, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 76, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->sensor), __pyx_v_i, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 78, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (__Pyx_PyObject_SetAttrStr(__pyx_t_2, __pyx_n_s_value, __pyx_t_1) < 0) __PYX_ERR(0, 76, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_t_2, __pyx_n_s_value, __pyx_t_1) < 0) __PYX_ERR(0, 78, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "PioneerOA/mapping.pyx":77
+    /* "PioneerOA/mapping.pyx":79
  *         for i in range(16):
  *             self.sensor[i].value = sonar[i]
  *             x = self.sensor[i].value * \             # <<<<<<<<<<<<<<
  *                 cos(self.sensor[i].angle + heading) + robotX
  *             y = self.sensor[i].value * \
  */
-    __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->sensor), __pyx_v_i, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 77, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->sensor), __pyx_v_i, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_value); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 77, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_value); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "PioneerOA/mapping.pyx":78
+    /* "PioneerOA/mapping.pyx":80
  *             self.sensor[i].value = sonar[i]
  *             x = self.sensor[i].value * \
  *                 cos(self.sensor[i].angle + heading) + robotX             # <<<<<<<<<<<<<<
  *             y = self.sensor[i].value * \
  *                 sin(self.sensor[i].angle + heading) + robotY
  */
-    __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->sensor), __pyx_v_i, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 78, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->sensor), __pyx_v_i, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 80, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_angle); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 78, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_angle); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 80, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_heading); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 78, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_heading); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 80, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_10 = PyNumber_Add(__pyx_t_7, __pyx_t_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 78, __pyx_L1_error)
+    __pyx_t_10 = PyNumber_Add(__pyx_t_7, __pyx_t_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 80, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_14 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_14 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 78, __pyx_L1_error)
+    __pyx_t_14 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_14 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 80, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __pyx_t_10 = PyFloat_FromDouble(cos(__pyx_t_14)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 78, __pyx_L1_error)
+    __pyx_t_10 = PyFloat_FromDouble(cos(__pyx_t_14)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 80, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
 
-    /* "PioneerOA/mapping.pyx":77
+    /* "PioneerOA/mapping.pyx":79
  *         for i in range(16):
  *             self.sensor[i].value = sonar[i]
  *             x = self.sensor[i].value * \             # <<<<<<<<<<<<<<
  *                 cos(self.sensor[i].angle + heading) + robotX
  *             y = self.sensor[i].value * \
  */
-    __pyx_t_2 = PyNumber_Multiply(__pyx_t_1, __pyx_t_10); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 77, __pyx_L1_error)
+    __pyx_t_2 = PyNumber_Multiply(__pyx_t_1, __pyx_t_10); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "PioneerOA/mapping.pyx":78
+    /* "PioneerOA/mapping.pyx":80
  *             self.sensor[i].value = sonar[i]
  *             x = self.sensor[i].value * \
  *                 cos(self.sensor[i].angle + heading) + robotX             # <<<<<<<<<<<<<<
  *             y = self.sensor[i].value * \
  *                 sin(self.sensor[i].angle + heading) + robotY
  */
-    __pyx_t_10 = PyFloat_FromDouble(__pyx_v_robotX); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 78, __pyx_L1_error)
+    __pyx_t_10 = PyFloat_FromDouble(__pyx_v_robotX); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 80, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    __pyx_t_1 = PyNumber_Add(__pyx_t_2, __pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 78, __pyx_L1_error)
+    __pyx_t_1 = PyNumber_Add(__pyx_t_2, __pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __pyx_t_14 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_14 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 78, __pyx_L1_error)
+    __pyx_t_14 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_14 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 80, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_x = __pyx_t_14;
 
-    /* "PioneerOA/mapping.pyx":79
+    /* "PioneerOA/mapping.pyx":81
  *             x = self.sensor[i].value * \
  *                 cos(self.sensor[i].angle + heading) + robotX
  *             y = self.sensor[i].value * \             # <<<<<<<<<<<<<<
  *                 sin(self.sensor[i].angle + heading) + robotY
  *             mX, mY = self.translate_to_matrix_position(x, y)
  */
-    __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->sensor), __pyx_v_i, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->sensor), __pyx_v_i, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_value); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 79, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_value); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 81, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "PioneerOA/mapping.pyx":80
+    /* "PioneerOA/mapping.pyx":82
  *                 cos(self.sensor[i].angle + heading) + robotX
  *             y = self.sensor[i].value * \
  *                 sin(self.sensor[i].angle + heading) + robotY             # <<<<<<<<<<<<<<
  *             mX, mY = self.translate_to_matrix_position(x, y)
  *             if mX < self.grid.shape[0] and mY < self.grid.shape[1]:
  */
-    __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->sensor), __pyx_v_i, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->sensor), __pyx_v_i, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_angle); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 80, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_angle); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_heading); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
+    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_heading); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_7 = PyNumber_Add(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 80, __pyx_L1_error)
+    __pyx_t_7 = PyNumber_Add(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 82, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_14 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_14 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 80, __pyx_L1_error)
+    __pyx_t_14 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_14 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 82, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = PyFloat_FromDouble(sin(__pyx_t_14)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 80, __pyx_L1_error)
+    __pyx_t_7 = PyFloat_FromDouble(sin(__pyx_t_14)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 82, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
 
-    /* "PioneerOA/mapping.pyx":79
+    /* "PioneerOA/mapping.pyx":81
  *             x = self.sensor[i].value * \
  *                 cos(self.sensor[i].angle + heading) + robotX
  *             y = self.sensor[i].value * \             # <<<<<<<<<<<<<<
  *                 sin(self.sensor[i].angle + heading) + robotY
  *             mX, mY = self.translate_to_matrix_position(x, y)
  */
-    __pyx_t_1 = PyNumber_Multiply(__pyx_t_10, __pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
+    __pyx_t_1 = PyNumber_Multiply(__pyx_t_10, __pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "PioneerOA/mapping.pyx":80
+    /* "PioneerOA/mapping.pyx":82
  *                 cos(self.sensor[i].angle + heading) + robotX
  *             y = self.sensor[i].value * \
  *                 sin(self.sensor[i].angle + heading) + robotY             # <<<<<<<<<<<<<<
  *             mX, mY = self.translate_to_matrix_position(x, y)
  *             if mX < self.grid.shape[0] and mY < self.grid.shape[1]:
  */
-    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_robotY); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 80, __pyx_L1_error)
+    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_robotY); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 82, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_10 = PyNumber_Add(__pyx_t_1, __pyx_t_7); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 80, __pyx_L1_error)
+    __pyx_t_10 = PyNumber_Add(__pyx_t_1, __pyx_t_7); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 82, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_14 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_14 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 80, __pyx_L1_error)
+    __pyx_t_14 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_14 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 82, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     __pyx_v_y = __pyx_t_14;
 
-    /* "PioneerOA/mapping.pyx":81
+    /* "PioneerOA/mapping.pyx":83
  *             y = self.sensor[i].value * \
  *                 sin(self.sensor[i].angle + heading) + robotY
  *             mX, mY = self.translate_to_matrix_position(x, y)             # <<<<<<<<<<<<<<
  *             if mX < self.grid.shape[0] and mY < self.grid.shape[1]:
  *                 cv = self.k * (self.max_read_distance -
  */
-    __pyx_t_10 = ((struct __pyx_vtabstruct_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self->__pyx_base.__pyx_vtab)->translate_to_matrix_position(__pyx_v_self, __pyx_v_x, __pyx_v_y, 0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 81, __pyx_L1_error)
+    __pyx_t_10 = ((struct __pyx_vtabstruct_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self->__pyx_base.__pyx_vtab)->translate_to_matrix_position(__pyx_v_self, __pyx_v_x, __pyx_v_y, 0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 83, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     if (likely(__pyx_t_10 != Py_None)) {
       PyObject* sequence = __pyx_t_10;
@@ -3848,7 +3871,7 @@ static PyObject *__pyx_f_9PioneerOA_7mapping_10PioneerMap_update_robot_position(
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 81, __pyx_L1_error)
+        __PYX_ERR(0, 83, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       __pyx_t_7 = PyTuple_GET_ITEM(sequence, 0); 
@@ -3856,174 +3879,149 @@ static PyObject *__pyx_f_9PioneerOA_7mapping_10PioneerMap_update_robot_position(
       __Pyx_INCREF(__pyx_t_7);
       __Pyx_INCREF(__pyx_t_1);
       #else
-      __pyx_t_7 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 81, __pyx_L1_error)
+      __pyx_t_7 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 83, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_1 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
+      __pyx_t_1 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       #endif
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     } else {
-      __Pyx_RaiseNoneNotIterableError(); __PYX_ERR(0, 81, __pyx_L1_error)
+      __Pyx_RaiseNoneNotIterableError(); __PYX_ERR(0, 83, __pyx_L1_error)
     }
-    __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_7); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 81, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_7); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 83, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_15 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_15 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 81, __pyx_L1_error)
+    __pyx_t_15 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_15 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 83, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_mX = __pyx_t_9;
     __pyx_v_mY = __pyx_t_15;
 
-    /* "PioneerOA/mapping.pyx":82
+    /* "PioneerOA/mapping.pyx":84
  *                 sin(self.sensor[i].angle + heading) + robotY
  *             mX, mY = self.translate_to_matrix_position(x, y)
  *             if mX < self.grid.shape[0] and mY < self.grid.shape[1]:             # <<<<<<<<<<<<<<
  *                 cv = self.k * (self.max_read_distance -
  *                                self.sensor[i].value) / \
  */
-    if (unlikely(!__pyx_v_self->grid.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 82, __pyx_L1_error)}
+    if (unlikely(!__pyx_v_self->grid.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 84, __pyx_L1_error)}
     __pyx_t_17 = ((__pyx_v_mX < (__pyx_v_self->grid.shape[0])) != 0);
     if (__pyx_t_17) {
     } else {
       __pyx_t_16 = __pyx_t_17;
       goto __pyx_L6_bool_binop_done;
     }
-    if (unlikely(!__pyx_v_self->grid.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 82, __pyx_L1_error)}
+    if (unlikely(!__pyx_v_self->grid.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 84, __pyx_L1_error)}
     __pyx_t_17 = ((__pyx_v_mY < (__pyx_v_self->grid.shape[1])) != 0);
     __pyx_t_16 = __pyx_t_17;
     __pyx_L6_bool_binop_done:;
     if (__pyx_t_16) {
 
-      /* "PioneerOA/mapping.pyx":83
+      /* "PioneerOA/mapping.pyx":85
  *             mX, mY = self.translate_to_matrix_position(x, y)
  *             if mX < self.grid.shape[0] and mY < self.grid.shape[1]:
  *                 cv = self.k * (self.max_read_distance -             # <<<<<<<<<<<<<<
  *                                self.sensor[i].value) / \
  *                      self.max_read_distance
  */
-      __pyx_t_10 = PyFloat_FromDouble(__pyx_v_self->k); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 83, __pyx_L1_error)
+      __pyx_t_10 = PyFloat_FromDouble(__pyx_v_self->k); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 85, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->max_read_distance); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
+      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->max_read_distance); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 85, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
 
-      /* "PioneerOA/mapping.pyx":84
+      /* "PioneerOA/mapping.pyx":86
  *             if mX < self.grid.shape[0] and mY < self.grid.shape[1]:
  *                 cv = self.k * (self.max_read_distance -
  *                                self.sensor[i].value) / \             # <<<<<<<<<<<<<<
  *                      self.max_read_distance
- *                 threshold = self.grid.max() / self.threshold_divider
+ *                 # threshold = self.grid_max / self.threshold_divider
  */
-      __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->sensor), __pyx_v_i, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 84, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->sensor), __pyx_v_i, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 86, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_value); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 84, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_value); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 86, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-
-      /* "PioneerOA/mapping.pyx":83
- *             mX, mY = self.translate_to_matrix_position(x, y)
- *             if mX < self.grid.shape[0] and mY < self.grid.shape[1]:
- *                 cv = self.k * (self.max_read_distance -             # <<<<<<<<<<<<<<
- *                                self.sensor[i].value) / \
- *                      self.max_read_distance
- */
-      __pyx_t_7 = PyNumber_Subtract(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 83, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = PyNumber_Multiply(__pyx_t_10, __pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 83, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
       /* "PioneerOA/mapping.pyx":85
+ *             mX, mY = self.translate_to_matrix_position(x, y)
+ *             if mX < self.grid.shape[0] and mY < self.grid.shape[1]:
+ *                 cv = self.k * (self.max_read_distance -             # <<<<<<<<<<<<<<
+ *                                self.sensor[i].value) / \
+ *                      self.max_read_distance
+ */
+      __pyx_t_7 = PyNumber_Subtract(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 85, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_2 = PyNumber_Multiply(__pyx_t_10, __pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 85, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+      /* "PioneerOA/mapping.pyx":87
  *                 cv = self.k * (self.max_read_distance -
  *                                self.sensor[i].value) / \
  *                      self.max_read_distance             # <<<<<<<<<<<<<<
- *                 threshold = self.grid.max() / self.threshold_divider
- *                 if cv > threshold:
+ *                 # threshold = self.grid_max / self.threshold_divider
+ *                 # threshold = self.grid.shape[0] * self.grid.shape[1]
  */
-      __pyx_t_7 = PyFloat_FromDouble(__pyx_v_self->max_read_distance); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 85, __pyx_L1_error)
+      __pyx_t_7 = PyFloat_FromDouble(__pyx_v_self->max_read_distance); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 87, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
 
-      /* "PioneerOA/mapping.pyx":84
+      /* "PioneerOA/mapping.pyx":86
  *             if mX < self.grid.shape[0] and mY < self.grid.shape[1]:
  *                 cv = self.k * (self.max_read_distance -
  *                                self.sensor[i].value) / \             # <<<<<<<<<<<<<<
  *                      self.max_read_distance
- *                 threshold = self.grid.max() / self.threshold_divider
+ *                 # threshold = self.grid_max / self.threshold_divider
  */
-      __pyx_t_10 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 84, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 86, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_14 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_14 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 84, __pyx_L1_error)
+      __pyx_t_14 = __pyx_PyFloat_AsDouble(__pyx_t_10); if (unlikely((__pyx_t_14 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 86, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       __pyx_v_cv = __pyx_t_14;
 
-      /* "PioneerOA/mapping.pyx":86
- *                                self.sensor[i].value) / \
- *                      self.max_read_distance
- *                 threshold = self.grid.max() / self.threshold_divider             # <<<<<<<<<<<<<<
- *                 if cv > threshold:
+      /* "PioneerOA/mapping.pyx":91
+ *                 # threshold = self.grid.shape[0] * self.grid.shape[1]
+ *                 # threshold = threshold * (1 + )
+ *                 if cv >= self.threshold:             # <<<<<<<<<<<<<<
  *                     self.grid[mX, mY] += cv
+ *                     self.threshold *= (1 + 0.1 * self.ratio)
  */
-      if (unlikely(!__pyx_v_self->grid.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 86, __pyx_L1_error)}
-      __pyx_t_7 = __pyx_memoryview_fromslice(__pyx_v_self->grid, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 86, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_max); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 86, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-        __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_2);
-        if (likely(__pyx_t_7)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-          __Pyx_INCREF(__pyx_t_7);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_2, function);
-        }
-      }
-      __pyx_t_10 = (__pyx_t_7) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_7) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
-      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-      if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 86, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->threshold_divider); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 86, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_7 = __Pyx_PyNumber_Divide(__pyx_t_10, __pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 86, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_14 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_14 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 86, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_v_threshold = __pyx_t_14;
-
-      /* "PioneerOA/mapping.pyx":87
- *                      self.max_read_distance
- *                 threshold = self.grid.max() / self.threshold_divider
- *                 if cv > threshold:             # <<<<<<<<<<<<<<
- *                     self.grid[mX, mY] += cv
- */
-      __pyx_t_16 = ((__pyx_v_cv > __pyx_v_threshold) != 0);
+      __pyx_t_16 = ((__pyx_v_cv >= __pyx_v_self->threshold) != 0);
       if (__pyx_t_16) {
 
-        /* "PioneerOA/mapping.pyx":88
- *                 threshold = self.grid.max() / self.threshold_divider
- *                 if cv > threshold:
+        /* "PioneerOA/mapping.pyx":92
+ *                 # threshold = threshold * (1 + )
+ *                 if cv >= self.threshold:
  *                     self.grid[mX, mY] += cv             # <<<<<<<<<<<<<<
+ *                     self.threshold *= (1 + 0.1 * self.ratio)
+ *                 # else:
  */
-        if (unlikely(!__pyx_v_self->grid.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 88, __pyx_L1_error)}
+        if (unlikely(!__pyx_v_self->grid.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(0, 92, __pyx_L1_error)}
         __pyx_t_18 = __pyx_v_mX;
         __pyx_t_19 = __pyx_v_mY;
         *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->grid.data + __pyx_t_18 * __pyx_v_self->grid.strides[0]) ) + __pyx_t_19 * __pyx_v_self->grid.strides[1]) )) += __pyx_v_cv;
 
-        /* "PioneerOA/mapping.pyx":87
- *                      self.max_read_distance
- *                 threshold = self.grid.max() / self.threshold_divider
- *                 if cv > threshold:             # <<<<<<<<<<<<<<
+        /* "PioneerOA/mapping.pyx":93
+ *                 if cv >= self.threshold:
  *                     self.grid[mX, mY] += cv
+ *                     self.threshold *= (1 + 0.1 * self.ratio)             # <<<<<<<<<<<<<<
+ *                 # else:
+ *                 #     self.threshold *= (1 - 0.1 * self.ratio)
+ */
+        __pyx_v_self->threshold = (__pyx_v_self->threshold * (1.0 + (0.1 * __pyx_v_self->ratio)));
+
+        /* "PioneerOA/mapping.pyx":91
+ *                 # threshold = self.grid.shape[0] * self.grid.shape[1]
+ *                 # threshold = threshold * (1 + )
+ *                 if cv >= self.threshold:             # <<<<<<<<<<<<<<
+ *                     self.grid[mX, mY] += cv
+ *                     self.threshold *= (1 + 0.1 * self.ratio)
  */
       }
 
-      /* "PioneerOA/mapping.pyx":82
+      /* "PioneerOA/mapping.pyx":84
  *                 sin(self.sensor[i].angle + heading) + robotY
  *             mX, mY = self.translate_to_matrix_position(x, y)
  *             if mX < self.grid.shape[0] and mY < self.grid.shape[1]:             # <<<<<<<<<<<<<<
@@ -4033,9 +4031,9 @@ static PyObject *__pyx_f_9PioneerOA_7mapping_10PioneerMap_update_robot_position(
     }
   }
 
-  /* "PioneerOA/mapping.pyx":69
+  /* "PioneerOA/mapping.pyx":71
  *     @cython.locals(x=cython.double, y=cython.double, mX=cython.int,
- *                    mY=cython.int, cv=cython.double, threshold=cython.double)
+ *                    mY=cython.int, cv=cython.double)
  *     cpdef update_robot_position(self,             # <<<<<<<<<<<<<<
  *                                 double robotX,
  *                                 double robotY,
@@ -4099,23 +4097,23 @@ static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_5update_robot_positio
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_robotY)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("update_robot_position", 1, 4, 4, 1); __PYX_ERR(0, 69, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("update_robot_position", 1, 4, 4, 1); __PYX_ERR(0, 71, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_sonar)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("update_robot_position", 1, 4, 4, 2); __PYX_ERR(0, 69, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("update_robot_position", 1, 4, 4, 2); __PYX_ERR(0, 71, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_heading)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("update_robot_position", 1, 4, 4, 3); __PYX_ERR(0, 69, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("update_robot_position", 1, 4, 4, 3); __PYX_ERR(0, 71, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "update_robot_position") < 0)) __PYX_ERR(0, 69, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "update_robot_position") < 0)) __PYX_ERR(0, 71, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -4125,14 +4123,14 @@ static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_5update_robot_positio
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
       values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
     }
-    __pyx_v_robotX = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_robotX == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 70, __pyx_L3_error)
-    __pyx_v_robotY = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_robotY == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 71, __pyx_L3_error)
-    __pyx_v_sonar = __Pyx_PyObject_to_MemoryviewSlice_ds_double(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_sonar.memview)) __PYX_ERR(0, 72, __pyx_L3_error)
-    __pyx_v_heading = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_heading == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 73, __pyx_L3_error)
+    __pyx_v_robotX = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_robotX == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 72, __pyx_L3_error)
+    __pyx_v_robotY = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_robotY == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 73, __pyx_L3_error)
+    __pyx_v_sonar = __Pyx_PyObject_to_MemoryviewSlice_ds_double(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_sonar.memview)) __PYX_ERR(0, 74, __pyx_L3_error)
+    __pyx_v_heading = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_heading == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 75, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("update_robot_position", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 69, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("update_robot_position", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 71, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.update_robot_position", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4151,8 +4149,8 @@ static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_4update_robot_positio
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("update_robot_position", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_sonar.memview)) { __Pyx_RaiseUnboundLocalError("sonar"); __PYX_ERR(0, 69, __pyx_L1_error) }
-  __pyx_t_1 = __pyx_f_9PioneerOA_7mapping_10PioneerMap_update_robot_position(__pyx_v_self, __pyx_v_robotX, __pyx_v_robotY, __pyx_v_sonar, __pyx_v_heading, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 69, __pyx_L1_error)
+  if (unlikely(!__pyx_v_sonar.memview)) { __Pyx_RaiseUnboundLocalError("sonar"); __PYX_ERR(0, 71, __pyx_L1_error) }
+  __pyx_t_1 = __pyx_f_9PioneerOA_7mapping_10PioneerMap_update_robot_position(__pyx_v_self, __pyx_v_robotX, __pyx_v_robotY, __pyx_v_sonar, __pyx_v_heading, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 71, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4173,282 +4171,10 @@ static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_4update_robot_positio
 /* "PioneerOA/mapping.pxd":24
  * 
  * cdef class PioneerMap(Pioneer):
- *     cdef public int X0, Y0, w, h, mw, mh             # <<<<<<<<<<<<<<
+ *     cdef public int mw, mh             # <<<<<<<<<<<<<<
  *     cdef public double[:, :] grid
- *     cdef public double k, heading, max_read_distance, min, max, \
+ *     cdef public double k, heading, max_read_distance, min, max, ratio, \
  */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_2X0_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_2X0_1__get__(PyObject *__pyx_v_self) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_9PioneerOA_7mapping_10PioneerMap_2X0___get__(((struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_2X0___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->X0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 24, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.X0.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_2X0_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_2X0_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_9PioneerOA_7mapping_10PioneerMap_2X0_2__set__(((struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self), ((PyObject *)__pyx_v_value));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_2X0_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 24, __pyx_L1_error)
-  __pyx_v_self->X0 = __pyx_t_1;
-
-  /* function exit code */
-  __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.X0.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_2Y0_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_2Y0_1__get__(PyObject *__pyx_v_self) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_9PioneerOA_7mapping_10PioneerMap_2Y0___get__(((struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_2Y0___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->Y0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 24, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.Y0.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_2Y0_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_2Y0_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_9PioneerOA_7mapping_10PioneerMap_2Y0_2__set__(((struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self), ((PyObject *)__pyx_v_value));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_2Y0_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 24, __pyx_L1_error)
-  __pyx_v_self->Y0 = __pyx_t_1;
-
-  /* function exit code */
-  __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.Y0.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_1w_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_1w_1__get__(PyObject *__pyx_v_self) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_9PioneerOA_7mapping_10PioneerMap_1w___get__(((struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_1w___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->w); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 24, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.w.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_1w_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_1w_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_9PioneerOA_7mapping_10PioneerMap_1w_2__set__(((struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self), ((PyObject *)__pyx_v_value));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_1w_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 24, __pyx_L1_error)
-  __pyx_v_self->w = __pyx_t_1;
-
-  /* function exit code */
-  __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.w.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_1h_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_1h_1__get__(PyObject *__pyx_v_self) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_9PioneerOA_7mapping_10PioneerMap_1h___get__(((struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_1h___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->h); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 24, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.h.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_1h_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_1h_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_9PioneerOA_7mapping_10PioneerMap_1h_2__set__(((struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self), ((PyObject *)__pyx_v_value));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_1h_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 24, __pyx_L1_error)
-  __pyx_v_self->h = __pyx_t_1;
-
-  /* function exit code */
-  __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.h.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
 
 /* Python wrapper */
 static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_2mw_1__get__(PyObject *__pyx_v_self); /*proto*/
@@ -4588,10 +4314,10 @@ static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_2mh_2__set__(struct __pyx_o
 
 /* "PioneerOA/mapping.pxd":25
  * cdef class PioneerMap(Pioneer):
- *     cdef public int X0, Y0, w, h, mw, mh
+ *     cdef public int mw, mh
  *     cdef public double[:, :] grid             # <<<<<<<<<<<<<<
- *     cdef public double k, heading, max_read_distance, min, max, \
- *         threshold_divider
+ *     cdef public double k, heading, max_read_distance, min, max, ratio, \
+ *         grid_max, threshold, X0, Y0, w, h
  */
 
 /* Python wrapper */
@@ -4668,10 +4394,10 @@ static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_4grid_2__set__(struct __pyx
 }
 
 /* "PioneerOA/mapping.pxd":26
- *     cdef public int X0, Y0, w, h, mw, mh
+ *     cdef public int mw, mh
  *     cdef public double[:, :] grid
- *     cdef public double k, heading, max_read_distance, min, max, \             # <<<<<<<<<<<<<<
- *         threshold_divider
+ *     cdef public double k, heading, max_read_distance, min, max, ratio, \             # <<<<<<<<<<<<<<
+ *         grid_max, threshold, X0, Y0, w, h
  *     cdef public PioneerSensor sensor
  */
 
@@ -5015,34 +4741,26 @@ static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_3max_2__set__(struct __pyx_
   return __pyx_r;
 }
 
-/* "PioneerOA/mapping.pxd":27
- *     cdef public double[:, :] grid
- *     cdef public double k, heading, max_read_distance, min, max, \
- *         threshold_divider             # <<<<<<<<<<<<<<
- *     cdef public PioneerSensor sensor
- * 
- */
-
 /* Python wrapper */
-static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_17threshold_divider_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_17threshold_divider_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_5ratio_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_5ratio_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_9PioneerOA_7mapping_10PioneerMap_17threshold_divider___get__(((struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self));
+  __pyx_r = __pyx_pf_9PioneerOA_7mapping_10PioneerMap_5ratio___get__(((struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_17threshold_divider___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self) {
+static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_5ratio___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->threshold_divider); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 27, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->ratio); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 26, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -5051,7 +4769,7 @@ static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_17threshold_divider__
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.threshold_divider.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.ratio.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -5060,31 +4778,447 @@ static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_17threshold_divider__
 }
 
 /* Python wrapper */
-static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_17threshold_divider_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_17threshold_divider_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_5ratio_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_5ratio_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_9PioneerOA_7mapping_10PioneerMap_17threshold_divider_2__set__(((struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_9PioneerOA_7mapping_10PioneerMap_5ratio_2__set__(((struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_17threshold_divider_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_5ratio_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 27, __pyx_L1_error)
-  __pyx_v_self->threshold_divider = __pyx_t_1;
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 26, __pyx_L1_error)
+  __pyx_v_self->ratio = __pyx_t_1;
 
   /* function exit code */
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.threshold_divider.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.ratio.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "PioneerOA/mapping.pxd":27
+ *     cdef public double[:, :] grid
+ *     cdef public double k, heading, max_read_distance, min, max, ratio, \
+ *         grid_max, threshold, X0, Y0, w, h             # <<<<<<<<<<<<<<
+ *     cdef public PioneerSensor sensor
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_8grid_max_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_8grid_max_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_9PioneerOA_7mapping_10PioneerMap_8grid_max___get__(((struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_8grid_max___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->grid_max); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 27, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.grid_max.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_8grid_max_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_8grid_max_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_9PioneerOA_7mapping_10PioneerMap_8grid_max_2__set__(((struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_8grid_max_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  double __pyx_t_1;
+  __Pyx_RefNannySetupContext("__set__", 0);
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 27, __pyx_L1_error)
+  __pyx_v_self->grid_max = __pyx_t_1;
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.grid_max.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_9threshold_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_9threshold_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_9PioneerOA_7mapping_10PioneerMap_9threshold___get__(((struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_9threshold___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->threshold); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 27, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.threshold.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_9threshold_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_9threshold_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_9PioneerOA_7mapping_10PioneerMap_9threshold_2__set__(((struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_9threshold_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  double __pyx_t_1;
+  __Pyx_RefNannySetupContext("__set__", 0);
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 27, __pyx_L1_error)
+  __pyx_v_self->threshold = __pyx_t_1;
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.threshold.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_2X0_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_2X0_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_9PioneerOA_7mapping_10PioneerMap_2X0___get__(((struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_2X0___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->X0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 27, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.X0.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_2X0_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_2X0_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_9PioneerOA_7mapping_10PioneerMap_2X0_2__set__(((struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_2X0_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  double __pyx_t_1;
+  __Pyx_RefNannySetupContext("__set__", 0);
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 27, __pyx_L1_error)
+  __pyx_v_self->X0 = __pyx_t_1;
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.X0.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_2Y0_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_2Y0_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_9PioneerOA_7mapping_10PioneerMap_2Y0___get__(((struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_2Y0___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->Y0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 27, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.Y0.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_2Y0_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_2Y0_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_9PioneerOA_7mapping_10PioneerMap_2Y0_2__set__(((struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_2Y0_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  double __pyx_t_1;
+  __Pyx_RefNannySetupContext("__set__", 0);
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 27, __pyx_L1_error)
+  __pyx_v_self->Y0 = __pyx_t_1;
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.Y0.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_1w_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_1w_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_9PioneerOA_7mapping_10PioneerMap_1w___get__(((struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_1w___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->w); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 27, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.w.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_1w_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_1w_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_9PioneerOA_7mapping_10PioneerMap_1w_2__set__(((struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_1w_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  double __pyx_t_1;
+  __Pyx_RefNannySetupContext("__set__", 0);
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 27, __pyx_L1_error)
+  __pyx_v_self->w = __pyx_t_1;
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.w.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_1h_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_9PioneerOA_7mapping_10PioneerMap_1h_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_9PioneerOA_7mapping_10PioneerMap_1h___get__(((struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_1h___get__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->h); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 27, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.h.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_1h_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_9PioneerOA_7mapping_10PioneerMap_1h_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_9PioneerOA_7mapping_10PioneerMap_1h_2__set__(((struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_1h_2__set__(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  double __pyx_t_1;
+  __Pyx_RefNannySetupContext("__set__", 0);
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 27, __pyx_L1_error)
+  __pyx_v_self->h = __pyx_t_1;
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.h.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -5092,8 +5226,8 @@ static int __pyx_pf_9PioneerOA_7mapping_10PioneerMap_17threshold_divider_2__set_
 }
 
 /* "PioneerOA/mapping.pxd":28
- *     cdef public double k, heading, max_read_distance, min, max, \
- *         threshold_divider
+ *     cdef public double k, heading, max_read_distance, min, max, ratio, \
+ *         grid_max, threshold, X0, Y0, w, h
  *     cdef public PioneerSensor sensor             # <<<<<<<<<<<<<<
  * 
  *     cpdef tuple translate_to_matrix_position(self, double x, double y)
@@ -5235,79 +5369,89 @@ static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_6__reduce_cython__(st
   PyObject *__pyx_t_12 = NULL;
   PyObject *__pyx_t_13 = NULL;
   PyObject *__pyx_t_14 = NULL;
-  int __pyx_t_15;
-  int __pyx_t_16;
+  PyObject *__pyx_t_15 = NULL;
+  PyObject *__pyx_t_16 = NULL;
   int __pyx_t_17;
+  int __pyx_t_18;
+  int __pyx_t_19;
   __Pyx_RefNannySetupContext("__reduce_cython__", 0);
 
   /* "(tree fragment)":5
  *     cdef object _dict
  *     cdef bint use_setstate
- *     state = (self.X0, self.Y0, self.grid, self.h, self.heading, self.k, self.max, self.max_read_distance, self.mh, self.min, self.mw, self.sensor, self.sensors, self.threshold_divider, self.w)             # <<<<<<<<<<<<<<
+ *     state = (self.X0, self.Y0, self.grid, self.grid_max, self.h, self.heading, self.k, self.max, self.max_read_distance, self.mh, self.min, self.mw, self.ratio, self.sensor, self.sensors, self.threshold, self.w)             # <<<<<<<<<<<<<<
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:
  */
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->X0); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->X0); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->Y0); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->Y0); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (unlikely(!__pyx_v_self->grid.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");__PYX_ERR(2, 5, __pyx_L1_error)}
   __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_self->grid, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_self->h); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_self->grid_max); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_self->heading); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_self->h); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = PyFloat_FromDouble(__pyx_v_self->k); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_6 = PyFloat_FromDouble(__pyx_v_self->heading); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = PyFloat_FromDouble(__pyx_v_self->max); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_7 = PyFloat_FromDouble(__pyx_v_self->k); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = PyFloat_FromDouble(__pyx_v_self->max_read_distance); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_8 = PyFloat_FromDouble(__pyx_v_self->max); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_9 = __Pyx_PyInt_From_int(__pyx_v_self->mh); if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_9 = PyFloat_FromDouble(__pyx_v_self->max_read_distance); if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_10 = PyFloat_FromDouble(__pyx_v_self->min); if (unlikely(!__pyx_t_10)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyInt_From_int(__pyx_v_self->mh); if (unlikely(!__pyx_t_10)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  __pyx_t_11 = __Pyx_PyInt_From_int(__pyx_v_self->mw); if (unlikely(!__pyx_t_11)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_11 = PyFloat_FromDouble(__pyx_v_self->min); if (unlikely(!__pyx_t_11)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
-  __pyx_t_12 = PyFloat_FromDouble(__pyx_v_self->threshold_divider); if (unlikely(!__pyx_t_12)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_PyInt_From_int(__pyx_v_self->mw); if (unlikely(!__pyx_t_12)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
-  __pyx_t_13 = __Pyx_PyInt_From_int(__pyx_v_self->w); if (unlikely(!__pyx_t_13)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_13 = PyFloat_FromDouble(__pyx_v_self->ratio); if (unlikely(!__pyx_t_13)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
-  __pyx_t_14 = PyTuple_New(15); if (unlikely(!__pyx_t_14)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __pyx_t_14 = PyFloat_FromDouble(__pyx_v_self->threshold); if (unlikely(!__pyx_t_14)) __PYX_ERR(2, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
+  __pyx_t_15 = PyFloat_FromDouble(__pyx_v_self->w); if (unlikely(!__pyx_t_15)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_15);
+  __pyx_t_16 = PyTuple_New(17); if (unlikely(!__pyx_t_16)) __PYX_ERR(2, 5, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_16);
   __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_16, 0, __pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_2);
-  PyTuple_SET_ITEM(__pyx_t_14, 1, __pyx_t_2);
+  PyTuple_SET_ITEM(__pyx_t_16, 1, __pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_3);
-  PyTuple_SET_ITEM(__pyx_t_14, 2, __pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_16, 2, __pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_4);
-  PyTuple_SET_ITEM(__pyx_t_14, 3, __pyx_t_4);
+  PyTuple_SET_ITEM(__pyx_t_16, 3, __pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_5);
-  PyTuple_SET_ITEM(__pyx_t_14, 4, __pyx_t_5);
+  PyTuple_SET_ITEM(__pyx_t_16, 4, __pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_6);
-  PyTuple_SET_ITEM(__pyx_t_14, 5, __pyx_t_6);
+  PyTuple_SET_ITEM(__pyx_t_16, 5, __pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_7);
-  PyTuple_SET_ITEM(__pyx_t_14, 6, __pyx_t_7);
+  PyTuple_SET_ITEM(__pyx_t_16, 6, __pyx_t_7);
   __Pyx_GIVEREF(__pyx_t_8);
-  PyTuple_SET_ITEM(__pyx_t_14, 7, __pyx_t_8);
+  PyTuple_SET_ITEM(__pyx_t_16, 7, __pyx_t_8);
   __Pyx_GIVEREF(__pyx_t_9);
-  PyTuple_SET_ITEM(__pyx_t_14, 8, __pyx_t_9);
+  PyTuple_SET_ITEM(__pyx_t_16, 8, __pyx_t_9);
   __Pyx_GIVEREF(__pyx_t_10);
-  PyTuple_SET_ITEM(__pyx_t_14, 9, __pyx_t_10);
+  PyTuple_SET_ITEM(__pyx_t_16, 9, __pyx_t_10);
   __Pyx_GIVEREF(__pyx_t_11);
-  PyTuple_SET_ITEM(__pyx_t_14, 10, __pyx_t_11);
+  PyTuple_SET_ITEM(__pyx_t_16, 10, __pyx_t_11);
+  __Pyx_GIVEREF(__pyx_t_12);
+  PyTuple_SET_ITEM(__pyx_t_16, 11, __pyx_t_12);
+  __Pyx_GIVEREF(__pyx_t_13);
+  PyTuple_SET_ITEM(__pyx_t_16, 12, __pyx_t_13);
   __Pyx_INCREF(((PyObject *)__pyx_v_self->sensor));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self->sensor));
-  PyTuple_SET_ITEM(__pyx_t_14, 11, ((PyObject *)__pyx_v_self->sensor));
+  PyTuple_SET_ITEM(__pyx_t_16, 13, ((PyObject *)__pyx_v_self->sensor));
   __Pyx_INCREF(((PyObject *)__pyx_v_self->__pyx_base.sensors));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self->__pyx_base.sensors));
-  PyTuple_SET_ITEM(__pyx_t_14, 12, ((PyObject *)__pyx_v_self->__pyx_base.sensors));
-  __Pyx_GIVEREF(__pyx_t_12);
-  PyTuple_SET_ITEM(__pyx_t_14, 13, __pyx_t_12);
-  __Pyx_GIVEREF(__pyx_t_13);
-  PyTuple_SET_ITEM(__pyx_t_14, 14, __pyx_t_13);
+  PyTuple_SET_ITEM(__pyx_t_16, 14, ((PyObject *)__pyx_v_self->__pyx_base.sensors));
+  __Pyx_GIVEREF(__pyx_t_14);
+  PyTuple_SET_ITEM(__pyx_t_16, 15, __pyx_t_14);
+  __Pyx_GIVEREF(__pyx_t_15);
+  PyTuple_SET_ITEM(__pyx_t_16, 16, __pyx_t_15);
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
   __pyx_t_3 = 0;
@@ -5321,31 +5465,33 @@ static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_6__reduce_cython__(st
   __pyx_t_11 = 0;
   __pyx_t_12 = 0;
   __pyx_t_13 = 0;
-  __pyx_v_state = ((PyObject*)__pyx_t_14);
   __pyx_t_14 = 0;
+  __pyx_t_15 = 0;
+  __pyx_v_state = ((PyObject*)__pyx_t_16);
+  __pyx_t_16 = 0;
 
   /* "(tree fragment)":6
  *     cdef bint use_setstate
- *     state = (self.X0, self.Y0, self.grid, self.h, self.heading, self.k, self.max, self.max_read_distance, self.mh, self.min, self.mw, self.sensor, self.sensors, self.threshold_divider, self.w)
+ *     state = (self.X0, self.Y0, self.grid, self.grid_max, self.h, self.heading, self.k, self.max, self.max_read_distance, self.mh, self.min, self.mw, self.ratio, self.sensor, self.sensors, self.threshold, self.w)
  *     _dict = getattr(self, '__dict__', None)             # <<<<<<<<<<<<<<
  *     if _dict is not None:
  *         state += (_dict,)
  */
-  __pyx_t_14 = __Pyx_GetAttr3(((PyObject *)__pyx_v_self), __pyx_n_s_dict, Py_None); if (unlikely(!__pyx_t_14)) __PYX_ERR(2, 6, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_14);
-  __pyx_v__dict = __pyx_t_14;
-  __pyx_t_14 = 0;
+  __pyx_t_16 = __Pyx_GetAttr3(((PyObject *)__pyx_v_self), __pyx_n_s_dict, Py_None); if (unlikely(!__pyx_t_16)) __PYX_ERR(2, 6, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_16);
+  __pyx_v__dict = __pyx_t_16;
+  __pyx_t_16 = 0;
 
   /* "(tree fragment)":7
- *     state = (self.X0, self.Y0, self.grid, self.h, self.heading, self.k, self.max, self.max_read_distance, self.mh, self.min, self.mw, self.sensor, self.sensors, self.threshold_divider, self.w)
+ *     state = (self.X0, self.Y0, self.grid, self.grid_max, self.h, self.heading, self.k, self.max, self.max_read_distance, self.mh, self.min, self.mw, self.ratio, self.sensor, self.sensors, self.threshold, self.w)
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:             # <<<<<<<<<<<<<<
  *         state += (_dict,)
  *         use_setstate = True
  */
-  __pyx_t_15 = (__pyx_v__dict != Py_None);
-  __pyx_t_16 = (__pyx_t_15 != 0);
-  if (__pyx_t_16) {
+  __pyx_t_17 = (__pyx_v__dict != Py_None);
+  __pyx_t_18 = (__pyx_t_17 != 0);
+  if (__pyx_t_18) {
 
     /* "(tree fragment)":8
  *     _dict = getattr(self, '__dict__', None)
@@ -5354,16 +5500,16 @@ static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_6__reduce_cython__(st
  *         use_setstate = True
  *     else:
  */
-    __pyx_t_14 = PyTuple_New(1); if (unlikely(!__pyx_t_14)) __PYX_ERR(2, 8, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_14);
+    __pyx_t_16 = PyTuple_New(1); if (unlikely(!__pyx_t_16)) __PYX_ERR(2, 8, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_16);
     __Pyx_INCREF(__pyx_v__dict);
     __Pyx_GIVEREF(__pyx_v__dict);
-    PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_v__dict);
-    __pyx_t_13 = PyNumber_InPlaceAdd(__pyx_v_state, __pyx_t_14); if (unlikely(!__pyx_t_13)) __PYX_ERR(2, 8, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_13);
-    __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    __Pyx_DECREF_SET(__pyx_v_state, ((PyObject*)__pyx_t_13));
-    __pyx_t_13 = 0;
+    PyTuple_SET_ITEM(__pyx_t_16, 0, __pyx_v__dict);
+    __pyx_t_15 = PyNumber_InPlaceAdd(__pyx_v_state, __pyx_t_16); if (unlikely(!__pyx_t_15)) __PYX_ERR(2, 8, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_15);
+    __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+    __Pyx_DECREF_SET(__pyx_v_state, ((PyObject*)__pyx_t_15));
+    __pyx_t_15 = 0;
 
     /* "(tree fragment)":9
  *     if _dict is not None:
@@ -5375,7 +5521,7 @@ static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_6__reduce_cython__(st
     __pyx_v_use_setstate = 1;
 
     /* "(tree fragment)":7
- *     state = (self.X0, self.Y0, self.grid, self.h, self.heading, self.k, self.max, self.max_read_distance, self.mh, self.min, self.mw, self.sensor, self.sensors, self.threshold_divider, self.w)
+ *     state = (self.X0, self.Y0, self.grid, self.grid_max, self.h, self.heading, self.k, self.max, self.max_read_distance, self.mh, self.min, self.mw, self.ratio, self.sensor, self.sensors, self.threshold, self.w)
  *     _dict = getattr(self, '__dict__', None)
  *     if _dict is not None:             # <<<<<<<<<<<<<<
  *         state += (_dict,)
@@ -5389,21 +5535,21 @@ static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_6__reduce_cython__(st
  *     else:
  *         use_setstate = self.sensor is not None or self.sensors is not None             # <<<<<<<<<<<<<<
  *     if use_setstate:
- *         return __pyx_unpickle_PioneerMap, (type(self), 0x7c748b8, None), state
+ *         return __pyx_unpickle_PioneerMap, (type(self), 0xc670db8, None), state
  */
   /*else*/ {
-    __pyx_t_15 = (((PyObject *)__pyx_v_self->sensor) != Py_None);
-    __pyx_t_17 = (__pyx_t_15 != 0);
-    if (!__pyx_t_17) {
+    __pyx_t_17 = (((PyObject *)__pyx_v_self->sensor) != Py_None);
+    __pyx_t_19 = (__pyx_t_17 != 0);
+    if (!__pyx_t_19) {
     } else {
-      __pyx_t_16 = __pyx_t_17;
+      __pyx_t_18 = __pyx_t_19;
       goto __pyx_L4_bool_binop_done;
     }
-    __pyx_t_17 = (((PyObject *)__pyx_v_self->__pyx_base.sensors) != Py_None);
-    __pyx_t_15 = (__pyx_t_17 != 0);
-    __pyx_t_16 = __pyx_t_15;
+    __pyx_t_19 = (((PyObject *)__pyx_v_self->__pyx_base.sensors) != Py_None);
+    __pyx_t_17 = (__pyx_t_19 != 0);
+    __pyx_t_18 = __pyx_t_17;
     __pyx_L4_bool_binop_done:;
-    __pyx_v_use_setstate = __pyx_t_16;
+    __pyx_v_use_setstate = __pyx_t_18;
   }
   __pyx_L3:;
 
@@ -5411,89 +5557,89 @@ static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_6__reduce_cython__(st
  *     else:
  *         use_setstate = self.sensor is not None or self.sensors is not None
  *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_PioneerMap, (type(self), 0x7c748b8, None), state
+ *         return __pyx_unpickle_PioneerMap, (type(self), 0xc670db8, None), state
  *     else:
  */
-  __pyx_t_16 = (__pyx_v_use_setstate != 0);
-  if (__pyx_t_16) {
+  __pyx_t_18 = (__pyx_v_use_setstate != 0);
+  if (__pyx_t_18) {
 
     /* "(tree fragment)":13
  *         use_setstate = self.sensor is not None or self.sensors is not None
  *     if use_setstate:
- *         return __pyx_unpickle_PioneerMap, (type(self), 0x7c748b8, None), state             # <<<<<<<<<<<<<<
+ *         return __pyx_unpickle_PioneerMap, (type(self), 0xc670db8, None), state             # <<<<<<<<<<<<<<
  *     else:
- *         return __pyx_unpickle_PioneerMap, (type(self), 0x7c748b8, state)
+ *         return __pyx_unpickle_PioneerMap, (type(self), 0xc670db8, state)
  */
     __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_13, __pyx_n_s_pyx_unpickle_PioneerMap); if (unlikely(!__pyx_t_13)) __PYX_ERR(2, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_13);
-    __pyx_t_14 = PyTuple_New(3); if (unlikely(!__pyx_t_14)) __PYX_ERR(2, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_14);
+    __Pyx_GetModuleGlobalName(__pyx_t_15, __pyx_n_s_pyx_unpickle_PioneerMap); if (unlikely(!__pyx_t_15)) __PYX_ERR(2, 13, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_15);
+    __pyx_t_16 = PyTuple_New(3); if (unlikely(!__pyx_t_16)) __PYX_ERR(2, 13, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_16);
     __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    PyTuple_SET_ITEM(__pyx_t_14, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_130500792);
-    __Pyx_GIVEREF(__pyx_int_130500792);
-    PyTuple_SET_ITEM(__pyx_t_14, 1, __pyx_int_130500792);
+    PyTuple_SET_ITEM(__pyx_t_16, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
+    __Pyx_INCREF(__pyx_int_208080312);
+    __Pyx_GIVEREF(__pyx_int_208080312);
+    PyTuple_SET_ITEM(__pyx_t_16, 1, __pyx_int_208080312);
     __Pyx_INCREF(Py_None);
     __Pyx_GIVEREF(Py_None);
-    PyTuple_SET_ITEM(__pyx_t_14, 2, Py_None);
-    __pyx_t_12 = PyTuple_New(3); if (unlikely(!__pyx_t_12)) __PYX_ERR(2, 13, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_12);
-    __Pyx_GIVEREF(__pyx_t_13);
-    PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_13);
-    __Pyx_GIVEREF(__pyx_t_14);
-    PyTuple_SET_ITEM(__pyx_t_12, 1, __pyx_t_14);
+    PyTuple_SET_ITEM(__pyx_t_16, 2, Py_None);
+    __pyx_t_14 = PyTuple_New(3); if (unlikely(!__pyx_t_14)) __PYX_ERR(2, 13, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_14);
+    __Pyx_GIVEREF(__pyx_t_15);
+    PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_15);
+    __Pyx_GIVEREF(__pyx_t_16);
+    PyTuple_SET_ITEM(__pyx_t_14, 1, __pyx_t_16);
     __Pyx_INCREF(__pyx_v_state);
     __Pyx_GIVEREF(__pyx_v_state);
-    PyTuple_SET_ITEM(__pyx_t_12, 2, __pyx_v_state);
-    __pyx_t_13 = 0;
+    PyTuple_SET_ITEM(__pyx_t_14, 2, __pyx_v_state);
+    __pyx_t_15 = 0;
+    __pyx_t_16 = 0;
+    __pyx_r = __pyx_t_14;
     __pyx_t_14 = 0;
-    __pyx_r = __pyx_t_12;
-    __pyx_t_12 = 0;
     goto __pyx_L0;
 
     /* "(tree fragment)":12
  *     else:
  *         use_setstate = self.sensor is not None or self.sensors is not None
  *     if use_setstate:             # <<<<<<<<<<<<<<
- *         return __pyx_unpickle_PioneerMap, (type(self), 0x7c748b8, None), state
+ *         return __pyx_unpickle_PioneerMap, (type(self), 0xc670db8, None), state
  *     else:
  */
   }
 
   /* "(tree fragment)":15
- *         return __pyx_unpickle_PioneerMap, (type(self), 0x7c748b8, None), state
+ *         return __pyx_unpickle_PioneerMap, (type(self), 0xc670db8, None), state
  *     else:
- *         return __pyx_unpickle_PioneerMap, (type(self), 0x7c748b8, state)             # <<<<<<<<<<<<<<
+ *         return __pyx_unpickle_PioneerMap, (type(self), 0xc670db8, state)             # <<<<<<<<<<<<<<
  * def __setstate_cython__(self, __pyx_state):
  *     __pyx_unpickle_PioneerMap__set_state(self, __pyx_state)
  */
   /*else*/ {
     __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_12, __pyx_n_s_pyx_unpickle_PioneerMap); if (unlikely(!__pyx_t_12)) __PYX_ERR(2, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_12);
-    __pyx_t_14 = PyTuple_New(3); if (unlikely(!__pyx_t_14)) __PYX_ERR(2, 15, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_14, __pyx_n_s_pyx_unpickle_PioneerMap); if (unlikely(!__pyx_t_14)) __PYX_ERR(2, 15, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_14);
+    __pyx_t_16 = PyTuple_New(3); if (unlikely(!__pyx_t_16)) __PYX_ERR(2, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_16);
     __Pyx_INCREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
     __Pyx_GIVEREF(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    PyTuple_SET_ITEM(__pyx_t_14, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
-    __Pyx_INCREF(__pyx_int_130500792);
-    __Pyx_GIVEREF(__pyx_int_130500792);
-    PyTuple_SET_ITEM(__pyx_t_14, 1, __pyx_int_130500792);
+    PyTuple_SET_ITEM(__pyx_t_16, 0, ((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))));
+    __Pyx_INCREF(__pyx_int_208080312);
+    __Pyx_GIVEREF(__pyx_int_208080312);
+    PyTuple_SET_ITEM(__pyx_t_16, 1, __pyx_int_208080312);
     __Pyx_INCREF(__pyx_v_state);
     __Pyx_GIVEREF(__pyx_v_state);
-    PyTuple_SET_ITEM(__pyx_t_14, 2, __pyx_v_state);
-    __pyx_t_13 = PyTuple_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(2, 15, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_13);
-    __Pyx_GIVEREF(__pyx_t_12);
-    PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_12);
+    PyTuple_SET_ITEM(__pyx_t_16, 2, __pyx_v_state);
+    __pyx_t_15 = PyTuple_New(2); if (unlikely(!__pyx_t_15)) __PYX_ERR(2, 15, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_15);
     __Pyx_GIVEREF(__pyx_t_14);
-    PyTuple_SET_ITEM(__pyx_t_13, 1, __pyx_t_14);
-    __pyx_t_12 = 0;
+    PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_t_14);
+    __Pyx_GIVEREF(__pyx_t_16);
+    PyTuple_SET_ITEM(__pyx_t_15, 1, __pyx_t_16);
     __pyx_t_14 = 0;
-    __pyx_r = __pyx_t_13;
-    __pyx_t_13 = 0;
+    __pyx_t_16 = 0;
+    __pyx_r = __pyx_t_15;
+    __pyx_t_15 = 0;
     goto __pyx_L0;
   }
 
@@ -5519,6 +5665,8 @@ static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_6__reduce_cython__(st
   __Pyx_XDECREF(__pyx_t_12);
   __Pyx_XDECREF(__pyx_t_13);
   __Pyx_XDECREF(__pyx_t_14);
+  __Pyx_XDECREF(__pyx_t_15);
+  __Pyx_XDECREF(__pyx_t_16);
   __Pyx_AddTraceback("PioneerOA.mapping.PioneerMap.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -5531,7 +5679,7 @@ static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_6__reduce_cython__(st
 
 /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_PioneerMap, (type(self), 0x7c748b8, state)
+ *         return __pyx_unpickle_PioneerMap, (type(self), 0xc670db8, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_PioneerMap__set_state(self, __pyx_state)
  */
@@ -5556,7 +5704,7 @@ static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_8__setstate_cython__(
   __Pyx_RefNannySetupContext("__setstate_cython__", 0);
 
   /* "(tree fragment)":17
- *         return __pyx_unpickle_PioneerMap, (type(self), 0x7c748b8, state)
+ *         return __pyx_unpickle_PioneerMap, (type(self), 0xc670db8, state)
  * def __setstate_cython__(self, __pyx_state):
  *     __pyx_unpickle_PioneerMap__set_state(self, __pyx_state)             # <<<<<<<<<<<<<<
  */
@@ -5567,7 +5715,7 @@ static PyObject *__pyx_pf_9PioneerOA_7mapping_10PioneerMap_8__setstate_cython__(
 
   /* "(tree fragment)":16
  *     else:
- *         return __pyx_unpickle_PioneerMap, (type(self), 0x7c748b8, state)
+ *         return __pyx_unpickle_PioneerMap, (type(self), 0xc670db8, state)
  * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
  *     __pyx_unpickle_PioneerMap__set_state(self, __pyx_state)
  */
@@ -5680,18 +5828,18 @@ static PyObject *__pyx_pf_9PioneerOA_7mapping___pyx_unpickle_PioneerMap(CYTHON_U
   /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0x7c748b8:             # <<<<<<<<<<<<<<
+ *     if __pyx_checksum != 0xc670db8:             # <<<<<<<<<<<<<<
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x7c748b8 = (X0, Y0, grid, h, heading, k, max, max_read_distance, mh, min, mw, sensor, sensors, threshold_divider, w))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xc670db8 = (X0, Y0, grid, grid_max, h, heading, k, max, max_read_distance, mh, min, mw, ratio, sensor, sensors, threshold, w))" % __pyx_checksum)
  */
-  __pyx_t_1 = ((__pyx_v___pyx_checksum != 0x7c748b8) != 0);
+  __pyx_t_1 = ((__pyx_v___pyx_checksum != 0xc670db8) != 0);
   if (__pyx_t_1) {
 
     /* "(tree fragment)":5
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0x7c748b8:
+ *     if __pyx_checksum != 0xc670db8:
  *         from pickle import PickleError as __pyx_PickleError             # <<<<<<<<<<<<<<
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x7c748b8 = (X0, Y0, grid, h, heading, k, max, max_read_distance, mh, min, mw, sensor, sensors, threshold_divider, w))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xc670db8 = (X0, Y0, grid, grid_max, h, heading, k, max, max_read_distance, mh, min, mw, ratio, sensor, sensors, threshold, w))" % __pyx_checksum)
  *     __pyx_result = PioneerMap.__new__(__pyx_type)
  */
     __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 5, __pyx_L1_error)
@@ -5710,15 +5858,15 @@ static PyObject *__pyx_pf_9PioneerOA_7mapping___pyx_unpickle_PioneerMap(CYTHON_U
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
     /* "(tree fragment)":6
- *     if __pyx_checksum != 0x7c748b8:
+ *     if __pyx_checksum != 0xc670db8:
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x7c748b8 = (X0, Y0, grid, h, heading, k, max, max_read_distance, mh, min, mw, sensor, sensors, threshold_divider, w))" % __pyx_checksum)             # <<<<<<<<<<<<<<
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xc670db8 = (X0, Y0, grid, grid_max, h, heading, k, max, max_read_distance, mh, min, mw, ratio, sensor, sensors, threshold, w))" % __pyx_checksum)             # <<<<<<<<<<<<<<
  *     __pyx_result = PioneerMap.__new__(__pyx_type)
  *     if __pyx_state is not None:
  */
     __pyx_t_2 = __Pyx_PyInt_From_long(__pyx_v___pyx_checksum); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 6, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = __Pyx_PyString_Format(__pyx_kp_s_Incompatible_checksums_s_vs_0x7c, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 6, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyString_Format(__pyx_kp_s_Incompatible_checksums_s_vs_0xc6, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 6, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_INCREF(__pyx_v___pyx_PickleError);
@@ -5745,15 +5893,15 @@ static PyObject *__pyx_pf_9PioneerOA_7mapping___pyx_unpickle_PioneerMap(CYTHON_U
     /* "(tree fragment)":4
  *     cdef object __pyx_PickleError
  *     cdef object __pyx_result
- *     if __pyx_checksum != 0x7c748b8:             # <<<<<<<<<<<<<<
+ *     if __pyx_checksum != 0xc670db8:             # <<<<<<<<<<<<<<
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x7c748b8 = (X0, Y0, grid, h, heading, k, max, max_read_distance, mh, min, mw, sensor, sensors, threshold_divider, w))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xc670db8 = (X0, Y0, grid, grid_max, h, heading, k, max, max_read_distance, mh, min, mw, ratio, sensor, sensors, threshold, w))" % __pyx_checksum)
  */
   }
 
   /* "(tree fragment)":7
  *         from pickle import PickleError as __pyx_PickleError
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x7c748b8 = (X0, Y0, grid, h, heading, k, max, max_read_distance, mh, min, mw, sensor, sensors, threshold_divider, w))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xc670db8 = (X0, Y0, grid, grid_max, h, heading, k, max, max_read_distance, mh, min, mw, ratio, sensor, sensors, threshold, w))" % __pyx_checksum)
  *     __pyx_result = PioneerMap.__new__(__pyx_type)             # <<<<<<<<<<<<<<
  *     if __pyx_state is not None:
  *         __pyx_unpickle_PioneerMap__set_state(<PioneerMap> __pyx_result, __pyx_state)
@@ -5779,7 +5927,7 @@ static PyObject *__pyx_pf_9PioneerOA_7mapping___pyx_unpickle_PioneerMap(CYTHON_U
   __pyx_t_3 = 0;
 
   /* "(tree fragment)":8
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x7c748b8 = (X0, Y0, grid, h, heading, k, max, max_read_distance, mh, min, mw, sensor, sensors, threshold_divider, w))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xc670db8 = (X0, Y0, grid, grid_max, h, heading, k, max, max_read_distance, mh, min, mw, ratio, sensor, sensors, threshold, w))" % __pyx_checksum)
  *     __pyx_result = PioneerMap.__new__(__pyx_type)
  *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
  *         __pyx_unpickle_PioneerMap__set_state(<PioneerMap> __pyx_result, __pyx_state)
@@ -5802,7 +5950,7 @@ static PyObject *__pyx_pf_9PioneerOA_7mapping___pyx_unpickle_PioneerMap(CYTHON_U
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
     /* "(tree fragment)":8
- *         raise __pyx_PickleError("Incompatible checksums (%s vs 0x7c748b8 = (X0, Y0, grid, h, heading, k, max, max_read_distance, mh, min, mw, sensor, sensors, threshold_divider, w))" % __pyx_checksum)
+ *         raise __pyx_PickleError("Incompatible checksums (%s vs 0xc670db8 = (X0, Y0, grid, grid_max, h, heading, k, max, max_read_distance, mh, min, mw, ratio, sensor, sensors, threshold, w))" % __pyx_checksum)
  *     __pyx_result = PioneerMap.__new__(__pyx_type)
  *     if __pyx_state is not None:             # <<<<<<<<<<<<<<
  *         __pyx_unpickle_PioneerMap__set_state(<PioneerMap> __pyx_result, __pyx_state)
@@ -5815,7 +5963,7 @@ static PyObject *__pyx_pf_9PioneerOA_7mapping___pyx_unpickle_PioneerMap(CYTHON_U
  *         __pyx_unpickle_PioneerMap__set_state(<PioneerMap> __pyx_result, __pyx_state)
  *     return __pyx_result             # <<<<<<<<<<<<<<
  * cdef __pyx_unpickle_PioneerMap__set_state(PioneerMap __pyx_result, tuple __pyx_state):
- *     __pyx_result.X0 = __pyx_state[0]; __pyx_result.Y0 = __pyx_state[1]; __pyx_result.grid = __pyx_state[2]; __pyx_result.h = __pyx_state[3]; __pyx_result.heading = __pyx_state[4]; __pyx_result.k = __pyx_state[5]; __pyx_result.max = __pyx_state[6]; __pyx_result.max_read_distance = __pyx_state[7]; __pyx_result.mh = __pyx_state[8]; __pyx_result.min = __pyx_state[9]; __pyx_result.mw = __pyx_state[10]; __pyx_result.sensor = __pyx_state[11]; __pyx_result.sensors = __pyx_state[12]; __pyx_result.threshold_divider = __pyx_state[13]; __pyx_result.w = __pyx_state[14]
+ *     __pyx_result.X0 = __pyx_state[0]; __pyx_result.Y0 = __pyx_state[1]; __pyx_result.grid = __pyx_state[2]; __pyx_result.grid_max = __pyx_state[3]; __pyx_result.h = __pyx_state[4]; __pyx_result.heading = __pyx_state[5]; __pyx_result.k = __pyx_state[6]; __pyx_result.max = __pyx_state[7]; __pyx_result.max_read_distance = __pyx_state[8]; __pyx_result.mh = __pyx_state[9]; __pyx_result.min = __pyx_state[10]; __pyx_result.mw = __pyx_state[11]; __pyx_result.ratio = __pyx_state[12]; __pyx_result.sensor = __pyx_state[13]; __pyx_result.sensors = __pyx_state[14]; __pyx_result.threshold = __pyx_state[15]; __pyx_result.w = __pyx_state[16]
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v___pyx_result);
@@ -5848,17 +5996,17 @@ static PyObject *__pyx_pf_9PioneerOA_7mapping___pyx_unpickle_PioneerMap(CYTHON_U
  *         __pyx_unpickle_PioneerMap__set_state(<PioneerMap> __pyx_result, __pyx_state)
  *     return __pyx_result
  * cdef __pyx_unpickle_PioneerMap__set_state(PioneerMap __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.X0 = __pyx_state[0]; __pyx_result.Y0 = __pyx_state[1]; __pyx_result.grid = __pyx_state[2]; __pyx_result.h = __pyx_state[3]; __pyx_result.heading = __pyx_state[4]; __pyx_result.k = __pyx_state[5]; __pyx_result.max = __pyx_state[6]; __pyx_result.max_read_distance = __pyx_state[7]; __pyx_result.mh = __pyx_state[8]; __pyx_result.min = __pyx_state[9]; __pyx_result.mw = __pyx_state[10]; __pyx_result.sensor = __pyx_state[11]; __pyx_result.sensors = __pyx_state[12]; __pyx_result.threshold_divider = __pyx_state[13]; __pyx_result.w = __pyx_state[14]
- *     if len(__pyx_state) > 15 and hasattr(__pyx_result, '__dict__'):
+ *     __pyx_result.X0 = __pyx_state[0]; __pyx_result.Y0 = __pyx_state[1]; __pyx_result.grid = __pyx_state[2]; __pyx_result.grid_max = __pyx_state[3]; __pyx_result.h = __pyx_state[4]; __pyx_result.heading = __pyx_state[5]; __pyx_result.k = __pyx_state[6]; __pyx_result.max = __pyx_state[7]; __pyx_result.max_read_distance = __pyx_state[8]; __pyx_result.mh = __pyx_state[9]; __pyx_result.min = __pyx_state[10]; __pyx_result.mw = __pyx_state[11]; __pyx_result.ratio = __pyx_state[12]; __pyx_result.sensor = __pyx_state[13]; __pyx_result.sensors = __pyx_state[14]; __pyx_result.threshold = __pyx_state[15]; __pyx_result.w = __pyx_state[16]
+ *     if len(__pyx_state) > 17 and hasattr(__pyx_result, '__dict__'):
  */
 
 static PyObject *__pyx_f_9PioneerOA_7mapping___pyx_unpickle_PioneerMap__set_state(struct __pyx_obj_9PioneerOA_7mapping_PioneerMap *__pyx_v___pyx_result, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  int __pyx_t_2;
+  double __pyx_t_2;
   __Pyx_memviewslice __pyx_t_3 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  double __pyx_t_4;
+  int __pyx_t_4;
   int __pyx_t_5;
   Py_ssize_t __pyx_t_6;
   int __pyx_t_7;
@@ -5871,9 +6019,9 @@ static PyObject *__pyx_f_9PioneerOA_7mapping___pyx_unpickle_PioneerMap__set_stat
   /* "(tree fragment)":12
  *     return __pyx_result
  * cdef __pyx_unpickle_PioneerMap__set_state(PioneerMap __pyx_result, tuple __pyx_state):
- *     __pyx_result.X0 = __pyx_state[0]; __pyx_result.Y0 = __pyx_state[1]; __pyx_result.grid = __pyx_state[2]; __pyx_result.h = __pyx_state[3]; __pyx_result.heading = __pyx_state[4]; __pyx_result.k = __pyx_state[5]; __pyx_result.max = __pyx_state[6]; __pyx_result.max_read_distance = __pyx_state[7]; __pyx_result.mh = __pyx_state[8]; __pyx_result.min = __pyx_state[9]; __pyx_result.mw = __pyx_state[10]; __pyx_result.sensor = __pyx_state[11]; __pyx_result.sensors = __pyx_state[12]; __pyx_result.threshold_divider = __pyx_state[13]; __pyx_result.w = __pyx_state[14]             # <<<<<<<<<<<<<<
- *     if len(__pyx_state) > 15 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[15])
+ *     __pyx_result.X0 = __pyx_state[0]; __pyx_result.Y0 = __pyx_state[1]; __pyx_result.grid = __pyx_state[2]; __pyx_result.grid_max = __pyx_state[3]; __pyx_result.h = __pyx_state[4]; __pyx_result.heading = __pyx_state[5]; __pyx_result.k = __pyx_state[6]; __pyx_result.max = __pyx_state[7]; __pyx_result.max_read_distance = __pyx_state[8]; __pyx_result.mh = __pyx_state[9]; __pyx_result.min = __pyx_state[10]; __pyx_result.mw = __pyx_state[11]; __pyx_result.ratio = __pyx_state[12]; __pyx_result.sensor = __pyx_state[13]; __pyx_result.sensors = __pyx_state[14]; __pyx_result.threshold = __pyx_state[15]; __pyx_result.w = __pyx_state[16]             # <<<<<<<<<<<<<<
+ *     if len(__pyx_state) > 17 and hasattr(__pyx_result, '__dict__'):
+ *         __pyx_result.__dict__.update(__pyx_state[17])
  */
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -5881,7 +6029,7 @@ static PyObject *__pyx_f_9PioneerOA_7mapping___pyx_unpickle_PioneerMap__set_stat
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v___pyx_result->X0 = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
@@ -5890,7 +6038,7 @@ static PyObject *__pyx_f_9PioneerOA_7mapping___pyx_unpickle_PioneerMap__set_stat
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v___pyx_result->Y0 = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
@@ -5911,77 +6059,95 @@ static PyObject *__pyx_f_9PioneerOA_7mapping___pyx_unpickle_PioneerMap__set_stat
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->h = __pyx_t_2;
+  __pyx_v___pyx_result->grid_max = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 4, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->heading = __pyx_t_4;
+  __pyx_v___pyx_result->h = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 5, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->k = __pyx_t_4;
+  __pyx_v___pyx_result->heading = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 6, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->max = __pyx_t_4;
+  __pyx_v___pyx_result->k = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 7, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->max_read_distance = __pyx_t_4;
+  __pyx_v___pyx_result->max = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 8, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->mh = __pyx_t_2;
+  __pyx_v___pyx_result->max_read_distance = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 9, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->min = __pyx_t_4;
+  __pyx_v___pyx_result->mh = __pyx_t_4;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 10, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->mw = __pyx_t_2;
+  __pyx_v___pyx_result->min = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
   __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 11, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v___pyx_result->mw = __pyx_t_4;
+  if (unlikely(__pyx_v___pyx_state == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(2, 12, __pyx_L1_error)
+  }
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 12, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v___pyx_result->ratio = __pyx_t_2;
+  if (unlikely(__pyx_v___pyx_state == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(2, 12, __pyx_L1_error)
+  }
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 13, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_13PioneerSensor_PioneerSensor))))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -5993,7 +6159,7 @@ static PyObject *__pyx_f_9PioneerOA_7mapping___pyx_unpickle_PioneerMap__set_stat
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 12, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 14, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_7sensors_Sensors))))) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
@@ -6005,33 +6171,33 @@ static PyObject *__pyx_f_9PioneerOA_7mapping___pyx_unpickle_PioneerMap__set_stat
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 13, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 15, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v___pyx_result->threshold_divider = __pyx_t_4;
+  __pyx_v___pyx_result->threshold = __pyx_t_2;
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
     __PYX_ERR(2, 12, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 14, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 16, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(2, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v___pyx_result->w = __pyx_t_2;
 
   /* "(tree fragment)":13
  * cdef __pyx_unpickle_PioneerMap__set_state(PioneerMap __pyx_result, tuple __pyx_state):
- *     __pyx_result.X0 = __pyx_state[0]; __pyx_result.Y0 = __pyx_state[1]; __pyx_result.grid = __pyx_state[2]; __pyx_result.h = __pyx_state[3]; __pyx_result.heading = __pyx_state[4]; __pyx_result.k = __pyx_state[5]; __pyx_result.max = __pyx_state[6]; __pyx_result.max_read_distance = __pyx_state[7]; __pyx_result.mh = __pyx_state[8]; __pyx_result.min = __pyx_state[9]; __pyx_result.mw = __pyx_state[10]; __pyx_result.sensor = __pyx_state[11]; __pyx_result.sensors = __pyx_state[12]; __pyx_result.threshold_divider = __pyx_state[13]; __pyx_result.w = __pyx_state[14]
- *     if len(__pyx_state) > 15 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
- *         __pyx_result.__dict__.update(__pyx_state[15])
+ *     __pyx_result.X0 = __pyx_state[0]; __pyx_result.Y0 = __pyx_state[1]; __pyx_result.grid = __pyx_state[2]; __pyx_result.grid_max = __pyx_state[3]; __pyx_result.h = __pyx_state[4]; __pyx_result.heading = __pyx_state[5]; __pyx_result.k = __pyx_state[6]; __pyx_result.max = __pyx_state[7]; __pyx_result.max_read_distance = __pyx_state[8]; __pyx_result.mh = __pyx_state[9]; __pyx_result.min = __pyx_state[10]; __pyx_result.mw = __pyx_state[11]; __pyx_result.ratio = __pyx_state[12]; __pyx_result.sensor = __pyx_state[13]; __pyx_result.sensors = __pyx_state[14]; __pyx_result.threshold = __pyx_state[15]; __pyx_result.w = __pyx_state[16]
+ *     if len(__pyx_state) > 17 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
+ *         __pyx_result.__dict__.update(__pyx_state[17])
  */
   if (unlikely(__pyx_v___pyx_state == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
     __PYX_ERR(2, 13, __pyx_L1_error)
   }
   __pyx_t_6 = PyTuple_GET_SIZE(__pyx_v___pyx_state); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(2, 13, __pyx_L1_error)
-  __pyx_t_7 = ((__pyx_t_6 > 15) != 0);
+  __pyx_t_7 = ((__pyx_t_6 > 17) != 0);
   if (__pyx_t_7) {
   } else {
     __pyx_t_5 = __pyx_t_7;
@@ -6044,9 +6210,9 @@ static PyObject *__pyx_f_9PioneerOA_7mapping___pyx_unpickle_PioneerMap__set_stat
   if (__pyx_t_5) {
 
     /* "(tree fragment)":14
- *     __pyx_result.X0 = __pyx_state[0]; __pyx_result.Y0 = __pyx_state[1]; __pyx_result.grid = __pyx_state[2]; __pyx_result.h = __pyx_state[3]; __pyx_result.heading = __pyx_state[4]; __pyx_result.k = __pyx_state[5]; __pyx_result.max = __pyx_state[6]; __pyx_result.max_read_distance = __pyx_state[7]; __pyx_result.mh = __pyx_state[8]; __pyx_result.min = __pyx_state[9]; __pyx_result.mw = __pyx_state[10]; __pyx_result.sensor = __pyx_state[11]; __pyx_result.sensors = __pyx_state[12]; __pyx_result.threshold_divider = __pyx_state[13]; __pyx_result.w = __pyx_state[14]
- *     if len(__pyx_state) > 15 and hasattr(__pyx_result, '__dict__'):
- *         __pyx_result.__dict__.update(__pyx_state[15])             # <<<<<<<<<<<<<<
+ *     __pyx_result.X0 = __pyx_state[0]; __pyx_result.Y0 = __pyx_state[1]; __pyx_result.grid = __pyx_state[2]; __pyx_result.grid_max = __pyx_state[3]; __pyx_result.h = __pyx_state[4]; __pyx_result.heading = __pyx_state[5]; __pyx_result.k = __pyx_state[6]; __pyx_result.max = __pyx_state[7]; __pyx_result.max_read_distance = __pyx_state[8]; __pyx_result.mh = __pyx_state[9]; __pyx_result.min = __pyx_state[10]; __pyx_result.mw = __pyx_state[11]; __pyx_result.ratio = __pyx_state[12]; __pyx_result.sensor = __pyx_state[13]; __pyx_result.sensors = __pyx_state[14]; __pyx_result.threshold = __pyx_state[15]; __pyx_result.w = __pyx_state[16]
+ *     if len(__pyx_state) > 17 and hasattr(__pyx_result, '__dict__'):
+ *         __pyx_result.__dict__.update(__pyx_state[17])             # <<<<<<<<<<<<<<
  */
     __pyx_t_9 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v___pyx_result), __pyx_n_s_dict); if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
@@ -6057,7 +6223,7 @@ static PyObject *__pyx_f_9PioneerOA_7mapping___pyx_unpickle_PioneerMap__set_stat
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(2, 14, __pyx_L1_error)
     }
-    __pyx_t_9 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 15, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 14, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_GetItemInt_Tuple(__pyx_v___pyx_state, 17, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(2, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __pyx_t_11 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_10))) {
@@ -6079,9 +6245,9 @@ static PyObject *__pyx_f_9PioneerOA_7mapping___pyx_unpickle_PioneerMap__set_stat
 
     /* "(tree fragment)":13
  * cdef __pyx_unpickle_PioneerMap__set_state(PioneerMap __pyx_result, tuple __pyx_state):
- *     __pyx_result.X0 = __pyx_state[0]; __pyx_result.Y0 = __pyx_state[1]; __pyx_result.grid = __pyx_state[2]; __pyx_result.h = __pyx_state[3]; __pyx_result.heading = __pyx_state[4]; __pyx_result.k = __pyx_state[5]; __pyx_result.max = __pyx_state[6]; __pyx_result.max_read_distance = __pyx_state[7]; __pyx_result.mh = __pyx_state[8]; __pyx_result.min = __pyx_state[9]; __pyx_result.mw = __pyx_state[10]; __pyx_result.sensor = __pyx_state[11]; __pyx_result.sensors = __pyx_state[12]; __pyx_result.threshold_divider = __pyx_state[13]; __pyx_result.w = __pyx_state[14]
- *     if len(__pyx_state) > 15 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
- *         __pyx_result.__dict__.update(__pyx_state[15])
+ *     __pyx_result.X0 = __pyx_state[0]; __pyx_result.Y0 = __pyx_state[1]; __pyx_result.grid = __pyx_state[2]; __pyx_result.grid_max = __pyx_state[3]; __pyx_result.h = __pyx_state[4]; __pyx_result.heading = __pyx_state[5]; __pyx_result.k = __pyx_state[6]; __pyx_result.max = __pyx_state[7]; __pyx_result.max_read_distance = __pyx_state[8]; __pyx_result.mh = __pyx_state[9]; __pyx_result.min = __pyx_state[10]; __pyx_result.mw = __pyx_state[11]; __pyx_result.ratio = __pyx_state[12]; __pyx_result.sensor = __pyx_state[13]; __pyx_result.sensors = __pyx_state[14]; __pyx_result.threshold = __pyx_state[15]; __pyx_result.w = __pyx_state[16]
+ *     if len(__pyx_state) > 17 and hasattr(__pyx_result, '__dict__'):             # <<<<<<<<<<<<<<
+ *         __pyx_result.__dict__.update(__pyx_state[17])
  */
   }
 
@@ -6089,8 +6255,8 @@ static PyObject *__pyx_f_9PioneerOA_7mapping___pyx_unpickle_PioneerMap__set_stat
  *         __pyx_unpickle_PioneerMap__set_state(<PioneerMap> __pyx_result, __pyx_state)
  *     return __pyx_result
  * cdef __pyx_unpickle_PioneerMap__set_state(PioneerMap __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.X0 = __pyx_state[0]; __pyx_result.Y0 = __pyx_state[1]; __pyx_result.grid = __pyx_state[2]; __pyx_result.h = __pyx_state[3]; __pyx_result.heading = __pyx_state[4]; __pyx_result.k = __pyx_state[5]; __pyx_result.max = __pyx_state[6]; __pyx_result.max_read_distance = __pyx_state[7]; __pyx_result.mh = __pyx_state[8]; __pyx_result.min = __pyx_state[9]; __pyx_result.mw = __pyx_state[10]; __pyx_result.sensor = __pyx_state[11]; __pyx_result.sensors = __pyx_state[12]; __pyx_result.threshold_divider = __pyx_state[13]; __pyx_result.w = __pyx_state[14]
- *     if len(__pyx_state) > 15 and hasattr(__pyx_result, '__dict__'):
+ *     __pyx_result.X0 = __pyx_state[0]; __pyx_result.Y0 = __pyx_state[1]; __pyx_result.grid = __pyx_state[2]; __pyx_result.grid_max = __pyx_state[3]; __pyx_result.h = __pyx_state[4]; __pyx_result.heading = __pyx_state[5]; __pyx_result.k = __pyx_state[6]; __pyx_result.max = __pyx_state[7]; __pyx_result.max_read_distance = __pyx_state[8]; __pyx_result.mh = __pyx_state[9]; __pyx_result.min = __pyx_state[10]; __pyx_result.mw = __pyx_state[11]; __pyx_result.ratio = __pyx_state[12]; __pyx_result.sensor = __pyx_state[13]; __pyx_result.sensors = __pyx_state[14]; __pyx_result.threshold = __pyx_state[15]; __pyx_result.w = __pyx_state[16]
+ *     if len(__pyx_state) > 17 and hasattr(__pyx_result, '__dict__'):
  */
 
   /* function exit code */
@@ -21280,62 +21446,6 @@ static int __pyx_tp_clear_9PioneerOA_7mapping_PioneerMap(PyObject *o) {
   return 0;
 }
 
-static PyObject *__pyx_getprop_9PioneerOA_7mapping_10PioneerMap_X0(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_9PioneerOA_7mapping_10PioneerMap_2X0_1__get__(o);
-}
-
-static int __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_X0(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
-  if (v) {
-    return __pyx_pw_9PioneerOA_7mapping_10PioneerMap_2X0_3__set__(o, v);
-  }
-  else {
-    PyErr_SetString(PyExc_NotImplementedError, "__del__");
-    return -1;
-  }
-}
-
-static PyObject *__pyx_getprop_9PioneerOA_7mapping_10PioneerMap_Y0(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_9PioneerOA_7mapping_10PioneerMap_2Y0_1__get__(o);
-}
-
-static int __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_Y0(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
-  if (v) {
-    return __pyx_pw_9PioneerOA_7mapping_10PioneerMap_2Y0_3__set__(o, v);
-  }
-  else {
-    PyErr_SetString(PyExc_NotImplementedError, "__del__");
-    return -1;
-  }
-}
-
-static PyObject *__pyx_getprop_9PioneerOA_7mapping_10PioneerMap_w(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_9PioneerOA_7mapping_10PioneerMap_1w_1__get__(o);
-}
-
-static int __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_w(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
-  if (v) {
-    return __pyx_pw_9PioneerOA_7mapping_10PioneerMap_1w_3__set__(o, v);
-  }
-  else {
-    PyErr_SetString(PyExc_NotImplementedError, "__del__");
-    return -1;
-  }
-}
-
-static PyObject *__pyx_getprop_9PioneerOA_7mapping_10PioneerMap_h(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_9PioneerOA_7mapping_10PioneerMap_1h_1__get__(o);
-}
-
-static int __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_h(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
-  if (v) {
-    return __pyx_pw_9PioneerOA_7mapping_10PioneerMap_1h_3__set__(o, v);
-  }
-  else {
-    PyErr_SetString(PyExc_NotImplementedError, "__del__");
-    return -1;
-  }
-}
-
 static PyObject *__pyx_getprop_9PioneerOA_7mapping_10PioneerMap_mw(PyObject *o, CYTHON_UNUSED void *x) {
   return __pyx_pw_9PioneerOA_7mapping_10PioneerMap_2mw_1__get__(o);
 }
@@ -21448,13 +21558,97 @@ static int __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_max(PyObject *o, PyObj
   }
 }
 
-static PyObject *__pyx_getprop_9PioneerOA_7mapping_10PioneerMap_threshold_divider(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_9PioneerOA_7mapping_10PioneerMap_17threshold_divider_1__get__(o);
+static PyObject *__pyx_getprop_9PioneerOA_7mapping_10PioneerMap_ratio(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_9PioneerOA_7mapping_10PioneerMap_5ratio_1__get__(o);
 }
 
-static int __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_threshold_divider(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_ratio(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_9PioneerOA_7mapping_10PioneerMap_17threshold_divider_3__set__(o, v);
+    return __pyx_pw_9PioneerOA_7mapping_10PioneerMap_5ratio_3__set__(o, v);
+  }
+  else {
+    PyErr_SetString(PyExc_NotImplementedError, "__del__");
+    return -1;
+  }
+}
+
+static PyObject *__pyx_getprop_9PioneerOA_7mapping_10PioneerMap_grid_max(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_9PioneerOA_7mapping_10PioneerMap_8grid_max_1__get__(o);
+}
+
+static int __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_grid_max(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+  if (v) {
+    return __pyx_pw_9PioneerOA_7mapping_10PioneerMap_8grid_max_3__set__(o, v);
+  }
+  else {
+    PyErr_SetString(PyExc_NotImplementedError, "__del__");
+    return -1;
+  }
+}
+
+static PyObject *__pyx_getprop_9PioneerOA_7mapping_10PioneerMap_threshold(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_9PioneerOA_7mapping_10PioneerMap_9threshold_1__get__(o);
+}
+
+static int __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_threshold(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+  if (v) {
+    return __pyx_pw_9PioneerOA_7mapping_10PioneerMap_9threshold_3__set__(o, v);
+  }
+  else {
+    PyErr_SetString(PyExc_NotImplementedError, "__del__");
+    return -1;
+  }
+}
+
+static PyObject *__pyx_getprop_9PioneerOA_7mapping_10PioneerMap_X0(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_9PioneerOA_7mapping_10PioneerMap_2X0_1__get__(o);
+}
+
+static int __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_X0(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+  if (v) {
+    return __pyx_pw_9PioneerOA_7mapping_10PioneerMap_2X0_3__set__(o, v);
+  }
+  else {
+    PyErr_SetString(PyExc_NotImplementedError, "__del__");
+    return -1;
+  }
+}
+
+static PyObject *__pyx_getprop_9PioneerOA_7mapping_10PioneerMap_Y0(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_9PioneerOA_7mapping_10PioneerMap_2Y0_1__get__(o);
+}
+
+static int __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_Y0(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+  if (v) {
+    return __pyx_pw_9PioneerOA_7mapping_10PioneerMap_2Y0_3__set__(o, v);
+  }
+  else {
+    PyErr_SetString(PyExc_NotImplementedError, "__del__");
+    return -1;
+  }
+}
+
+static PyObject *__pyx_getprop_9PioneerOA_7mapping_10PioneerMap_w(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_9PioneerOA_7mapping_10PioneerMap_1w_1__get__(o);
+}
+
+static int __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_w(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+  if (v) {
+    return __pyx_pw_9PioneerOA_7mapping_10PioneerMap_1w_3__set__(o, v);
+  }
+  else {
+    PyErr_SetString(PyExc_NotImplementedError, "__del__");
+    return -1;
+  }
+}
+
+static PyObject *__pyx_getprop_9PioneerOA_7mapping_10PioneerMap_h(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_9PioneerOA_7mapping_10PioneerMap_1h_1__get__(o);
+}
+
+static int __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_h(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+  if (v) {
+    return __pyx_pw_9PioneerOA_7mapping_10PioneerMap_1h_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -21484,10 +21678,6 @@ static PyMethodDef __pyx_methods_9PioneerOA_7mapping_PioneerMap[] = {
 };
 
 static struct PyGetSetDef __pyx_getsets_9PioneerOA_7mapping_PioneerMap[] = {
-  {(char *)"X0", __pyx_getprop_9PioneerOA_7mapping_10PioneerMap_X0, __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_X0, (char *)0, 0},
-  {(char *)"Y0", __pyx_getprop_9PioneerOA_7mapping_10PioneerMap_Y0, __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_Y0, (char *)0, 0},
-  {(char *)"w", __pyx_getprop_9PioneerOA_7mapping_10PioneerMap_w, __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_w, (char *)0, 0},
-  {(char *)"h", __pyx_getprop_9PioneerOA_7mapping_10PioneerMap_h, __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_h, (char *)0, 0},
   {(char *)"mw", __pyx_getprop_9PioneerOA_7mapping_10PioneerMap_mw, __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_mw, (char *)0, 0},
   {(char *)"mh", __pyx_getprop_9PioneerOA_7mapping_10PioneerMap_mh, __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_mh, (char *)0, 0},
   {(char *)"grid", __pyx_getprop_9PioneerOA_7mapping_10PioneerMap_grid, __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_grid, (char *)0, 0},
@@ -21496,7 +21686,13 @@ static struct PyGetSetDef __pyx_getsets_9PioneerOA_7mapping_PioneerMap[] = {
   {(char *)"max_read_distance", __pyx_getprop_9PioneerOA_7mapping_10PioneerMap_max_read_distance, __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_max_read_distance, (char *)0, 0},
   {(char *)"min", __pyx_getprop_9PioneerOA_7mapping_10PioneerMap_min, __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_min, (char *)0, 0},
   {(char *)"max", __pyx_getprop_9PioneerOA_7mapping_10PioneerMap_max, __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_max, (char *)0, 0},
-  {(char *)"threshold_divider", __pyx_getprop_9PioneerOA_7mapping_10PioneerMap_threshold_divider, __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_threshold_divider, (char *)0, 0},
+  {(char *)"ratio", __pyx_getprop_9PioneerOA_7mapping_10PioneerMap_ratio, __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_ratio, (char *)0, 0},
+  {(char *)"grid_max", __pyx_getprop_9PioneerOA_7mapping_10PioneerMap_grid_max, __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_grid_max, (char *)0, 0},
+  {(char *)"threshold", __pyx_getprop_9PioneerOA_7mapping_10PioneerMap_threshold, __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_threshold, (char *)0, 0},
+  {(char *)"X0", __pyx_getprop_9PioneerOA_7mapping_10PioneerMap_X0, __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_X0, (char *)0, 0},
+  {(char *)"Y0", __pyx_getprop_9PioneerOA_7mapping_10PioneerMap_Y0, __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_Y0, (char *)0, 0},
+  {(char *)"w", __pyx_getprop_9PioneerOA_7mapping_10PioneerMap_w, __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_w, (char *)0, 0},
+  {(char *)"h", __pyx_getprop_9PioneerOA_7mapping_10PioneerMap_h, __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_h, (char *)0, 0},
   {(char *)"sensor", __pyx_getprop_9PioneerOA_7mapping_10PioneerMap_sensor, __pyx_setprop_9PioneerOA_7mapping_10PioneerMap_sensor, (char *)0, 0},
   {0, 0, 0, 0, 0}
 };
@@ -22342,8 +22538,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u_Format_string_allocated_too_shor, __pyx_k_Format_string_allocated_too_shor, sizeof(__pyx_k_Format_string_allocated_too_shor), 0, 1, 0, 0},
   {&__pyx_kp_u_Format_string_allocated_too_shor_2, __pyx_k_Format_string_allocated_too_shor_2, sizeof(__pyx_k_Format_string_allocated_too_shor_2), 0, 1, 0, 0},
   {&__pyx_n_s_ImportError, __pyx_k_ImportError, sizeof(__pyx_k_ImportError), 0, 0, 1, 1},
-  {&__pyx_kp_s_Incompatible_checksums_s_vs_0x7c, __pyx_k_Incompatible_checksums_s_vs_0x7c, sizeof(__pyx_k_Incompatible_checksums_s_vs_0x7c), 0, 0, 1, 0},
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0xb0, __pyx_k_Incompatible_checksums_s_vs_0xb0, sizeof(__pyx_k_Incompatible_checksums_s_vs_0xb0), 0, 0, 1, 0},
+  {&__pyx_kp_s_Incompatible_checksums_s_vs_0xc6, __pyx_k_Incompatible_checksums_s_vs_0xc6, sizeof(__pyx_k_Incompatible_checksums_s_vs_0xc6), 0, 0, 1, 0},
   {&__pyx_n_s_IndexError, __pyx_k_IndexError, sizeof(__pyx_k_IndexError), 0, 0, 1, 1},
   {&__pyx_kp_s_Indirect_dimensions_not_supporte, __pyx_k_Indirect_dimensions_not_supporte, sizeof(__pyx_k_Indirect_dimensions_not_supporte), 0, 0, 1, 0},
   {&__pyx_kp_s_Invalid_mode_expected_c_or_fortr, __pyx_k_Invalid_mode_expected_c_or_fortr, sizeof(__pyx_k_Invalid_mode_expected_c_or_fortr), 0, 0, 1, 0},
@@ -22391,13 +22587,13 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_id, __pyx_k_id, sizeof(__pyx_k_id), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
+  {&__pyx_n_s_initial_threshold, __pyx_k_initial_threshold, sizeof(__pyx_k_initial_threshold), 0, 0, 1, 1},
   {&__pyx_n_s_itemsize, __pyx_k_itemsize, sizeof(__pyx_k_itemsize), 0, 0, 1, 1},
   {&__pyx_kp_s_itemsize_0_for_cython_array, __pyx_k_itemsize_0_for_cython_array, sizeof(__pyx_k_itemsize_0_for_cython_array), 0, 0, 1, 0},
   {&__pyx_n_s_k, __pyx_k_k, sizeof(__pyx_k_k), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_map_height, __pyx_k_map_height, sizeof(__pyx_k_map_height), 0, 0, 1, 1},
   {&__pyx_n_s_map_width, __pyx_k_map_width, sizeof(__pyx_k_map_width), 0, 0, 1, 1},
-  {&__pyx_n_s_max, __pyx_k_max, sizeof(__pyx_k_max), 0, 0, 1, 1},
   {&__pyx_n_s_max_cv, __pyx_k_max_cv, sizeof(__pyx_k_max_cv), 0, 0, 1, 1},
   {&__pyx_n_s_max_read_distance, __pyx_k_max_read_distance, sizeof(__pyx_k_max_read_distance), 0, 0, 1, 1},
   {&__pyx_n_s_memview, __pyx_k_memview, sizeof(__pyx_k_memview), 0, 0, 1, 1},
@@ -22427,6 +22623,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_pyx_unpickle_PioneerMap, __pyx_k_pyx_unpickle_PioneerMap, sizeof(__pyx_k_pyx_unpickle_PioneerMap), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_vtable, __pyx_k_pyx_vtable, sizeof(__pyx_k_pyx_vtable), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
+  {&__pyx_n_s_ratio, __pyx_k_ratio, sizeof(__pyx_k_ratio), 0, 0, 1, 1},
   {&__pyx_n_s_reduce, __pyx_k_reduce, sizeof(__pyx_k_reduce), 0, 0, 1, 1},
   {&__pyx_n_s_reduce_cython, __pyx_k_reduce_cython, sizeof(__pyx_k_reduce_cython), 0, 0, 1, 1},
   {&__pyx_n_s_reduce_ex, __pyx_k_reduce_ex, sizeof(__pyx_k_reduce_ex), 0, 0, 1, 1},
@@ -22447,7 +22644,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_struct, __pyx_k_struct, sizeof(__pyx_k_struct), 0, 0, 1, 1},
   {&__pyx_n_s_super, __pyx_k_super, sizeof(__pyx_k_super), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
-  {&__pyx_n_s_threshold_divider, __pyx_k_threshold_divider, sizeof(__pyx_k_threshold_divider), 0, 0, 1, 1},
   {&__pyx_n_s_translate_to_matrix_position, __pyx_k_translate_to_matrix_position, sizeof(__pyx_k_translate_to_matrix_position), 0, 0, 1, 1},
   {&__pyx_kp_s_unable_to_allocate_array_data, __pyx_k_unable_to_allocate_array_data, sizeof(__pyx_k_unable_to_allocate_array_data), 0, 0, 1, 0},
   {&__pyx_kp_s_unable_to_allocate_shape_and_str, __pyx_k_unable_to_allocate_shape_and_str, sizeof(__pyx_k_unable_to_allocate_shape_and_str), 0, 0, 1, 0},
@@ -22462,8 +22658,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 44, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 77, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(3, 272, __pyx_L1_error)
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(3, 856, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(3, 1038, __pyx_L1_error)
@@ -22836,8 +23032,8 @@ static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_130500792 = PyInt_FromLong(130500792L); if (unlikely(!__pyx_int_130500792)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_184977713 = PyInt_FromLong(184977713L); if (unlikely(!__pyx_int_184977713)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_208080312 = PyInt_FromLong(208080312L); if (unlikely(!__pyx_int_208080312)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_neg_1 = PyInt_FromLong(-1); if (unlikely(!__pyx_int_neg_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
@@ -24226,28 +24422,6 @@ static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index) {
 static CYTHON_INLINE void __Pyx_RaiseNoneNotIterableError(void) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
 }
-
-/* PyObjectCallNoArg */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
-#if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(func)) {
-        return __Pyx_PyFunction_FastCall(func, NULL, 0);
-    }
-#endif
-#ifdef __Pyx_CyFunction_USED
-    if (likely(PyCFunction_Check(func) || __Pyx_CyFunction_Check(func)))
-#else
-    if (likely(PyCFunction_Check(func)))
-#endif
-    {
-        if (likely(PyCFunction_GET_FLAGS(func) & METH_NOARGS)) {
-            return __Pyx_PyObject_CallMethO(func, NULL);
-        }
-    }
-    return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
-}
-#endif
 
 /* ExtTypeTest */
 static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type) {
@@ -25796,59 +25970,6 @@ __pyx_capsule_create(void *p, CYTHON_UNUSED const char *sig)
     return cobj;
 }
 
-/* CIntToPy */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value) {
-    const int neg_one = (int) ((int) 0 - (int) 1), const_zero = (int) 0;
-    const int is_unsigned = neg_one > const_zero;
-    if (is_unsigned) {
-        if (sizeof(int) < sizeof(long)) {
-            return PyInt_FromLong((long) value);
-        } else if (sizeof(int) <= sizeof(unsigned long)) {
-            return PyLong_FromUnsignedLong((unsigned long) value);
-#ifdef HAVE_LONG_LONG
-        } else if (sizeof(int) <= sizeof(unsigned PY_LONG_LONG)) {
-            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
-#endif
-        }
-    } else {
-        if (sizeof(int) <= sizeof(long)) {
-            return PyInt_FromLong((long) value);
-#ifdef HAVE_LONG_LONG
-        } else if (sizeof(int) <= sizeof(PY_LONG_LONG)) {
-            return PyLong_FromLongLong((PY_LONG_LONG) value);
-#endif
-        }
-    }
-    {
-        int one = 1; int little = (int)*(unsigned char *)&one;
-        unsigned char *bytes = (unsigned char *)&value;
-        return _PyLong_FromByteArray(bytes, sizeof(int),
-                                     little, !is_unsigned);
-    }
-}
-
-/* CIntFromPyVerify */
-#define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)\
-    __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 0)
-#define __PYX_VERIFY_RETURN_INT_EXC(target_type, func_type, func_value)\
-    __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 1)
-#define __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, exc)\
-    {\
-        func_type value = func_value;\
-        if (sizeof(target_type) < sizeof(func_type)) {\
-            if (unlikely(value != (func_type) (target_type) value)) {\
-                func_type zero = 0;\
-                if (exc && unlikely(value == (func_type)-1 && PyErr_Occurred()))\
-                    return (target_type) -1;\
-                if (is_unsigned && unlikely(value < zero))\
-                    goto raise_neg_overflow;\
-                else\
-                    goto raise_overflow;\
-            }\
-        }\
-        return (target_type) value;\
-    }
-
 /* MemviewDtypeToObject */
 static CYTHON_INLINE PyObject *__pyx_memview_get_double(const char *itemp) {
     return (PyObject *) PyFloat_FromDouble(*(double *) itemp);
@@ -26620,6 +26741,59 @@ __pyx_fail:
     result.data = NULL;
     return result;
 }
+
+/* CIntToPy */
+  static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value) {
+    const int neg_one = (int) ((int) 0 - (int) 1), const_zero = (int) 0;
+    const int is_unsigned = neg_one > const_zero;
+    if (is_unsigned) {
+        if (sizeof(int) < sizeof(long)) {
+            return PyInt_FromLong((long) value);
+        } else if (sizeof(int) <= sizeof(unsigned long)) {
+            return PyLong_FromUnsignedLong((unsigned long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(int) <= sizeof(unsigned PY_LONG_LONG)) {
+            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
+#endif
+        }
+    } else {
+        if (sizeof(int) <= sizeof(long)) {
+            return PyInt_FromLong((long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(int) <= sizeof(PY_LONG_LONG)) {
+            return PyLong_FromLongLong((PY_LONG_LONG) value);
+#endif
+        }
+    }
+    {
+        int one = 1; int little = (int)*(unsigned char *)&one;
+        unsigned char *bytes = (unsigned char *)&value;
+        return _PyLong_FromByteArray(bytes, sizeof(int),
+                                     little, !is_unsigned);
+    }
+}
+
+/* CIntFromPyVerify */
+  #define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)\
+    __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 0)
+#define __PYX_VERIFY_RETURN_INT_EXC(target_type, func_type, func_value)\
+    __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 1)
+#define __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, exc)\
+    {\
+        func_type value = func_value;\
+        if (sizeof(target_type) < sizeof(func_type)) {\
+            if (unlikely(value != (func_type) (target_type) value)) {\
+                func_type zero = 0;\
+                if (exc && unlikely(value == (func_type)-1 && PyErr_Occurred()))\
+                    return (target_type) -1;\
+                if (is_unsigned && unlikely(value < zero))\
+                    goto raise_neg_overflow;\
+                else\
+                    goto raise_overflow;\
+            }\
+        }\
+        return (target_type) value;\
+    }
 
 /* ObjectToMemviewSlice */
   static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_double(PyObject *obj, int writable_flag) {

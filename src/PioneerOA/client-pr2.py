@@ -87,11 +87,11 @@ clr = "                                                                         
 
 def avoid(robot):
     if not robot.is_any_obstacle_front():
-        print(clr, end="\r")
-        print(" >>> Looking for wall", end="\r")
+        # print(clr, end="\r")
+        # print(" >>> Looking for wall", end="\r")
         if any(x < 10 for x in robot.sensors.parallel_left):
-            print(clr, end="\r")
-            print(" ! Obstacle parallel to the left side", end="\r")
+            # print(clr, end="\r")
+            # print(" ! Obstacle parallel to the left side", end="\r")
             if robot.sensors.parallel_left[0] < robot.sensors.parallel_left[1]:
                 lspeed, rspeed = 0.25, 0
             elif robot.sensors.parallel_left[0] == robot.sensors.parallel_left[
@@ -101,8 +101,8 @@ def avoid(robot):
                 lspeed, rspeed = 0.25, 1
 
         elif any(x < 10 for x in robot.sensors.parallel_right):
-            print(clr, end="\r")
-            print(" ! Obstacle parallel to the right side", end="\r")
+            # print(clr, end="\r")
+            # print(" ! Obstacle parallel to the right side", end="\r")
             if robot.sensors.parallel_right[0] < robot.sensors.parallel_right[
                 1]:
                 lspeed, rspeed = 0, 0.5
@@ -114,24 +114,24 @@ def avoid(robot):
 
     else:
         if robot.is_any_obstacle_right():
-            print(clr, end="\r")
-            print("! Obstacle right", end="\r")
+            # print(clr, end="\r")
+            # print("! Obstacle right", end="\r")
             if robot.is_any_obstacle_left():
-                print(clr, end="\r")
-                print("! Obstacle left", end="\r")
+                # print(clr, end="\r")
+                # print("! Obstacle left", end="\r")
                 lspeed, rspeed = 10, -10
             else:
                 lspeed, rspeed = 0.1, 1
         elif robot.is_any_obstacle_left():
-            print(clr, end="\r")
-            print("! Obstacle left", end="\r")
+            # print(clr, end="\r")
+            # print("! Obstacle left", end="\r")
             if robot.is_any_obstacle_right():
                 lspeed, rspeed = -10, 10
             else:
                 lspeed, rspeed = 1, 0.1
         else:
-            print(clr, end="\r")
-            print(" >>> Looking for wall", end="\r")
+            # print(clr, end="\r")
+            # print(" >>> Looking for wall", end="\r")
             lspeed, rspeed = 2, 2
 
     return lspeed, rspeed
@@ -163,8 +163,9 @@ def main():
                        map_width=4,
                        map_height=4,
                        grid_size=(500, 500),
-                       sonar=None,
-                       max_read_distance=0.5)
+                       initial_threshold=0.3,
+                       max_read_distance=0.4,
+                       ratio=1E-6)
         sensors = robot.sensors
         printer = start_printing(robot.lock)
 
@@ -184,10 +185,13 @@ def main():
             lspeed, rspeed = avoid(robot)
 
             # Action
+            # print(f"{(x, y)}")
             setSpeed(clientID, hRobot, lspeed, rspeed)
             robot.update_robot_position(x, y,
                                         np.asarray(sonar, dtype=np.float_),
                                         heading)
+            print(clr, end="\r")
+            print(f"Threshold: {robot.threshold}", end="\r")
             # time.sleep(0.1)
 
         print('### Finishing...')

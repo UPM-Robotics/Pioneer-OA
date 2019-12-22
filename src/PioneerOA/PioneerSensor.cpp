@@ -963,12 +963,14 @@ struct __pyx_memoryviewslice_obj;
  * #    along with this program. If not, see <http://www.gnu.org/licenses/>.
  * # distutils: language=c++
  * cdef class Sensor:             # <<<<<<<<<<<<<<
- *     cdef public double angle, value
+ *     cdef public double value
+ *     cdef readonly double angle
  */
 struct __pyx_obj_6sensor_Sensor {
   PyObject_HEAD
-  double angle;
+  struct __pyx_vtabstruct_6sensor_Sensor *__pyx_vtab;
   double value;
+  double angle;
 };
 
 
@@ -1092,6 +1094,21 @@ struct __pyx_memoryviewslice_obj {
   int (*to_dtype_func)(char *, PyObject *);
 };
 
+
+
+/* "sensor.pxd":17
+ * #    along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * # distutils: language=c++
+ * cdef class Sensor:             # <<<<<<<<<<<<<<
+ *     cdef public double value
+ *     cdef readonly double angle
+ */
+
+struct __pyx_vtabstruct_6sensor_Sensor {
+  double (*x)(struct __pyx_obj_6sensor_Sensor *, double, double, int __pyx_skip_dispatch);
+  double (*y)(struct __pyx_obj_6sensor_Sensor *, double, double, int __pyx_skip_dispatch);
+};
+static struct __pyx_vtabstruct_6sensor_Sensor *__pyx_vtabptr_6sensor_Sensor;
 
 
 /* "sensors.pxd":18
@@ -18206,6 +18223,7 @@ static int __Pyx_modinit_type_import_code(void) {
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_ptype_6sensor_Sensor = __Pyx_ImportType(__pyx_t_1, "sensor", "Sensor", sizeof(struct __pyx_obj_6sensor_Sensor), __Pyx_ImportType_CheckSize_Warn);
    if (!__pyx_ptype_6sensor_Sensor) __PYX_ERR(3, 17, __pyx_L1_error)
+  __pyx_vtabptr_6sensor_Sensor = (struct __pyx_vtabstruct_6sensor_Sensor*)__Pyx_GetVtable(__pyx_ptype_6sensor_Sensor->tp_dict); if (unlikely(!__pyx_vtabptr_6sensor_Sensor)) __PYX_ERR(3, 17, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = PyImport_ImportModule("sensors"); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);

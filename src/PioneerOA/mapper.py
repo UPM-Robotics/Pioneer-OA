@@ -23,18 +23,22 @@ from multiprocessing import shared_memory
 
 class Mapper(PioneerMap):
     def __init__(self,
-                 X0: int,
-                 Y0: int,
-                 map_width: int,
-                 map_height: int,
+                 X0: float,
+                 Y0: float,
+                 map_width: float,
+                 map_height: float,
                  grid_size: tuple,
                  sonar: list = None,
-                 k: float = 1,
+                 initial_threshold: float = 1.0,
+                 k: float = 1.0,
                  min_cv: float = 0.5,
                  max_cv: float = 30,
-                 max_read_distance: float = 1.0):
-        super().__init__(X0, Y0, map_width, map_height, grid_size, sonar, k,
-                         min_cv, max_cv, max_read_distance)
+                 max_read_distance: float = 1.0,
+                 ratio: float = 1.5):
+        print(initial_threshold)
+        super().__init__(X0, Y0, map_width, map_height, grid_size, sonar,
+                         initial_threshold, k, min_cv, max_cv,
+                         max_read_distance, ratio)
         self.lock = Lock()
         self.sh_memory = shared_memory.SharedMemory(name="pioneer-oa",
                                                     create=True,
@@ -42,6 +46,9 @@ class Mapper(PioneerMap):
         self.shared_np = np.ndarray(self.grid.shape,
                                     dtype=np.float_,
                                     buffer=self.sh_memory.buf)
+        self.shared_args = shared_memory.ShareableList([self.mw, self.mh,
+                                                        self.threshold],
+                                                       name="shared_args")
         self.shared_np[:] = self.grid[:]
 
     def update_robot_position(self,
@@ -52,9 +59,13 @@ class Mapper(PioneerMap):
         super().update_robot_position(robotX, robotY, sonar, heading)
         with self.lock:
             self.shared_np[:] = self.grid[:]
+            self.shared_args[2] = self.threshold
 
     def __del__(self):
         try:
             self.sh_memory.close()
+            self.shared_args.shm.close()
         finally:
             self.sh_memory.unlink()
+            self.shared_args.shm.unlink()
+            del self.shared_args

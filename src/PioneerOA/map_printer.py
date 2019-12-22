@@ -29,7 +29,8 @@ from multiprocessing import shared_memory
 
 def start_printing(robot_lock: Lock) -> Process:
     def _print_map(lock: Lock):
-        shape = (500, 500)
+        sh_args = shared_memory.ShareableList(name="shared_args")
+        shape = (sh_args[0], sh_args[1])
         figure = plt.figure(figsize=(6, 6))
         axis = figure.add_subplot(111)
         image = axis.imshow(np.random.randint(0, 10, size=shape),
@@ -65,8 +66,8 @@ def start_printing(robot_lock: Lock) -> Process:
                 grid = np.ndarray(shape,
                                   dtype=np.float_,
                                   buffer=sh_memory.buf)
+                threshold = sh_args[2]
             image.set_data(grid)
-            threshold = grid.max() / 1.5
             grid_pool.map(annotate, np.ndindex(grid.shape))
             figure.canvas.draw_idle()
             plt.pause(0.01)

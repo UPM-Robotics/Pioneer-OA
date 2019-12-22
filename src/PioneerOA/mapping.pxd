@@ -21,10 +21,10 @@ from PioneerSensor cimport PioneerSensor
 
 
 cdef class PioneerMap(Pioneer):
-    cdef public int X0, Y0, w, h, mw, mh
+    cdef public int mw, mh
     cdef public double[:, :] grid
-    cdef public double k, heading, max_read_distance, min, max, \
-        threshold_divider
+    cdef public double k, heading, max_read_distance, min, max, ratio, \
+        grid_max, threshold, X0, Y0, w, h
     cdef public PioneerSensor sensor
 
     cpdef tuple translate_to_matrix_position(self, double x, double y)
