@@ -22,6 +22,14 @@ from multiprocessing import shared_memory
 
 
 class Mapper(PioneerMap):
+    """
+    Python-wide class for accessing the C interface and offering the
+    necessary synchronization mechanisms in order to interact with other
+    processes.
+    This class creates a C instance of the PioneerMap class and a shared
+    memory location for communicating with the map printer class.
+    """
+
     def __init__(self,
                  X0: float,
                  Y0: float,
@@ -56,12 +64,26 @@ class Mapper(PioneerMap):
                               robotY: float,
                               sonar: list,
                               heading: float):
+        """
+        Updates the robot position and sets the shared data required
+        information.
+        :param robotX: double robot X position.
+        :param robotY: double robot Y position.
+        :param sonar: the list of the sensor data.
+        :param heading: the robot heading (orientation).
+        :return:
+        """
         super().update_robot_position(robotX, robotY, sonar, heading)
         with self.lock:
             self.shared_np[:] = self.grid[:]
             self.shared_args[2] = self.threshold
 
     def __del__(self):
+        """
+        Safely finishes the class instance, removing the unnecessary and
+        opened shared memory locations.
+        :return:
+        """
         try:
             self.sh_memory.close()
             self.shared_args.shm.close()

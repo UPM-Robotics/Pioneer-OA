@@ -28,7 +28,22 @@ from multiprocessing import shared_memory
 
 
 def start_printing(robot_lock: Lock) -> Process:
+    """
+    Process launcher that executes a new process which is reading data
+    from a shared memory location, so it is not necessary to share it
+    directly from the owner process.
+    :param robot_lock: the lock mechanism for avoiding race conditions.
+    :return: the created process.
+    """
+
     def _print_map(lock: Lock):
+        """
+        Internal function that prints the map into a matplotlib window
+        until it is closed.
+        It is specially designed to update all matrix elements as fast
+        as possible by using multithreading mechanisms.
+        :param lock: the synchronization mechanism.
+        """
         sh_args = shared_memory.ShareableList(name="shared_args")
         shape = (sh_args[0], sh_args[1])
         figure = plt.figure(figsize=(6, 6))

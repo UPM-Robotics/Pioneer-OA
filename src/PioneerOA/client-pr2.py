@@ -164,8 +164,7 @@ def main():
     else:
         print('### Connected to remote API server')
         hRobot = getRobotHandles(clientID)
-        # sensors = Sensors()
-        # robot = Pioneer(sensors)
+        # Recover later generated data
         if os.path.exists("map.cls"):
             try:
                 with open("map.cls", "rb") as created_map:
@@ -195,40 +194,20 @@ def main():
         sensors = robot.sensors
         printer = start_printing(robot.lock)
 
-        plan = Planner(robot)
-        moved = True
-
         while vrep.simxGetConnectionId(clientID) != -1:
             # Perception
             sonar = getSonar(clientID, hRobot)
             x, y = getRobotPosition(clientID, hRobot)
-            # print '### s', sonar
 
-            # print('P: ', getRobotPosition(clientID, hRobot))
-            # print(clr, end="\r")
-            # print('Th:', math.degrees(getRobotHeading(clientID, hRobot)),
-            #       end="\r")
-            # print
             heading = getRobotHeading(clientID, hRobot)
             sensors.set_sonar(sonar)
-
-            if not moved:
-                print(getRobotPosition(clientID, hRobot))
-                path = plan.calculate_path((-1, -1),
-                                           (1, -1))
-                print(path)
-                motion = Motion(robot, path)
-
-                motion.move(getRobotPosition, getRobotHeading, setSpeed,
-                            client=clientID, robot=hRobot)
-                moved = True
 
             # Planning
             lspeed, rspeed = avoid(robot)
 
             # Action
-            # print(f"{(x, y)}")
             setSpeed(clientID, hRobot, lspeed, rspeed)
+            # Update robot position and map location
             robot.update_robot_position(x, y,
                                         np.asarray(sonar, dtype=np.float_),
                                         heading)
@@ -239,37 +218,15 @@ def main():
         print('### Finishing...')
         vrep.simxFinish(clientID)
 
+        # As we are using Cython, use a wrapper for saving it into a file
         wrapper = Wrapper(robot)
         with open("map.cls", "wb") as file_map:
             pickle.dump(wrapper, file_map, protocol=pickle.HIGHEST_PROTOCOL)
 
-        # with open("grid.txt", "w") as file:
-        #     for x, y in np.ndindex(robot.grid.shape):
-        #         file.write(f" {robot.grid[x, y]} ")
-        #         if (y + 1) == robot.grid.shape[1]:
-        #             file.write("\n")
-
-        with open("obstacles.txt", "w") as obs_file:
-            xobs = list()
-            yobs = list()
-            for x, y in np.ndindex(robot.grid.shape):
-                if robot.grid[x, y] >= robot.threshold:
-                    xobs.append(x)
-                    yobs.append(y)
-            obs_file.write(str(xobs))
-            obs_file.write("\n")
-            obs_file.write(str(yobs))
-            # obs_file.writelines([str(xobs), str(yobs)])
-
+        # Close the process we have just created for printing in real-time
         printer.terminate()
         printer.join()
         printer.close()
-
-        # with open("mihai_matriz_no_funciona.numpy", "wb") as npmatrix:
-        #     pickle.dump(np.asarray(robot.grid), npmatrix)
-
-        # with open("robot.cls", "wb") as robot_file:
-        #     pickle.dump(robot, robot_file, protocol=pickle.HIGHEST_PROTOCOL)
 
         figure = plt.figure(figsize=(6, 6))
         axis = figure.add_subplot(111)
@@ -280,7 +237,6 @@ def main():
 
         plt.show(block=False)
         image.set_data(robot.grid)
-        # grid_pool.map(annotate, np.ndindex(grid.shape))
         for index in np.ndindex(robot.grid.shape):
             if robot.threshold < robot.grid[index] != annotations_grid[index]:
                 axis.annotate('■',
@@ -290,7 +246,6 @@ def main():
                               color="black",
                               size=4)
             annotations_grid[index] = robot.grid[index]
-            # sleep(0.5)
         figure.canvas.draw_idle()
         plan = Planner(robot)
         path = plan.calculate_path((-1, -1), (1, -1))
@@ -317,10 +272,6 @@ def main():
                       size=16)
         plt.pause(0.01)
         plt.show()
-
-        # fig, ax = plt.subplots()
-        # ax.imshow(robot.grid, cmap=plt.cm.Greys, interpolation=None)
-        # plt.show()
 
         del robot
 

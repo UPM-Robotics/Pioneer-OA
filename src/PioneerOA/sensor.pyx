@@ -15,20 +15,15 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 # distutils: language=c++
-from libc.math cimport sin
-from libc.math cimport cos
 
 
 cdef class Sensor:
+    """
+    Sensor wrapper class for fast access the ultrasonic sensor information.
+    """
     def __init__(self, double angle, double value = 0.0):
         self.angle = angle
         self.value = value
-
-    cpdef double x(self, double robotX, double heading):
-        return robotX + 0.2275 * cos(self.angle + heading)
-
-    cpdef double y(self, double robotY, double heading):
-        return robotY + 0.2275 * sin(self.angle + heading)
 
     def __reduce__(self):
         return Sensor, (self.angle, self.value)

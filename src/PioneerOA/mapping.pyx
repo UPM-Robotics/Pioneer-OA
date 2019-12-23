@@ -30,6 +30,11 @@ from PioneerSensor cimport PioneerSensor
 
 
 cdef class PioneerMap(Pioneer):
+    """
+    C interface for storing, computing and evaluating the robot data
+    and map location (grid). It uses the native C interface of the computer
+    in order to optimize and speed-up both memory and CPU usage.
+    """
     def __init__(self,
                  double X0,
                  double Y0,
@@ -62,6 +67,12 @@ cdef class PioneerMap(Pioneer):
         self.threshold = initial_threshold
 
     cpdef tuple translate_to_matrix_position(self, double x, double y):
+        """
+        Translates a given (x, y) position to the matrix correspondent cell.
+        :param x: the X position.
+        :param y: the Y position.
+        :return: a tuple of integer values.
+        """
         return int((x - self.X0) * (self.mw / self.w)), \
                -int((y - self.Y0) * (self.mh / self.h))
 
@@ -74,6 +85,15 @@ cdef class PioneerMap(Pioneer):
                                 double robotY,
                                 double[:] sonar,
                                 double heading):
+        """
+        Updates the robot position and the CV values by using the required data
+        in order to update the threshold.
+        :param robotX: the robot X position.
+        :param robotY: the robot Y position.
+        :param sonar: the sonar list of data.
+        :param heading: the heading (orientation) of the robot.
+        :return: 
+        """
         assert len(sonar) == 16
         for i in range(16):
             self.sensor[i].value = sonar[i]

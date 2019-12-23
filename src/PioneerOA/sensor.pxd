@@ -17,6 +17,3 @@
 cdef class Sensor:
     cdef public double value
     cdef readonly double angle
-
-    cpdef double x(self, double robotX, double heading)
-    cpdef double y(self, double robotY, double heading)

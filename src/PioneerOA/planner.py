@@ -21,13 +21,23 @@ from mapping import PioneerMap
 
 
 class Planner:
+    """
+    Class that uses a given grid for planning a path to the robot.
+    """
+
     def __init__(self, grid_map: PioneerMap):
         self.map = grid_map
         self.potential_map = grid_map.grid.copy()
-        self.path = list()
         self.visited_map = np.zeros(grid_map.grid.shape, dtype=bool)
 
     def calculate_path(self, origin: tuple, target: tuple) -> list:
+        """
+        Calculates a path for the robot by using the origin and target points.
+        :param origin: the origin point.
+        :param target: the target point.
+        :return: a list with the movements.
+        """
+
         def is_valid_cell(i, j):
             return 0 <= i < self.potential_map.shape[0] and 0 <= j < \
                    self.potential_map.shape[1] and not self.visited_map[i, j]
@@ -47,25 +57,16 @@ class Planner:
                 if not ((i, j) == (it, jt)):
                     self.potential_map[i, j] = 1 / sqrt((it - i) ** 2
                                                         + (jt - j) ** 2)
-                    print(f"Potential map for {(i, j)}: "
-                          f"{self.potential_map[i, j]}")
                 else:
                     self.potential_map[i, j] = float("inf")
 
         path = [(i0, j0)]
         self.visited_map[i0, j0] = True
         i, j = i0, j0
-        # print(f"Start position: {(i0, j0)} - goal: {(it, jt)}")
         while not ((i, j) == (it, jt)):
-            # print(f"")
-            # print(f"Visiting: {(i, j)} - potential: "
-            #       f"{(self.potential_map[i, j])}")
-            # print(f"Visited value: {self.visited_map[i, j]} - "
-            # f"{not self.visited_map[i, j]}")
             self.visited_map[i, j] = True
             if (i, j) not in path:
                 path.append((i, j))
-            # current_potential = self.potential_map[i, j]
             potentials = {
                 "i + 1": 0,
                 "i - 1": 0,
@@ -74,18 +75,17 @@ class Planner:
             }
             if is_valid_cell(i + 1, j):
                 potentials["i + 1"] = \
-                    self.potential_map[i + 1, j]  # - current_potential
+                    self.potential_map[i + 1, j]
             if is_valid_cell(i - 1, j):
                 potentials["i - 1"] = \
-                    self.potential_map[i - 1, j]  # - current_potential
+                    self.potential_map[i - 1, j]
             if is_valid_cell(i, j + 1):
                 potentials["j + 1"] = \
-                    self.potential_map[i, j + 1]  # - current_potential
+                    self.potential_map[i, j + 1]
             if is_valid_cell(i, j - 1):
                 potentials["j - 1"] = \
-                    self.potential_map[i, j - 1]  # - current_potential
+                    self.potential_map[i, j - 1]
 
-            # print(potentials)
             movement = max(zip(potentials.values(), potentials.keys()))[1]
             if movement == "i + 1" and potentials[movement] >= 0:
                 i += 1
@@ -100,6 +100,4 @@ class Planner:
 
         path.append((it, jt))
 
-        # for element in path:
-        #     print(f"{element} - {self.potential_map[element]}")
         return path

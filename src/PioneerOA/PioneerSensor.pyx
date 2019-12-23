@@ -19,6 +19,9 @@ from sensor cimport Sensor
 from pioneer cimport radians
 
 cdef class PioneerSensor:
+    """
+    Wrapper class that contains the sensor data of the Pioneer robot.
+    """
     def __init__(self, list sonar = None):
         angles = {
             0: radians(90),

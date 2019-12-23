@@ -19,6 +19,12 @@ from mapper import Mapper
 
 
 class Wrapper:
+    """
+    Wrapper class that encapsulates a given Mapper class - it is useful for
+    saving and restoring data from a created mapping.pyx object, as Cython is
+    not providing object serialization for custom data types.
+    """
+
     def __init__(self, mapper: Mapper):
         self.X0 = mapper.X0
         self.Y0 = mapper.Y0
@@ -34,6 +40,11 @@ class Wrapper:
         self.threshold = mapper.threshold
 
     def restore(self) -> Mapper:
+        """
+        Restores the class into a Mapper class, setting the old params into
+        the new class instance.
+        :return: the recovered mapper class.
+        """
         mapper = Mapper(X0=self.X0,
                         Y0=self.Y0,
                         map_width=self.map_grid[0],
