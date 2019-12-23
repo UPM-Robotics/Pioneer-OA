@@ -12,9 +12,12 @@ import vrep
 import pickle
 
 import numpy as np
+from time import sleep
 import matplotlib.pyplot as plt
 
 from mapper import Mapper
+from motion import Motion
+from planner import Planner
 from map_wrapper import Wrapper
 from map_printer import start_printing
 
@@ -192,6 +195,9 @@ def main():
         sensors = robot.sensors
         printer = start_printing(robot.lock)
 
+        plan = Planner(robot)
+        moved = True
+
         while vrep.simxGetConnectionId(clientID) != -1:
             # Perception
             sonar = getSonar(clientID, hRobot)
@@ -205,6 +211,17 @@ def main():
             # print
             heading = getRobotHeading(clientID, hRobot)
             sensors.set_sonar(sonar)
+
+            if not moved:
+                print(getRobotPosition(clientID, hRobot))
+                path = plan.calculate_path((-1, -1),
+                                           (1, -1))
+                print(path)
+                motion = Motion(robot, path)
+
+                motion.move(getRobotPosition, getRobotHeading, setSpeed,
+                            client=clientID, robot=hRobot)
+                moved = True
 
             # Planning
             lspeed, rspeed = avoid(robot)
@@ -248,9 +265,63 @@ def main():
         printer.join()
         printer.close()
 
-        fig, ax = plt.subplots()
-        ax.imshow(robot.grid, cmap=plt.cm.Greys, interpolation=None)
+        # with open("mihai_matriz_no_funciona.numpy", "wb") as npmatrix:
+        #     pickle.dump(np.asarray(robot.grid), npmatrix)
+
+        # with open("robot.cls", "wb") as robot_file:
+        #     pickle.dump(robot, robot_file, protocol=pickle.HIGHEST_PROTOCOL)
+
+        figure = plt.figure(figsize=(6, 6))
+        axis = figure.add_subplot(111)
+        image = axis.imshow(np.random.randint(0, 10, size=robot.grid.shape),
+                            cmap="gray_r")
+
+        annotations_grid = np.zeros(robot.grid.shape)
+
+        plt.show(block=False)
+        image.set_data(robot.grid)
+        # grid_pool.map(annotate, np.ndindex(grid.shape))
+        for index in np.ndindex(robot.grid.shape):
+            if robot.threshold < robot.grid[index] != annotations_grid[index]:
+                axis.annotate('■',
+                              xy=(index[1], index[0]),
+                              horizontalalignment="center",
+                              verticalalignment="center",
+                              color="black",
+                              size=4)
+            annotations_grid[index] = robot.grid[index]
+            # sleep(0.5)
+        figure.canvas.draw_idle()
+        plan = Planner(robot)
+        path = plan.calculate_path((-1, -1), (1, -1))
+        axis.annotate('■',
+                      xy=(path[0][1], path[0][0]),
+                      horizontalalignment="center",
+                      verticalalignment="center",
+                      color="green",
+                      size=8)
+        for index in plan.calculate_path((-1, -1), (1, -1)):
+            axis.annotate('■',
+                          xy=(index[1], index[0]),
+                          horizontalalignment="center",
+                          verticalalignment="center",
+                          color="blue",
+                          size=4)
+            figure.canvas.draw_idle()
+            plt.pause(0.3)
+        axis.annotate('■',
+                      xy=(path[len(path) - 1][1], path[len(path) - 1][0]),
+                      horizontalalignment="center",
+                      verticalalignment="center",
+                      color="orange",
+                      size=16)
+        plt.pause(0.01)
         plt.show()
+
+        # fig, ax = plt.subplots()
+        # ax.imshow(robot.grid, cmap=plt.cm.Greys, interpolation=None)
+        # plt.show()
+
         del robot
 
     print('### Program ended')

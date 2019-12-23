@@ -1741,7 +1741,6 @@ static PyObject *__pyx_pf_9PioneerOA_6sensor_6Sensor_4y(struct __pyx_obj_9Pionee
  * 
  *     def __reduce__(self):             # <<<<<<<<<<<<<<
  *         return Sensor, (self.angle, self.value)
- * 
  */
 
 /* Python wrapper */
@@ -1769,7 +1768,6 @@ static PyObject *__pyx_pf_9PioneerOA_6sensor_6Sensor_6__reduce__(struct __pyx_ob
  * 
  *     def __reduce__(self):
  *         return Sensor, (self.angle, self.value)             # <<<<<<<<<<<<<<
- * 
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->angle); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
@@ -1801,7 +1799,6 @@ static PyObject *__pyx_pf_9PioneerOA_6sensor_6Sensor_6__reduce__(struct __pyx_ob
  * 
  *     def __reduce__(self):             # <<<<<<<<<<<<<<
  *         return Sensor, (self.angle, self.value)
- * 
  */
 
   /* function exit code */

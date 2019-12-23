@@ -96,6 +96,7 @@ cdef class PioneerMap(Pioneer):
 
     def __reduce__(self):
         return PioneerMap, (self.X0, self.Y0, self.w, self.h, self.mw, self.mh,
-                            self.sensor, self.grid, self.k, self.min, self.max,
-                            self.heading, self.max_read_distance, self.ratio,
+                            self.sensor, np.asarray(self.grid, dtype=np.float_),
+                            self.k, self.min, self.max, self.heading,
+                            self.max_read_distance, self.ratio,
                             self.threshold)

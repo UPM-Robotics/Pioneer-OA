@@ -2874,7 +2874,8 @@ static PyObject *__pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor_2__getitem_
  *         return self.sonar[item]
  * 
  *     def __reduce__(self):             # <<<<<<<<<<<<<<
- *         return PioneerSensor, (self.sonar, self.parallel_right, self.parallel_left)
+ *         return PioneerSensor, (
+ *         self.sonar, self.parallel_right, self.parallel_left)
  */
 
 /* Python wrapper */
@@ -2900,10 +2901,17 @@ static PyObject *__pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor_4__reduce__
   /* "PioneerOA/PioneerSensor.pyx":54
  * 
  *     def __reduce__(self):
- *         return PioneerSensor, (self.sonar, self.parallel_right, self.parallel_left)             # <<<<<<<<<<<<<<
+ *         return PioneerSensor, (             # <<<<<<<<<<<<<<
+ *         self.sonar, self.parallel_right, self.parallel_left)
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
+
+  /* "PioneerOA/PioneerSensor.pyx":55
+ *     def __reduce__(self):
+ *         return PioneerSensor, (
+ *         self.sonar, self.parallel_right, self.parallel_left)             # <<<<<<<<<<<<<<
+ */
+  __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_self->sonar);
   __Pyx_GIVEREF(__pyx_v_self->sonar);
@@ -2914,6 +2922,13 @@ static PyObject *__pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor_4__reduce__
   __Pyx_INCREF(__pyx_v_self->parallel_left);
   __Pyx_GIVEREF(__pyx_v_self->parallel_left);
   PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_v_self->parallel_left);
+
+  /* "PioneerOA/PioneerSensor.pyx":54
+ * 
+ *     def __reduce__(self):
+ *         return PioneerSensor, (             # <<<<<<<<<<<<<<
+ *         self.sonar, self.parallel_right, self.parallel_left)
+ */
   __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_9PioneerOA_13PioneerSensor_PioneerSensor));
@@ -2930,7 +2945,8 @@ static PyObject *__pyx_pf_9PioneerOA_13PioneerSensor_13PioneerSensor_4__reduce__
  *         return self.sonar[item]
  * 
  *     def __reduce__(self):             # <<<<<<<<<<<<<<
- *         return PioneerSensor, (self.sonar, self.parallel_right, self.parallel_left)
+ *         return PioneerSensor, (
+ *         self.sonar, self.parallel_right, self.parallel_left)
  */
 
   /* function exit code */
