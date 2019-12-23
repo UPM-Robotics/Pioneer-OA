@@ -30,3 +30,5 @@ cdef class Sensor:
     cpdef double y(self, double robotY, double heading):
         return robotY + 0.2275 * sin(self.angle + heading)
 
+    def __reduce__(self):
+        return Sensor, (self.angle, self.value)

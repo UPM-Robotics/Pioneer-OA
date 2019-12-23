@@ -103,3 +103,6 @@ cdef class Sensors:
     def __getitem__(self, int key):
         assert isinstance(key, int)
         return self.sonar[key]
+
+    def __reduce__(self):
+        return Sensors, (self.sonar, self.parallel_left, self.parallel_right)

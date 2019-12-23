@@ -147,8 +147,8 @@ cdef class Pioneer:
             7: 0.5,
             6: 2,
             5: 3,
-            4: 8,
-            3: 8,
+            4: 7,
+            3: 7,
             2: 3,
             1: 2,
             0: 0.5
@@ -164,3 +164,6 @@ cdef class Pioneer:
             0: radians(0)  # 90º - 90º
         }.get(key)
         return dist, angle, self.sensors[key]
+
+    def __reduce__(self):
+        return Pioneer, (self.sensors,)

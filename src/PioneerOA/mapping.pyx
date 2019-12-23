@@ -28,6 +28,7 @@ from sensors cimport Sensors
 from pioneer cimport Pioneer
 from PioneerSensor cimport PioneerSensor
 
+
 cdef class PioneerMap(Pioneer):
     def __init__(self,
                  double X0,
@@ -82,9 +83,19 @@ cdef class PioneerMap(Pioneer):
                 sin(self.sensor[i].angle + heading) + robotY
             mX, mY = self.translate_to_matrix_position(x, y)
             if mX < self.grid.shape[0] and mY < self.grid.shape[1]:
+                if self.sensor[i].value > self.max_read_distance:
+                    continue
                 cv = self.k * (self.max_read_distance -
                                self.sensor[i].value) / \
                      self.max_read_distance
                 if cv >= self.threshold:
                     self.grid[mX, mY] += cv
                     self.threshold *= (1 + 0.1 * self.ratio)
+                elif cv != 0:
+                    self.threshold *= (1 - 0.1 * self.ratio)
+
+    def __reduce__(self):
+        return PioneerMap, (self.X0, self.Y0, self.w, self.h, self.mw, self.mh,
+                            self.sensor, self.grid, self.k, self.min, self.max,
+                            self.heading, self.max_read_distance, self.ratio,
+                            self.threshold)

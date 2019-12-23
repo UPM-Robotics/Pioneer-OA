@@ -3,15 +3,20 @@
 
 print('### Script:', __file__)
 
-import math
+import os
 import sys
+import math
 
-import numpy as np
 import vrep
 
-from mapper import Mapper
-from map_printer import start_printing
+import pickle
+
+import numpy as np
 import matplotlib.pyplot as plt
+
+from mapper import Mapper
+from map_wrapper import Wrapper
+from map_printer import start_printing
 
 
 # from .robot_control import Sensor
@@ -103,8 +108,8 @@ def avoid(robot):
         elif any(x < 10 for x in robot.sensors.parallel_right):
             # print(clr, end="\r")
             # print(" ! Obstacle parallel to the right side", end="\r")
-            if robot.sensors.parallel_right[0] < robot.sensors.parallel_right[
-                1]:
+            if robot.sensors.parallel_right[0] < \
+                    robot.sensors.parallel_right[1]:
                 lspeed, rspeed = 0, 0.5
 
             else:
@@ -158,14 +163,32 @@ def main():
         hRobot = getRobotHandles(clientID)
         # sensors = Sensors()
         # robot = Pioneer(sensors)
-        robot = Mapper(X0=-2,
-                       Y0=2,
-                       map_width=4,
-                       map_height=4,
-                       grid_size=(500, 500),
-                       initial_threshold=0.3,
-                       max_read_distance=0.4,
-                       ratio=1E-6)
+        if os.path.exists("map.cls"):
+            try:
+                with open("map.cls", "rb") as created_map:
+                    map_wrapper = pickle.load(created_map)
+            except Exception as _:
+                robot = Mapper(X0=-2,
+                               Y0=2,
+                               map_width=4,
+                               map_height=4,
+                               grid_size=(26, 26),
+                               k=1.0,
+                               initial_threshold=0.4,
+                               max_read_distance=0.5,
+                               ratio=1E-6)
+            else:
+                robot = map_wrapper.restore()
+        else:
+            robot = Mapper(X0=-2,
+                           Y0=2,
+                           map_width=4,
+                           map_height=4,
+                           grid_size=(26, 26),
+                           k=1.0,
+                           initial_threshold=0.4,
+                           max_read_distance=0.5,
+                           ratio=1E-6)
         sensors = robot.sensors
         printer = start_printing(robot.lock)
 
@@ -176,7 +199,9 @@ def main():
             # print '### s', sonar
 
             # print('P: ', getRobotPosition(clientID, hRobot))
-            # print('Th:', math.degrees(getRobotHeading(clientID, hRobot)))
+            # print(clr, end="\r")
+            # print('Th:', math.degrees(getRobotHeading(clientID, hRobot)),
+            #       end="\r")
             # print
             heading = getRobotHeading(clientID, hRobot)
             sensors.set_sonar(sonar)
@@ -196,11 +221,28 @@ def main():
 
         print('### Finishing...')
         vrep.simxFinish(clientID)
-        with open("grid.txt", "w") as file:
+
+        wrapper = Wrapper(robot)
+        with open("map.cls", "wb") as file_map:
+            pickle.dump(wrapper, file_map, protocol=pickle.HIGHEST_PROTOCOL)
+
+        # with open("grid.txt", "w") as file:
+        #     for x, y in np.ndindex(robot.grid.shape):
+        #         file.write(f" {robot.grid[x, y]} ")
+        #         if (y + 1) == robot.grid.shape[1]:
+        #             file.write("\n")
+
+        with open("obstacles.txt", "w") as obs_file:
+            xobs = list()
+            yobs = list()
             for x, y in np.ndindex(robot.grid.shape):
-                file.write(f" {robot.grid[x, y]} ")
-                if (y + 1) == robot.grid.shape[1]:
-                    file.write("\n")
+                if robot.grid[x, y] >= robot.threshold:
+                    xobs.append(x)
+                    yobs.append(y)
+            obs_file.write(str(xobs))
+            obs_file.write("\n")
+            obs_file.write(str(yobs))
+            # obs_file.writelines([str(xobs), str(yobs)])
 
         printer.terminate()
         printer.join()

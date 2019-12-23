@@ -788,8 +788,79 @@ static PyObject *__pyx_pf_9PioneerOA_6sensor_6Sensor_4y(struct __pyx_obj_9Pionee
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class="cython line score-0" onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span class="">31</span>:         return robotY + 0.2275 * sin(self.angle + heading)</pre>
-<pre class='cython code score-0 '>  __pyx_r = (__pyx_v_robotY + (0.2275 * sin((__pyx_v_self-&gt;angle + __pyx_v_heading))));
+</pre>
+    <pre class="cython line score-0"
+         onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span
+            class="">31</span>:         return robotY + 0.2275 * sin(self.angle + heading)</pre>
+    <pre class='cython code score-0 '>  __pyx_r = (__pyx_v_robotY + (0.2275 * sin((__pyx_v_self-&gt;angle + __pyx_v_heading))));
   goto __pyx_L0;
-</pre><pre class="cython line score-0">&#xA0;<span class="">32</span>: </pre>
+</pre>
+    <pre class="cython line score-0">&#xA0;<span class="">32</span>: </pre>
+    <pre class="cython line score-5"
+         onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span
+            class="">33</span>:     def __reduce__(self):</pre>
+    <pre class='cython code score-5 '>/* Python wrapper */
+static PyObject *__pyx_pw_9PioneerOA_6sensor_6Sensor_7__reduce__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_9PioneerOA_6sensor_6Sensor_7__reduce__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
+  <span class='refnanny'>__Pyx_RefNannySetupContext</span>("__reduce__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_9PioneerOA_6sensor_6Sensor_6__reduce__(((struct __pyx_obj_9PioneerOA_6sensor_Sensor *)__pyx_v_self));
+
+  /* function exit code */
+  <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_9PioneerOA_6sensor_6Sensor_6__reduce__(struct __pyx_obj_9PioneerOA_6sensor_Sensor *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
+  <span class='refnanny'>__Pyx_RefNannySetupContext</span>("__reduce__", 0);
+/* … */
+  /* function exit code */
+  __pyx_L1_error:;
+  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_1);
+  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_2);
+  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_3);
+  <span class='pyx_c_api'>__Pyx_AddTraceback</span>("PioneerOA.sensor.Sensor.__reduce__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
+  <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
+  return __pyx_r;
+}
+</pre>
+    <pre class="cython line score-26"
+         onclick="(function(s){s.display=s.display==='block'?'none':'block'})(this.nextElementSibling.style)">+<span
+            class="">34</span>:         return Sensor, (self.angle, self.value)</pre>
+    <pre class='cython code score-26 '>  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_r);
+  __pyx_t_1 = <span class='py_c_api'>PyFloat_FromDouble</span>(__pyx_v_self-&gt;angle);<span
+                class='error_goto'> if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
+  __pyx_t_2 = <span class='py_c_api'>PyFloat_FromDouble</span>(__pyx_v_self-&gt;value);<span
+                class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 34, __pyx_L1_error)</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
+  __pyx_t_3 = <span class='py_c_api'>PyTuple_New</span>(2);<span
+                class='error_goto'> if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 34, __pyx_L1_error)</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_t_1);
+  <span class='py_macro_api'>PyTuple_SET_ITEM</span>(__pyx_t_3, 0, __pyx_t_1);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_t_2);
+  <span class='py_macro_api'>PyTuple_SET_ITEM</span>(__pyx_t_3, 1, __pyx_t_2);
+  __pyx_t_1 = 0;
+  __pyx_t_2 = 0;
+  __pyx_t_2 = <span class='py_c_api'>PyTuple_New</span>(2);<span
+                class='error_goto'> if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 34, __pyx_L1_error)</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
+  <span class='pyx_macro_api'>__Pyx_INCREF</span>(((PyObject *)__pyx_ptype_9PioneerOA_6sensor_Sensor));
+  <span class='refnanny'>__Pyx_GIVEREF</span>(((PyObject *)__pyx_ptype_9PioneerOA_6sensor_Sensor));
+  <span class='py_macro_api'>PyTuple_SET_ITEM</span>(__pyx_t_2, 0, ((PyObject *)__pyx_ptype_9PioneerOA_6sensor_Sensor));
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_t_3);
+  <span class='py_macro_api'>PyTuple_SET_ITEM</span>(__pyx_t_2, 1, __pyx_t_3);
+  __pyx_t_3 = 0;
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
+  goto __pyx_L0;
+</pre>
+    <pre class="cython line score-0">&#xA0;<span class="">35</span>: </pre>
 </div></body></html>

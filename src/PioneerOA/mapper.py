@@ -69,3 +69,7 @@ class Mapper(PioneerMap):
             self.sh_memory.unlink()
             self.shared_args.shm.unlink()
             del self.shared_args
+
+    def __reduce__(self):
+        _, values = super().__reduce__()
+        return Mapper, values

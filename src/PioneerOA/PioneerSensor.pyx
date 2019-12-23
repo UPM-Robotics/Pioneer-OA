@@ -49,3 +49,7 @@ cdef class PioneerSensor:
     def __getitem__(self, item) -> Sensor:
         assert isinstance(item, int)
         return self.sonar[item]
+
+    def __reduce__(self):
+        return PioneerSensor, (
+        self.sonar, self.parallel_right, self.parallel_left)
